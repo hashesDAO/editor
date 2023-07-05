@@ -1,3 +1,3 @@
 export default function Page() {
-  return <h1>Collect</h1>;
+  return <h1>Collecty</h1>;
 }
