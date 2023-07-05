@@ -1,4 +1,3 @@
-import React from 'react';
 import '@rainbow-me/rainbowkit/styles.css';
 import RainbowkitProviders from '../RainbowkitProviders';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
