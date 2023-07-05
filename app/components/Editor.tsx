@@ -1,7 +1,8 @@
 'use client';
 
-import { SandpackCodeEditor, SandpackLayout, SandpackPreview, SandpackProvider } from '@codesandbox/sandpack-react';
+import { SandpackCodeEditor, SandpackPreview, SandpackProvider } from '@codesandbox/sandpack-react';
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 const p5Boilerplate = `
 var fr = 60;
@@ -27,19 +28,22 @@ const htmlBoilerplate = `
 </html>
 `;
 
+const files = {
+  'sketch.js': {
+    code: p5Boilerplate,
+    active: true,
+  },
+  'index.html': {
+    code: htmlBoilerplate,
+    hidden: true,
+  },
+};
+
 export default function Editor() {
+  const pathname = usePathname();
   const [isCodeEditorView, setIsCodeEditorView] = useState(false);
 
-  const files = {
-    'sketch.js': {
-      code: p5Boilerplate,
-      active: true,
-    },
-    'index.html': {
-      code: htmlBoilerplate,
-      hidden: true,
-    },
-  };
+  const isCreatePage = pathname === '/create';
 
   function handleToggle() {
     setIsCodeEditorView(!isCodeEditorView);
@@ -47,7 +51,6 @@ export default function Editor() {
 
   return (
     <div className="w-3/5">
-      <button onClick={handleToggle}>Toggle View</button>
       <SandpackProvider
         theme="dark"
         template="static"
@@ -56,12 +59,22 @@ export default function Editor() {
         }}
         files={files}
       >
-        {/* <SandpackCodeEditor showRunButton={false} className={`h-screen ${isCodeEditorView ? '' : 'invisible'}`} /> */}
-        <SandpackPreview
-          showOpenInCodeSandbox={false}
-          showRefreshButton={false}
-          className={`h-screen ${isCodeEditorView ? 'invisible' : ''}`}
-        />
+        <div className="h-screen">
+          {isCreatePage && (
+            <>
+              <button onClick={handleToggle}>Toggle View</button>
+              <SandpackCodeEditor
+                showRunButton={false}
+                className={`${isCodeEditorView ? 'h-full' : 'invisible w-0'}`}
+              />
+            </>
+          )}
+          <SandpackPreview
+            showOpenInCodeSandbox={false}
+            showRefreshButton={false}
+            className={`${isCodeEditorView ? 'invisible w-0' : 'h-full'}`}
+          />
+        </div>
       </SandpackProvider>
     </div>
   );
