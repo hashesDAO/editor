@@ -50,32 +50,27 @@ export default function Editor() {
   }
 
   return (
-    <div className="w-3/5">
-      <SandpackProvider
-        theme="dark"
-        template="static"
-        options={{
-          externalResources: ['https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js'],
-        }}
-        files={files}
-      >
-        <div className="h-screen">
-          {isCreatePage && (
-            <>
-              <button onClick={handleToggle}>Toggle View</button>
-              <SandpackCodeEditor
-                showRunButton={false}
-                className={`${isCodeEditorView ? 'h-full' : 'invisible w-0'}`}
-              />
-            </>
-          )}
-          <SandpackPreview
-            showOpenInCodeSandbox={false}
-            showRefreshButton={false}
-            className={`${isCodeEditorView ? 'invisible w-0' : 'h-full'}`}
-          />
-        </div>
-      </SandpackProvider>
-    </div>
+    <SandpackProvider
+      theme="dark"
+      template="static"
+      options={{
+        externalResources: ['https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js'],
+      }}
+      files={files}
+    >
+      <div className="h-screen">
+        {isCreatePage && (
+          <>
+            <button onClick={handleToggle}>Toggle View</button>
+            <SandpackCodeEditor showRunButton={false} className={`${isCodeEditorView ? 'h-full' : 'invisible w-0'}`} />
+          </>
+        )}
+        <SandpackPreview
+          showOpenInCodeSandbox={false}
+          showRefreshButton={false}
+          className={`${isCodeEditorView ? 'invisible w-0' : 'h-full'}`}
+        />
+      </div>
+    </SandpackProvider>
   );
 }
