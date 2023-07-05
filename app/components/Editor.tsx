@@ -1,8 +1,6 @@
 'use client';
 
-import { SandpackCodeEditor, SandpackPreview, SandpackProvider } from '@codesandbox/sandpack-react';
-import { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { SandpackPreview, SandpackProvider } from '@codesandbox/sandpack-react';
 
 const p5Boilerplate = `
 var fr = 60;
@@ -40,15 +38,6 @@ const files = {
 };
 
 export default function Editor() {
-  const pathname = usePathname();
-  const [isCodeEditorView, setIsCodeEditorView] = useState(false);
-
-  const isCreatePage = pathname === '/create';
-
-  function handleToggle() {
-    setIsCodeEditorView(!isCodeEditorView);
-  }
-
   return (
     <SandpackProvider
       theme="dark"
@@ -59,17 +48,7 @@ export default function Editor() {
       files={files}
     >
       <div className="h-screen">
-        {isCreatePage && (
-          <>
-            <button onClick={handleToggle}>Toggle View</button>
-            <SandpackCodeEditor showRunButton={false} className={`${isCodeEditorView ? 'h-full' : 'invisible w-0'}`} />
-          </>
-        )}
-        <SandpackPreview
-          showOpenInCodeSandbox={false}
-          showRefreshButton={false}
-          className={`${isCodeEditorView ? 'invisible w-0' : 'h-full'}`}
-        />
+        <SandpackPreview showOpenInCodeSandbox={false} showRefreshButton={false} className="h-full" />
       </div>
     </SandpackProvider>
   );
