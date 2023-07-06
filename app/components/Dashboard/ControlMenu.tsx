@@ -1,3 +1,5 @@
+import IconButton from '../IconButton';
+
 export default function ControlMenu() {
   return (
     <section>
@@ -5,7 +7,9 @@ export default function ControlMenu() {
         <p className="font-bold text-2xl">Play</p>
         <ul className="list-none flex flex-row">
           <li>
-            <button className="p-2">undo</button>
+            <button className="p-2">
+              <IconButton />
+            </button>
           </li>
           <li>
             <button className="p-2">redo</button>
