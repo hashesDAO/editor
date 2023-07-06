@@ -44,7 +44,9 @@ export default function ControlMenu() {
           <li className="font-bold text-2xl">Play</li>
           {controls.map(({ icon: Icon, onClick }) => (
             <li className="pl-3" key={Icon.toString()}>
-              <CircleButton content={<Icon fontSize={'1.25rem'} />} onClick={onClick} />
+              <CircleButton onClick={onClick}>
+                <Icon fontSize={'1.25rem'} />
+              </CircleButton>
             </li>
           ))}
         </ul>
