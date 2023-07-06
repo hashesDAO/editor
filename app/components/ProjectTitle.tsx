@@ -4,11 +4,11 @@ import { useState } from 'react';
 
 const defaultTitle = 'Project Title';
 
-export default function ProjectTitle({ children }: { children: React.ReactNode }) {
+export default function ProjectTitle({ children }: { children?: React.ReactNode }) {
   const [title, setTitle] = useState(defaultTitle);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setTitle(event.target.value);
+    setTitle(event.target.value.length ? event.target.value : defaultTitle);
   }
 
   return (
