@@ -46,10 +46,9 @@ export default function Editor() {
         externalResources: ['https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js'],
       }}
       files={files}
+      className="w-full"
     >
-      <div className="h-screen">
-        <SandpackPreview showOpenInCodeSandbox={false} showRefreshButton={false} className="h-full" />
-      </div>
+      <SandpackPreview showOpenInCodeSandbox={false} showRefreshButton={false} className="h-screen" />
     </SandpackProvider>
   );
 }
