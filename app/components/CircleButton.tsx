@@ -1,9 +1,6 @@
-type Props = React.ComponentProps<'button'> &
-  React.PropsWithChildren & {
-    padding?: number;
-  };
+type Props = React.ComponentProps<'button'> & React.PropsWithChildren;
 
-export default function CircleButton({ padding, children, ...props }: Props) {
+export default function CircleButton({ children, ...props }: Props) {
   return (
     <button className={`rounded-full p-5 bg-baseBlack flex justify-center items-center`} {...props}>
       {children}
