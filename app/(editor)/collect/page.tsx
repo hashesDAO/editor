@@ -1,10 +1,15 @@
+import Dashboard from '@/app/components/Dashboard';
 import Editor from '@/app/components/Editor';
 
 export default function Page() {
   return (
-    <>
-      <h1>This is the Collect Page</h1>
-      <Editor />
-    </>
+    <div className="columns-2">
+      <div className="w-full">
+        <Dashboard />
+      </div>
+      <div className="w-full">
+        <Editor />
+      </div>
+    </div>
   );
 }
