@@ -1,7 +1,12 @@
+import ControlMenu from './ControlMenu';
+import ProjectTitle from './ProjectTitle';
+
 export default function Dashboard() {
   return (
-    <>
-      <h1>Dashboard</h1>
-    </>
+    <section className="p-4">
+      <ProjectTitle />
+      <p>Select element here</p>
+      <ControlMenu />
+    </section>
   );
 }
