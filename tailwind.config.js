@@ -17,6 +17,7 @@ module.exports = {
       colors: {
         black: '#131313',
         baseBlack: '#000000',
+        primaryRed: '#FF534D',
       },
       letterSpacing: {
         wide: '.25em',
