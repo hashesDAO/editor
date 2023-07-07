@@ -1,8 +1,8 @@
 'use client';
 
-import CircleButton from '../CircleButton';
+import { FaRedo, FaSave, FaUndo } from 'react-icons/fa';
 import { FaShuffle } from 'react-icons/fa6';
-import { FaUndo, FaRedo, FaSave } from 'react-icons/fa';
+import CircleButton from '../CircleButton';
 
 const controls = [
   {
@@ -33,7 +33,7 @@ const controls = [
 
 export default function ControlMenu() {
   return (
-    <section>
+    <section className="mb-8">
       <ul className="list-none flex items-center flex-row mb-2.5">
         <li className="font-bold text-2xl">Play</li>
         {controls.map(({ icon: Icon, onClick }) => (

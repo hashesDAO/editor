@@ -18,6 +18,9 @@ module.exports = {
         black: '#131313',
         baseBlack: '#000000',
       },
+      letterSpacing: {
+        wide: '.25em',
+      },
     },
   },
   plugins: [],
