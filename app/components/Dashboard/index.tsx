@@ -1,11 +1,12 @@
 import { TraitType } from '@/app/util';
 import { ARTISTIC, AUGMENT, GEOMETRY, PATTERNS } from '@/app/util/constants';
-import ControlMenu from './ControlMenu';
-import ProjectTitle from './ProjectTitle';
-import TraitSet from './TraitSet';
-import DashboardFooter from './DashboardFooter';
-import Trait from './Trait';
 import Select from '../Select';
+import ControlMenu from './ControlMenu';
+import DashboardFooter from './DashboardFooter';
+import GenerateButton from './GenerateButton';
+import ProjectTitle from './ProjectTitle';
+import Trait from './Trait';
+import TraitSet from './TraitSet';
 
 const traitTypes: TraitType[] = [ARTISTIC, AUGMENT, GEOMETRY, PATTERNS];
 
@@ -29,7 +30,11 @@ export default function Dashboard() {
     <section className="relative h-full overflow-y-auto">
       <div className="p-4">
         <ProjectTitle />
-        <Select options={selectOptions} />
+        <div className="flex flex-row items-center mb-8">
+          <Select options={selectOptions} />
+          <p className="px-4">OR</p>
+          <GenerateButton />
+        </div>
         <ControlMenu />
         <div className="flex flex-wrap mb-24">
           {traitTypes.map((traitType) => (
