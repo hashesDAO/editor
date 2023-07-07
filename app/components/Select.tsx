@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import useOutsideClick from '../hooks/useOutsideClick';
+import { FaChevronDown } from 'react-icons/fa';
 
 export default function Select({ options }: { options: { label: string; value: string }[] }) {
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number>();
@@ -73,16 +74,21 @@ export default function Select({ options }: { options: { label: string; value: s
   }, [isOpen, options, selectedOption, setFocusedOptionIndex]);
 
   return (
-    <div ref={dropDownRef}>
-      <p className="select mb-8" onClick={handleSelectClick}>
+    <div ref={dropDownRef} className="relative mb-8">
+      <p
+        className={`py-4 px-5 flex items-center justify-between bg-traitGray rounded-full`}
+        onClick={handleSelectClick}
+      >
         {selectedOption || 'Select'}
+        <FaChevronDown />
       </p>
+
       {isOpen && (
-        <ul className="select-options">
+        <ul className="bg-black absolute z-10 w-full">
           {options.map(({ label, value }, i) => (
             <li
               key={value}
-              className={`select-option ${i === focusedOptionIndex && 'focused'}`}
+              className={`hover:bg-traitGray py-2 px-5 w-full cursor-pointer ${i === focusedOptionIndex && 'focused'}`}
               onClick={() => handleOptionClick(value)}
             >
               {label}

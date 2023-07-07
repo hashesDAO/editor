@@ -20,7 +20,7 @@ const selectOptions = [
   },
   {
     label: '0xhowdy',
-    value: '0xgoodmorning',
+    value: '0xhowdy',
   },
 ];
 
