@@ -1,3 +1,5 @@
+import MintButton from './MintButton';
+
 export default function DashboardFooter() {
   return (
     <footer
@@ -6,7 +8,7 @@ export default function DashboardFooter() {
         boxShadow: '0px -46px 64px 0px #131313',
       }}
     >
-      <button>MINT</button>
+      <MintButton />
     </footer>
   );
 }
