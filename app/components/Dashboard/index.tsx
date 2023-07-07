@@ -7,6 +7,7 @@ import GenerateButton from './GenerateButton';
 import ProjectTitle from './ProjectTitle';
 import Trait from './Trait';
 import TraitSet from './TraitSet';
+import ShareButton from './ShareButton';
 
 const traitTypes: TraitType[] = [ARTISTIC, AUGMENT, GEOMETRY, PATTERNS];
 
@@ -29,7 +30,9 @@ export default function Dashboard() {
   return (
     <section className="relative h-full overflow-y-auto">
       <div className="p-4">
-        <ProjectTitle />
+        <ProjectTitle>
+          <ShareButton />
+        </ProjectTitle>
         <div className="flex mb-8">
           <div className="w-4/6">
             <Select options={selectOptions} />
