@@ -5,15 +5,31 @@ import ProjectTitle from './ProjectTitle';
 import TraitSet from './TraitSet';
 import DashboardFooter from './DashboardFooter';
 import Trait from './Trait';
+import Select from '../Select';
 
 const traitTypes: TraitType[] = [ARTISTIC, AUGMENT, GEOMETRY, PATTERNS];
+
+const selectOptions = [
+  {
+    label: '0xhey',
+    value: '0xhey',
+  },
+  {
+    label: '0xgoodmorning',
+    value: '0xgoodmorning',
+  },
+  {
+    label: '0xhowdy',
+    value: '0xgoodmorning',
+  },
+];
 
 export default function Dashboard() {
   return (
     <section className="relative h-full overflow-y-auto">
       <div className="p-4">
         <ProjectTitle />
-        <p>Select element here</p>
+        <Select options={selectOptions} />
         <ControlMenu />
         <div className="flex flex-wrap mb-24">
           {traitTypes.map((traitType) => (
