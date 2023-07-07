@@ -1,9 +1,10 @@
+import { TraitType } from '@/app/util';
+import { ARTISTIC, AUGMENT, GEOMETRY, PATTERNS } from '@/app/util/constants';
 import ControlMenu from './ControlMenu';
 import ProjectTitle from './ProjectTitle';
 import TraitSet from './TraitSet';
-import { TraitType } from '@/app/util';
 
-const traitTypes: TraitType[] = ['ARTISTIC', 'AUGMENT', 'GEOMETRY', 'PATTERNS'];
+const traitTypes: TraitType[] = [ARTISTIC, AUGMENT, GEOMETRY, PATTERNS];
 
 export default function Dashboard() {
   return (

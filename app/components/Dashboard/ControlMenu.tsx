@@ -1,8 +1,8 @@
 'use client';
 
-import CircleButton from '../CircleButton';
+import { FaRedo, FaSave, FaUndo } from 'react-icons/fa';
 import { FaShuffle } from 'react-icons/fa6';
-import { FaUndo, FaRedo, FaSave } from 'react-icons/fa';
+import CircleButton from '../CircleButton';
 
 const controls = [
   {
