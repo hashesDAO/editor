@@ -33,7 +33,7 @@ const controls = [
 
 export default function ControlMenu() {
   return (
-    <section>
+    <section className="mb-8">
       <ul className="list-none flex items-center flex-row mb-2.5">
         <li className="font-bold text-2xl">Play</li>
         {controls.map(({ icon: Icon, onClick }) => (
