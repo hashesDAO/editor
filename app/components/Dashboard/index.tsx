@@ -30,10 +30,14 @@ export default function Dashboard() {
     <section className="relative h-full overflow-y-auto">
       <div className="p-4">
         <ProjectTitle />
-        <div className="flex flex-row items-center mb-8">
-          <Select options={selectOptions} />
-          <p className="px-4">OR</p>
-          <GenerateButton />
+        <div className="flex mb-8">
+          <div className="w-4/6">
+            <Select options={selectOptions} />
+          </div>
+          <div className="w-2/6 flex flex-row items-center">
+            <p className="px-4">OR</p>
+            <GenerateButton />
+          </div>
         </div>
         <ControlMenu />
         <div className="flex flex-wrap mb-24">
