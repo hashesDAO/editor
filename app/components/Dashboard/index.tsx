@@ -4,6 +4,7 @@ import ControlMenu from './ControlMenu';
 import ProjectTitle from './ProjectTitle';
 import TraitSet from './TraitSet';
 import DashboardFooter from './DashboardFooter';
+import Trait from './Trait';
 
 const traitTypes: TraitType[] = [ARTISTIC, AUGMENT, GEOMETRY, PATTERNS];
 
@@ -17,7 +18,9 @@ export default function Dashboard() {
         <div className="flex flex-wrap">
           {traitTypes.map((traitType) => (
             <TraitSet key={traitType} traitType={traitType}>
-              <p>traitType</p>
+              <Trait name="BRUSH">
+                <p>element</p>
+              </Trait>
             </TraitSet>
           ))}
         </div>

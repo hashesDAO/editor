@@ -18,6 +18,7 @@ module.exports = {
         black: '#131313',
         baseBlack: '#000000',
         primaryRed: '#FF534D',
+        traitGray: '#1c1c1c',
       },
       letterSpacing: {
         wide: '.25em',
