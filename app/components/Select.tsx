@@ -74,21 +74,23 @@ export default function Select({ options }: { options: { label: string; value: s
   }, [isOpen, options, selectedOption, setFocusedOptionIndex]);
 
   return (
-    <div ref={dropDownRef} className="relative mb-8">
-      <p
-        className={`py-4 px-5 flex items-center justify-between bg-traitGray rounded-full`}
+    <div ref={dropDownRef} className="relative w-full mb-8 cursor-pointer">
+      <div
+        className="py-4 px-5 flex items-center justify-between bg-traitGray rounded-full"
         onClick={handleSelectClick}
       >
-        {selectedOption || 'Select'}
+        <p className={'truncate'}>{selectedOption || 'Select'}</p>
         <FaChevronDown />
-      </p>
+      </div>
 
       {isOpen && (
         <ul className="bg-black absolute z-10 w-full">
           {options.map(({ label, value }, i) => (
             <li
               key={value}
-              className={`hover:bg-traitGray py-2 px-5 w-full cursor-pointer ${i === focusedOptionIndex && 'focused'}`}
+              className={`hover:bg-traitGray py-2 px-5 w-full cursor-pointer truncate ${
+                i === focusedOptionIndex && 'focused'
+              }`}
               onClick={() => handleOptionClick(value)}
             >
               {label}

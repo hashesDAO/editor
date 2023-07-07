@@ -15,8 +15,8 @@ const selectOptions = [
     value: '0xhey',
   },
   {
-    label: '0xgoodmorning',
-    value: '0xgoodmorning',
+    label: '0xgoodmorning0xgoodmorning0xgoodmorning0xgoodmorning0xgoodmorning0xgoodmorning',
+    value: '0xgoodmorning0xgoodmorning0xgoodmorning0xgoodmorning0xgoodmorning0xgoodmorning',
   },
   {
     label: '0xhowdy',
