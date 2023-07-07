@@ -74,7 +74,7 @@ export default function Select({ options }: { options: { label: string; value: s
   }, [isOpen, options, selectedOption, setFocusedOptionIndex]);
 
   return (
-    <div ref={dropDownRef} className="relative w-full mb-8 cursor-pointer">
+    <div ref={dropDownRef} className="relative w-full cursor-pointer">
       <div
         className="py-4 px-5 flex items-center justify-between bg-traitGray rounded-full"
         onClick={handleSelectClick}
