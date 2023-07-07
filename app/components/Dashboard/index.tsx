@@ -15,10 +15,19 @@ export default function Dashboard() {
         <ProjectTitle />
         <p>Select element here</p>
         <ControlMenu />
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap mb-24">
           {traitTypes.map((traitType) => (
             <TraitSet key={traitType} traitType={traitType}>
               <Trait name="BRUSH">
+                <p>element</p>
+              </Trait>
+              <Trait name="COLOR FILL">
+                <p>element</p>
+              </Trait>
+              <Trait name="STROKE COLOR">
+                <p>element</p>
+              </Trait>
+              <Trait name="STROKE SIZE">
                 <p>element</p>
               </Trait>
             </TraitSet>
