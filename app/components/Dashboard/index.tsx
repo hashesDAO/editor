@@ -4,7 +4,7 @@ import ControlMenu from './ControlMenu';
 import DashboardFooter from './DashboardFooter';
 import HashSelect from './HashSelect';
 import ProjectTitle from './ProjectTitle';
-import ShareButton from './ShareButton';
+import ShareButton from './buttons/ShareButton';
 import Trait from './Trait';
 import TraitSet from './TraitSet';
 

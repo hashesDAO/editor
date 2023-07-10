@@ -1,4 +1,4 @@
-import MintButton from './MintButton';
+import MintButton from './buttons/MintButton';
 
 export default function DashboardFooter() {
   return (

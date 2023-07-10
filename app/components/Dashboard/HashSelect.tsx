@@ -1,5 +1,5 @@
 import Select from '../Select';
-import GenerateButton from './GenerateButton';
+import GenerateButton from './buttons/GenerateButton';
 import HashPill from './HashPill';
 
 const selectOptions = [
