@@ -1,8 +1,8 @@
 'use client';
 
-import Button from '../Button';
+import Button from '../../Button';
 
-export default function GenerateButton() {
+export default function Generate() {
   return (
     <Button
       text={'GENERATE'}
