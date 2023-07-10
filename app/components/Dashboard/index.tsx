@@ -8,6 +8,7 @@ import ProjectTitle from './ProjectTitle';
 import Trait from './Trait';
 import TraitSet from './TraitSet';
 import ShareButton from './ShareButton';
+import HashPill from './HashPill';
 
 const traitTypes: TraitType[] = [ARTISTIC, AUGMENT, GEOMETRY, PATTERNS];
 
@@ -33,6 +34,8 @@ export default function Dashboard() {
         <ProjectTitle>
           <ShareButton />
         </ProjectTitle>
+
+        <HashPill />
         <div className="flex mb-8">
           <div className="w-4/6">
             <Select options={selectOptions} />
@@ -42,6 +45,7 @@ export default function Dashboard() {
             <GenerateButton />
           </div>
         </div>
+
         <ControlMenu />
         <div className="flex flex-wrap mb-24">
           {traitTypes.map((traitType) => (
