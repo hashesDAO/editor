@@ -1,15 +1,16 @@
 import { TraitType } from '@/app/util';
 import { ARTISTIC, AUGMENT, GEOMETRY, PATTERNS } from '@/app/util/constants';
+import Image from 'next/image';
+import Circle from '../Circle';
 import ControlMenu from './ControlMenu';
 import DashboardFooter from './DashboardFooter';
 import HashSelect from './HashSelect';
 import ProjectTitle from './ProjectTitle';
-import Share from './buttons/Share';
-import Trait from './Trait';
-import TraitSet from './TraitSet';
 import Toggle from './Toggle';
+import Trait from './Trait';
 import TraitOptions from './TraitOptions';
-import Image from 'next/image';
+import TraitSet from './TraitSet';
+import Share from './buttons/Share';
 
 const traitTypes: TraitType[] = [ARTISTIC, AUGMENT, GEOMETRY, PATTERNS];
 
@@ -74,7 +75,26 @@ export default function Dashboard() {
                 />
               </Trait>
               <Trait name="STROKE SIZE">
-                <p>element</p>
+                <TraitOptions
+                  options={[
+                    {
+                      label: <Circle color={'primaryRed'} size={5} />,
+                      value: 1,
+                    },
+                    {
+                      label: <Circle color={'primaryRed'} size={5} />,
+                      value: 2,
+                    },
+                    {
+                      label: <Circle color={'primaryRed'} size={5} />,
+                      value: 3,
+                    },
+                    {
+                      label: <Circle color={'primaryRed'} size={5} />,
+                      value: 4,
+                    },
+                  ]}
+                />
               </Trait>
             </TraitSet>
           ))}

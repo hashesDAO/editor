@@ -30,7 +30,7 @@ export default function TraitOptions({ options }: { options?: TraitOption[] }) {
               key={value}
               className={`${
                 isJSXElement(label) ? '' : 'py-0.5 px-[7px]'
-              } ml-2.5 text-[10px] cursor-pointer rounded-full border
+              } ml-2.5 text-[10px] cursor-pointer rounded-full border-2
 
               ${value === selectedOption ? 'border-white bg-white text-baseBlack' : 'border-baseBlack bg-baseBlack'}`}
               onClick={() => handleClick(value)}
