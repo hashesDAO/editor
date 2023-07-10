@@ -3,16 +3,6 @@
 import { ConnectButton as RainbowConnectButton } from '@rainbow-me/rainbowkit';
 import Button from './Button';
 
-const CustomButton = ({
-  clickHandler,
-  text,
-  buttonColor,
-}: {
-  clickHandler: () => void;
-  text: string;
-  buttonColor?: string;
-}) => <Button text={text} buttonColor={buttonColor || 'bg-baseBlack'} onClick={clickHandler} />;
-
 export default function ConnectButton() {
   return (
     <RainbowConnectButton.Custom>
@@ -20,14 +10,20 @@ export default function ConnectButton() {
         <div>
           {(() => {
             if (!mounted || !account || !chain) {
-              return <CustomButton clickHandler={openConnectModal} text="CONNECT WALLET" buttonColor="bg-primaryRed" />;
+              return <Button text={'CONNECT WALLET'} buttonColor={'bg-primaryRed'} onClick={openConnectModal} />;
             }
 
             if (chain.unsupported) {
-              return <CustomButton clickHandler={openChainModal} text="Wrong network" />;
+              return <Button text={'Wrong network'} buttonColor={'bg-baseBlack'} onClick={openChainModal} />;
             }
 
-            return <CustomButton clickHandler={openAccountModal} text={`connected as ${account.displayName}`} />;
+            return (
+              <Button
+                text={`CONNECTED AS ${account.displayName}`}
+                buttonColor={'bg-baseBlack'}
+                onClick={openAccountModal}
+              />
+            );
           })()}
         </div>
       )}
