@@ -8,6 +8,7 @@ import Share from './buttons/Share';
 import Trait from './Trait';
 import TraitSet from './TraitSet';
 import Toggle from './Toggle';
+import TraitOptions from './TraitOptions';
 
 const traitTypes: TraitType[] = [ARTISTIC, AUGMENT, GEOMETRY, PATTERNS];
 
@@ -25,7 +26,26 @@ export default function Dashboard() {
           {traitTypes.map((traitType) => (
             <TraitSet key={traitType} traitType={traitType}>
               <Trait name="BRUSH">
-                <p>element</p>
+                <TraitOptions
+                  options={[
+                    {
+                      label: 1,
+                      value: 1,
+                    },
+                    {
+                      label: 2,
+                      value: 2,
+                    },
+                    {
+                      label: 3,
+                      value: 3,
+                    },
+                    {
+                      label: 4,
+                      value: 4,
+                    },
+                  ]}
+                />
               </Trait>
               <Trait name="COLOR FILL">
                 <p>element</p>
