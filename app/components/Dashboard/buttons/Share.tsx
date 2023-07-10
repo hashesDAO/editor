@@ -4,7 +4,7 @@ import useCopyToClipboard from '@/app/hooks/useCopyToClipboard';
 import CircleButton from '../../CircleButton';
 import { LuShare2 } from 'react-icons/lu';
 
-export default function ShareButton() {
+export default function Share() {
   const [isCopied, copy] = useCopyToClipboard();
   return (
     <CircleButton

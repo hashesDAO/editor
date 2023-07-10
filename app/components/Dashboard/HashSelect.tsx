@@ -1,5 +1,5 @@
 import Select from '../Select';
-import GenerateButton from './buttons/GenerateButton';
+import Generate from './buttons/Generate';
 import HashPill from './HashPill';
 
 const selectOptions = [
@@ -28,7 +28,7 @@ export default function HashSelect() {
       </div>
       <div className="w-2/6 flex flex-row items-center">
         <p className="px-4">OR</p>
-        <GenerateButton />
+        <Generate />
       </div>
     </div>
   );

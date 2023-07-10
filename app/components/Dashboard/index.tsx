@@ -4,7 +4,7 @@ import ControlMenu from './ControlMenu';
 import DashboardFooter from './DashboardFooter';
 import HashSelect from './HashSelect';
 import ProjectTitle from './ProjectTitle';
-import ShareButton from './buttons/ShareButton';
+import Share from './buttons/Share';
 import Trait from './Trait';
 import TraitSet from './TraitSet';
 
@@ -15,7 +15,7 @@ export default function Dashboard() {
     <section className="relative h-full overflow-y-auto">
       <div className="p-4">
         <ProjectTitle>
-          <ShareButton />
+          <Share />
         </ProjectTitle>
         <HashSelect />
         <ControlMenu />

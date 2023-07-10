@@ -2,7 +2,7 @@
 
 import Button from '../../Button';
 
-export default function GenerateButton() {
+export default function Generate() {
   return (
     <Button
       text={'GENERATE'}
