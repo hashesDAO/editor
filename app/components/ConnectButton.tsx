@@ -14,7 +14,7 @@ export default function ConnectButton() {
             }
 
             if (chain.unsupported) {
-              return <Button text={'Wrong network'} buttonColor={'bg-baseBlack'} onClick={openChainModal} />;
+              return <Button text={'WRONG NETWORK'} buttonColor={'bg-baseBlack'} onClick={openChainModal} />;
             }
 
             return (

@@ -16,7 +16,7 @@ const traitTypes: TraitType[] = [ARTISTIC, AUGMENT, GEOMETRY, PATTERNS];
 
 export default function Dashboard() {
   return (
-    <section className="relative h-full overflow-y-auto">
+    <section className="relative h-[90%] overflow-y-auto mt-4">
       <div className="p-4">
         <ProjectTitle>
           <Share />
