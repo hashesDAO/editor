@@ -22,7 +22,6 @@ export default function Dashboard() {
           <Share />
         </ProjectTitle>
         <HashSelect />
-        <Toggle />
         <ControlMenu />
         <div className="flex flex-wrap mb-24">
           {traitTypes.map((traitType) => (
