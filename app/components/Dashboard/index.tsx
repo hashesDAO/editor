@@ -48,7 +48,7 @@ export default function Dashboard() {
                 />
               </Trait>
               <Trait name="COLOR FILL">
-                <p>element</p>
+                <TraitOptions />
               </Trait>
               <Trait name="STROKE COLOR">
                 <p>element</p>

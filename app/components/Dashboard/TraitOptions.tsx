@@ -24,7 +24,9 @@ export default function TraitOptions({ options }: { options?: TraitOption[] }) {
           {options.map(({ label, value }) => (
             <li
               key={value}
-              className="ml-2.5 text-[10px] rounded-full py-0.5 px-1.5 bg-baseBlack"
+              className={`py-0.5 px-[7px] ml-2.5 text-[10px] cursor-pointer rounded-full border ${
+                value === selectedOption ? 'border-white bg-white text-baseBlack' : 'border-baseBlack bg-baseBlack'
+              }`}
               onClick={() => handleClick(value)}
             >
               {label}
