@@ -7,6 +7,7 @@ import ProjectTitle from './ProjectTitle';
 import Share from './buttons/Share';
 import Trait from './Trait';
 import TraitSet from './TraitSet';
+import Toggle from './Toggle';
 
 const traitTypes: TraitType[] = [ARTISTIC, AUGMENT, GEOMETRY, PATTERNS];
 
@@ -18,6 +19,7 @@ export default function Dashboard() {
           <Share />
         </ProjectTitle>
         <HashSelect />
+        <Toggle />
         <ControlMenu />
         <div className="flex flex-wrap mb-24">
           {traitTypes.map((traitType) => (
