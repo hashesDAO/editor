@@ -11,6 +11,8 @@ import Trait from './Trait';
 import TraitOptions from './TraitOptions';
 import TraitSet from './TraitSet';
 import Share from './buttons/Share';
+import Drag from './buttons/Drag';
+import Add from './buttons/Add';
 
 const traitTypes: TraitType[] = [ARTISTIC, AUGMENT, GEOMETRY, PATTERNS];
 
@@ -49,9 +51,13 @@ export default function Dashboard() {
                   ]}
                 />
               </Trait>
-              <Trait name="COLOR FILL">
-                <TraitOptions />
-              </Trait>
+              <div className="flex flex-row">
+                <Drag />
+                <Trait name="COLOR FILL">
+                  <TraitOptions />
+                </Trait>
+                <Add />
+              </div>
               <Trait name="STROKE COLOR">
                 <TraitOptions
                   options={[
