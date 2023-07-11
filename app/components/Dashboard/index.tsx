@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Circle from '../Circle';
 import ControlMenu from './ControlMenu';
 import DashboardFooter from './DashboardFooter';
+import DragTrait from './DragTrait';
 import HashSelect from './HashSelect';
 import ProjectTitle from './ProjectTitle';
 import Toggle from './Toggle';
@@ -49,9 +50,9 @@ export default function Dashboard() {
                   ]}
                 />
               </Trait>
-              <Trait name="COLOR FILL">
-                <TraitOptions />
-              </Trait>
+
+              <DragTrait name="COLOR FILL" />
+
               <Trait name="STROKE COLOR">
                 <TraitOptions
                   options={[
