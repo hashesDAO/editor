@@ -13,7 +13,27 @@ import TraitOptions from './TraitOptions';
 import TraitSet from './TraitSet';
 import Share from './buttons/Share';
 
-const traitTypes: TraitType[] = [ARTISTIC, AUGMENT, GEOMETRY, PATTERNS];
+const traitTypes: {
+  title: TraitType;
+  info: string;
+}[] = [
+  {
+    title: ARTISTIC,
+    info: 'hi artistic',
+  },
+  {
+    title: AUGMENT,
+    info: 'hi augment',
+  },
+  {
+    title: GEOMETRY,
+    info: 'hi geometry',
+  },
+  {
+    title: PATTERNS,
+    info: 'hi patterns',
+  },
+];
 
 export default function Dashboard() {
   return (
@@ -26,8 +46,8 @@ export default function Dashboard() {
         <Toggle />
         <ControlMenu />
         <div className="flex flex-wrap mb-24">
-          {traitTypes.map((traitType) => (
-            <TraitSet key={traitType} traitType={traitType}>
+          {traitTypes.map(({ title, info }) => (
+            <TraitSet key={title} title={title} info={info}>
               <Trait name="BRUSH">
                 <TraitOptions
                   options={[
