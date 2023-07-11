@@ -1,7 +1,7 @@
 import { TraitType } from '@/app/util';
 import { ARTISTIC, AUGMENT, GEOMETRY, PATTERNS } from '@/app/util/constants';
 import Image from 'next/image';
-import Circle from '../Circle';
+import Circle from '../common/Circle';
 import ControlMenu from './ControlMenu';
 import DashboardFooter from './DashboardFooter';
 import DragTrait from './DragTrait';

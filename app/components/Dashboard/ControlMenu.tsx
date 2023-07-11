@@ -2,7 +2,7 @@
 
 import { FaRedo, FaSave, FaUndo } from 'react-icons/fa';
 import { FaShuffle } from 'react-icons/fa6';
-import CircleButton from '../CircleButton';
+import CircleButton from '../common/CircleButton';
 
 const controls = [
   {
