@@ -51,31 +51,6 @@ export default function Dashboard() {
                 <TraitOptions
                   options={[
                     {
-                      label: 1,
-                      value: 1,
-                    },
-                    {
-                      label: 2,
-                      value: 2,
-                    },
-                    {
-                      label: 3,
-                      value: 3,
-                    },
-                    {
-                      label: 4,
-                      value: 4,
-                    },
-                  ]}
-                />
-              </Trait>
-
-              <DragTrait name="COLOR FILL" />
-
-              <Trait name="STROKE COLOR">
-                <TraitOptions
-                  options={[
-                    {
                       label: <Image src="/brushes/one.svg" alt="brush one" width={20} height={20} />,
                       value: 1,
                     },
@@ -94,23 +69,49 @@ export default function Dashboard() {
                   ]}
                 />
               </Trait>
+
+              <DragTrait name="SQUARE" />
+
+              <Trait name="STROKE COLOR">
+                <TraitOptions
+                  options={[
+                    {
+                      label: <Circle color={'primaryRed'} size={'5'} />,
+                      value: 1,
+                    },
+                    {
+                      label: <Circle color={'primaryRed'} size={'5'} />,
+                      value: 2,
+                    },
+                    {
+                      label: <Circle color={'primaryRed'} size={'5'} />,
+                      value: 3,
+                    },
+                    {
+                      label: <Circle color={'primaryRed'} size={'5'} />,
+                      value: 4,
+                    },
+                  ]}
+                />
+              </Trait>
+
               <Trait name="STROKE SIZE">
                 <TraitOptions
                   options={[
                     {
-                      label: <Circle color={'primaryRed'} size={5} />,
+                      label: 1,
                       value: 1,
                     },
                     {
-                      label: <Circle color={'primaryRed'} size={5} />,
+                      label: 2,
                       value: 2,
                     },
                     {
-                      label: <Circle color={'primaryRed'} size={5} />,
+                      label: 3,
                       value: 3,
                     },
                     {
-                      label: <Circle color={'primaryRed'} size={5} />,
+                      label: 4,
                       value: 4,
                     },
                   ]}

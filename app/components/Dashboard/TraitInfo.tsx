@@ -7,7 +7,7 @@ export default function TraitInfo({ tooltipText, id }: { tooltipText: string; id
   return (
     <>
       <IoInformationCircleOutline
-        className="text-sm inline-flex ml-2 cursor-pointer align-middle"
+        className="text-sm inline-flex ml-2 opacity-40 cursor-pointer align-middle"
         data-tooltip-id={id}
         data-tooltip-content={tooltipText}
       />
