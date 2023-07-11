@@ -98,19 +98,19 @@ export default function Dashboard() {
                 <TraitOptions
                   options={[
                     {
-                      label: <Circle color={'primaryRed'} size={5} />,
+                      label: <Circle color={'primaryRed'} size={'5'} />,
                       value: 1,
                     },
                     {
-                      label: <Circle color={'primaryRed'} size={5} />,
+                      label: <Circle color={'primaryRed'} size={'5'} />,
                       value: 2,
                     },
                     {
-                      label: <Circle color={'primaryRed'} size={5} />,
+                      label: <Circle color={'primaryRed'} size={'5'} />,
                       value: 3,
                     },
                     {
-                      label: <Circle color={'primaryRed'} size={5} />,
+                      label: <Circle color={'primaryRed'} size={'5'} />,
                       value: 4,
                     },
                   ]}

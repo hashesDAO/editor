@@ -12,7 +12,7 @@ export default function Mint() {
 
   return (
     <Button
-      text={'MINT'}
+      text={'UPDATE HASH'}
       buttonColor={'bg-primaryRed'}
       onClick={() => {
         console.log('mint!!');
