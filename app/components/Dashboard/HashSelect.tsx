@@ -19,7 +19,7 @@ const selectOptions = [
 
 export default function HashSelect() {
   return (
-    <div className="flex mb-8">
+    <section className="flex mb-8">
       <div className="w-full">
         <HashPill />
       </div>
@@ -30,6 +30,6 @@ export default function HashSelect() {
         <p className="px-4">OR</p>
         <Generate />
       </div>
-    </div>
+    </section>
   );
 }

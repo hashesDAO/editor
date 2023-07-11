@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 
-const placeholderTitle = 'Untitled';
-
 export default function ProjectTitle({ children }: { children?: React.ReactNode }) {
   const [title, setTitle] = useState<string>();
 
