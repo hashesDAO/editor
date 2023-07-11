@@ -24,7 +24,7 @@ export default function TraitOptions({ options }: { options?: TraitOption[] }) {
   return (
     <>
       {options ? (
-        <ul className="flex flex-row">
+        <ul className="flex">
           {options.map(({ label, value }) => (
             <li
               key={value}
