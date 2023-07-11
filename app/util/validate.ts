@@ -1,6 +1,6 @@
-import { ethers } from 'ethers';
+import { isAddress } from 'viem';
 
-export async function getHashesCount(contract: ethers.Contract, address: string): Promise<number | Error> {
+export async function getHashesCount(contract: any, address: string): Promise<number | Error> {
   try {
     const hashesBalance = await contract.balanceOf(address);
     return hashesBalance.toNumber();
@@ -16,5 +16,5 @@ export function getHashType(tokenId: string | string[], isDeactivated: boolean):
 }
 
 export function isValidAddress(address: string): boolean {
-  return typeof address === 'string' && address.length !== 0 && ethers.utils.isAddress(address);
+  return typeof address === 'string' && address.length !== 0 && isAddress(address);
 }
