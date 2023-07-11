@@ -13,6 +13,7 @@ import TraitSet from './TraitSet';
 import Share from './buttons/Share';
 import Drag from './buttons/Drag';
 import Add from './buttons/Add';
+import DragTrait from './DragTrait';
 
 const traitTypes: TraitType[] = [ARTISTIC, AUGMENT, GEOMETRY, PATTERNS];
 
@@ -52,15 +53,7 @@ export default function Dashboard() {
                 />
               </Trait>
 
-              <div className="flex justify-between">
-                <Drag />
-                <div className="px-2 w-full">
-                  <Trait name="COLOR FILL">
-                    <TraitOptions />
-                  </Trait>
-                </div>
-                <Add />
-              </div>
+              <DragTrait name="COLOR FILL" />
 
               <Trait name="STROKE COLOR">
                 <TraitOptions
