@@ -1,3 +1,3 @@
-export default function Circle({ color, size }: { color: string; size: string }) {
-  return <div className={`rounded-full w-${size} h-${size} bg-${color}`}></div>;
+export default function Circle({ color }: { color: string }) {
+  return <div className={`rounded-full w-5 h-5 bg-${color}`}></div>;
 }
