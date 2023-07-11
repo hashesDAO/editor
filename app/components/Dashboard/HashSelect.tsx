@@ -1,4 +1,4 @@
-import Select from '../Select';
+import Select from '../common/Select';
 import Generate from './buttons/Generate';
 import HashPill from './HashPill';
 

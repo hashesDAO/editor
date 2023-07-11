@@ -1,7 +1,7 @@
 'use client';
 
 import { useAccount } from 'wagmi';
-import Button from '../../Button';
+import Button from '../../common/Button';
 
 export default function Mint() {
   const { isConnected } = useAccount();

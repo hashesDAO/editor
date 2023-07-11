@@ -1,6 +1,6 @@
 'use client';
 
-import CircleButton from '../../CircleButton';
+import CircleButton from '../../common/CircleButton';
 import { IoMenuOutline } from 'react-icons/io5';
 
 export default function Drag() {

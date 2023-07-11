@@ -1,6 +1,6 @@
 'use client';
 
-import CircleButton from '../../CircleButton';
+import CircleButton from '../../common/CircleButton';
 import { FiPlus } from 'react-icons/fi';
 
 export default function Add() {

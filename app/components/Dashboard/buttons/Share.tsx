@@ -1,7 +1,7 @@
 'use client';
 
 import useCopyToClipboard from '@/app/hooks/useCopyToClipboard';
-import CircleButton from '../../CircleButton';
+import CircleButton from '../../common/CircleButton';
 import { LuShare2 } from 'react-icons/lu';
 
 export default function Share() {
