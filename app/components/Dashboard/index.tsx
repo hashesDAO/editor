@@ -1,5 +1,5 @@
-import { TraitType } from '@/app/util';
 import { ARTISTIC, AUGMENT, GEOMETRY, PATTERNS } from '@/app/util/constants';
+import type { TraitType } from '@/app/util/types';
 import Image from 'next/image';
 import Circle from '../common/Circle';
 import ControlMenu from './ControlMenu';
