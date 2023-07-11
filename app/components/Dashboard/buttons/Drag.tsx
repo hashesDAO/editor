@@ -6,7 +6,7 @@ import { IoMenuOutline } from 'react-icons/io5';
 export default function Drag() {
   return (
     <CircleButton
-      className="bg-transparent mt-[-10px] pr-2"
+      className="bg-transparent mt-[-10px]"
       onClick={() => {
         console.log('drag');
       }}

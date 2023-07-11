@@ -51,13 +51,17 @@ export default function Dashboard() {
                   ]}
                 />
               </Trait>
-              <div className="flex flex-row">
+
+              <div className="flex justify-between">
                 <Drag />
-                <Trait name="COLOR FILL">
-                  <TraitOptions />
-                </Trait>
+                <div className="px-2 w-full">
+                  <Trait name="COLOR FILL">
+                    <TraitOptions />
+                  </Trait>
+                </div>
                 <Add />
               </div>
+
               <Trait name="STROKE COLOR">
                 <TraitOptions
                   options={[
