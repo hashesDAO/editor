@@ -9,7 +9,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <Link href={'/'}>Home</Link>
         <ConnectButton />
       </nav> */}
-      <main>{children}</main>
+      <main>
+        <div className="h-screen grid grid-cols-24 grid-rows-6">{children}</div>
+      </main>
     </RainbowkitProviders>
   );
 }
