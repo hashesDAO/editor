@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Circle from '../Circle';
 import ControlMenu from './ControlMenu';
 import DashboardFooter from './DashboardFooter';
+import DragTrait from './DragTrait';
 import HashSelect from './HashSelect';
 import ProjectTitle from './ProjectTitle';
 import Toggle from './Toggle';
@@ -11,9 +12,6 @@ import Trait from './Trait';
 import TraitOptions from './TraitOptions';
 import TraitSet from './TraitSet';
 import Share from './buttons/Share';
-import Drag from './buttons/Drag';
-import Add from './buttons/Add';
-import DragTrait from './DragTrait';
 
 const traitTypes: TraitType[] = [ARTISTIC, AUGMENT, GEOMETRY, PATTERNS];
 
