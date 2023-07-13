@@ -1,17 +1,17 @@
 import { ChainNames } from '@/app/util/types';
-import { getHashesContract, callReadOnlyFnFromHashesContract } from '../../../util/';
-import { getHashType, hashType, isValidAddress } from '../../../util/validate';
 import { NextResponse } from 'next/server';
+import { callReadOnlyFnFromHashesContract } from '../../../util/';
+import { getHashType, hashType, isValidAddress } from '../../../util/validate';
 
-// type WalletHash = {
-//   hash_value: string;
-//   type: hashType;
-//   token_id: number;
-// };
+type WalletHash = {
+  hash_value: string;
+  type: hashType;
+  token_id: number;
+};
 
-// type ResponseData = {
-//   hashes: WalletHash[];
-// };
+function bigNumToNumber(bn: any) {
+  return parseInt(bn.toString());
+}
 
 const addressTypeErrorMessage = 'address must be a string';
 const addressInvalidErrorMessage = 'valid (non-ens) wallet address must be provided';
@@ -37,9 +37,7 @@ export async function GET(req: Request, { params }: { params: { address: string 
     });
   }
 
-  // const hashesContract = getHashesContract((chain as string) || 'mainnet');
   const hashesCount = await callReadOnlyFnFromHashesContract(chain, 'balanceOf', [address]);
-  console.log('z4zz hashesCount', hashesCount);
 
   if (hashesCount instanceof Error) {
     return new Response(contractBalanceErrorMessage, {
@@ -55,34 +53,37 @@ export async function GET(req: Request, { params }: { params: { address: string 
     });
   }
 
-  return NextResponse.json({
-    hashes: [],
-  });
+  try {
+    const hashes: WalletHash[] = [];
+    const parsedHashesCount = bigNumToNumber(hashesCount);
+    const tokenIdPromises = Array.from(Array(parsedHashesCount), (_, i) => i).map((i) =>
+      callReadOnlyFnFromHashesContract(chain, 'tokenOfOwnerByIndex', [address, i]),
+    );
 
-  // try {
-  //   const hashes: WalletHash[] = [];
-  //   const tokenIdPromises = Array.from(Array(hashesCount), (_, i) => i).map((i) =>
-  //     hashesContract.tokenOfOwnerByIndex(address, i),
-  //   );
-  //   const tokenIds = await Promise.all(tokenIdPromises);
-  //   const hashPromises = tokenIds.map((tokenId: string) => hashesContract.getHash(tokenId));
-  //   const deactivatedPromises = tokenIds.map((tokenId: string) => hashesContract.deactivated(tokenId));
-  //   const tokenDetailPromises = await Promise.all([...hashPromises, ...deactivatedPromises]);
+    const tokenIds = (await Promise.all(tokenIdPromises)).map((tokenId) => tokenId.toString());
 
-  //   for (let i = 0; i < hashesCount; i++) {
-  //     const tokenId = tokenIds[i];
-  //     const hash = tokenDetailPromises[i]._hex;
-  //     const isDeactivated = tokenDetailPromises[i]._isBigNumber;
-  //     const type = getHashType(tokenId, isDeactivated);
-  //     hashes.push({
-  //       hash_value: hash,
-  //       type,
-  //       token_id: tokenId.toNumber(),
-  //     });
-  //   }
+    const hashPromises = tokenIds.map((tokenId: string) =>
+      callReadOnlyFnFromHashesContract(chain, 'getHash', [tokenId]),
+    );
+    const deactivatedPromises = tokenIds.map((tokenId: string) =>
+      callReadOnlyFnFromHashesContract(chain, 'deactivated', [tokenId]),
+    );
+    const tokenDetailPromises = await Promise.all([...hashPromises, ...deactivatedPromises]);
 
-  //   res.status(200).json({ hashes });
-  // } catch (error) {
-  //   console.error(`error getting hashes data: ${error}`);
-  // }
+    for (let i = 0; i < parsedHashesCount; i++) {
+      const tokenId = tokenIds[i];
+      const hash = tokenDetailPromises[i];
+      const isDeactivated = tokenDetailPromises[i + parsedHashesCount];
+      const type = getHashType(tokenId, isDeactivated as boolean);
+      hashes.push({
+        hash_value: hash as string,
+        type,
+        token_id: bigNumToNumber(tokenId),
+      });
+    }
+
+    return NextResponse.json({ hashes });
+  } catch (error) {
+    console.error(`error getting hashes data: ${error}`);
+  }
 }
