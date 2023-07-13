@@ -1,67 +1,88 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { getHashesContract } from '../../../util/';
-import { getHashType, getHashesCount, hashType, isValidAddress } from '../../../util/validate';
+import { ChainNames } from '@/app/util/types';
+import { getHashesContract, callReadOnlyFnFromHashesContract } from '../../../util/';
+import { getHashType, hashType, isValidAddress } from '../../../util/validate';
+import { NextResponse } from 'next/server';
 
-type WalletHash = {
-  hash_value: string;
-  type: hashType;
-  token_id: number;
-};
+// type WalletHash = {
+//   hash_value: string;
+//   type: hashType;
+//   token_id: number;
+// };
 
-type ResponseData = {
-  hashes: WalletHash[];
-};
+// type ResponseData = {
+//   hashes: WalletHash[];
+// };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseData | string>) {
-  const { address, chain } = req.query;
+const addressTypeErrorMessage = 'address must be a string';
+const addressInvalidErrorMessage = 'valid (non-ens) wallet address must be provided';
+const contractBalanceErrorMessage = 'error getting contract balance';
+const walletHasNoHashErrorMessage = 'wallet does not have a hash token';
+
+export async function GET(req: Request, { params }: { params: { address: string } }) {
+  const url = new URL(req.url);
+  const address = params.address;
+  const chain = url.searchParams.get('chain') as ChainNames;
 
   if (typeof address !== 'string') {
-    res.status(400).send('address must be a string');
-    return;
+    return new Response(addressTypeErrorMessage, {
+      status: 400,
+      statusText: addressTypeErrorMessage,
+    });
   }
 
   if (!isValidAddress(address)) {
-    res.status(400).send('valid (non-ens) wallet address must be provided');
-    return;
+    return new Response(addressInvalidErrorMessage, {
+      status: 400,
+      statusText: addressInvalidErrorMessage,
+    });
   }
 
-  const hashesContract = getHashesContract((chain as string) || 'mainnet');
-  const hashesCount = await getHashesCount(hashesContract, address);
+  // const hashesContract = getHashesContract((chain as string) || 'mainnet');
+  const hashesCount = await callReadOnlyFnFromHashesContract(chain, 'balanceOf', [address]);
+  console.log('z4zz hashesCount', hashesCount);
 
   if (hashesCount instanceof Error) {
-    res.status(500).send(hashesCount.message);
-    return;
+    return new Response(contractBalanceErrorMessage, {
+      status: 500,
+      statusText: hashesCount.message,
+    });
   }
 
   if (!hashesCount) {
-    res.status(404).send('wallet does not have a hash token');
-    return;
+    return new Response(walletHasNoHashErrorMessage, {
+      status: 404, //should this be 404?
+      statusText: walletHasNoHashErrorMessage,
+    });
   }
 
-  try {
-    const hashes: WalletHash[] = [];
-    const tokenIdPromises = Array.from(Array(hashesCount), (_, i) => i).map((i) =>
-      hashesContract.tokenOfOwnerByIndex(address, i),
-    );
-    const tokenIds = await Promise.all(tokenIdPromises);
-    const hashPromises = tokenIds.map((tokenId: string) => hashesContract.getHash(tokenId));
-    const deactivatedPromises = tokenIds.map((tokenId: string) => hashesContract.deactivated(tokenId));
-    const tokenDetailPromises = await Promise.all([...hashPromises, ...deactivatedPromises]);
+  return NextResponse.json({
+    hashes: [],
+  });
 
-    for (let i = 0; i < hashesCount; i++) {
-      const tokenId = tokenIds[i];
-      const hash = tokenDetailPromises[i]._hex;
-      const isDeactivated = tokenDetailPromises[i]._isBigNumber;
-      const type = getHashType(tokenId, isDeactivated);
-      hashes.push({
-        hash_value: hash,
-        type,
-        token_id: tokenId.toNumber(),
-      });
-    }
+  // try {
+  //   const hashes: WalletHash[] = [];
+  //   const tokenIdPromises = Array.from(Array(hashesCount), (_, i) => i).map((i) =>
+  //     hashesContract.tokenOfOwnerByIndex(address, i),
+  //   );
+  //   const tokenIds = await Promise.all(tokenIdPromises);
+  //   const hashPromises = tokenIds.map((tokenId: string) => hashesContract.getHash(tokenId));
+  //   const deactivatedPromises = tokenIds.map((tokenId: string) => hashesContract.deactivated(tokenId));
+  //   const tokenDetailPromises = await Promise.all([...hashPromises, ...deactivatedPromises]);
 
-    res.status(200).json({ hashes });
-  } catch (error) {
-    console.error(`error getting hashes data: ${error}`);
-  }
+  //   for (let i = 0; i < hashesCount; i++) {
+  //     const tokenId = tokenIds[i];
+  //     const hash = tokenDetailPromises[i]._hex;
+  //     const isDeactivated = tokenDetailPromises[i]._isBigNumber;
+  //     const type = getHashType(tokenId, isDeactivated);
+  //     hashes.push({
+  //       hash_value: hash,
+  //       type,
+  //       token_id: tokenId.toNumber(),
+  //     });
+  //   }
+
+  //   res.status(200).json({ hashes });
+  // } catch (error) {
+  //   console.error(`error getting hashes data: ${error}`);
+  // }
 }

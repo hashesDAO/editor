@@ -1,14 +1,5 @@
 import { isAddress } from 'viem';
 
-export async function getHashesCount(contract: any, address: string): Promise<number | Error> {
-  try {
-    const hashesBalance = await contract.balanceOf(address);
-    return hashesBalance.toNumber();
-  } catch (error) {
-    return new Error(`error getting contract balance: ${error}`);
-  }
-}
-
 export type hashType = 'DAO' | 'DAO Deactivated' | 'Standard';
 
 export function getHashType(tokenId: string | string[], isDeactivated: boolean): hashType {
