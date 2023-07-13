@@ -1,4 +1,4 @@
-import { TraitType } from '@/app/util';
+import type { TraitType } from '@/app/util/types';
 import TraitInfo from './TraitInfo';
 
 type Props = React.PropsWithChildren<{
