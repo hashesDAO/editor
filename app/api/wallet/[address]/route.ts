@@ -60,7 +60,7 @@ export async function GET(req: Request, { params }: { params: { address: string 
       callReadOnlyFnFromHashesContract(chain, 'tokenOfOwnerByIndex', [address, i]),
     );
 
-    const tokenIds = (await Promise.all(tokenIdPromises)).map((tokenId) => tokenId.toString());
+    const tokenIds: string[] = (await Promise.all(tokenIdPromises)).map((tokenId) => (tokenId as bigint).toString());
 
     const hashPromises = tokenIds.map((tokenId: string) =>
       callReadOnlyFnFromHashesContract(chain, 'getHash', [tokenId]),
