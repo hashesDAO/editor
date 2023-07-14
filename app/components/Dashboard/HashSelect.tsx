@@ -13,7 +13,7 @@ function createHashSelectOptions(data: HashesData[]) {
   }));
 }
 
-function Wrapper({ children }: { children: React.ReactNode }) {
+function Section({ children }: { children: React.ReactNode }) {
   return <section className="flex mb-8">{children}</section>;
 }
 
@@ -23,24 +23,24 @@ export default function HashSelect() {
 
   if (isError) {
     return (
-      <Wrapper>
+      <Section>
         <HashPill />
-      </Wrapper>
+      </Section>
     );
   }
 
   if (isLoading) {
     return (
-      <Wrapper>
+      <Section>
         <p className="w-full py-4 px-5">loading...</p>
-      </Wrapper>
+      </Section>
     );
   }
 
   return (
     <>
       {hashes && hashes.length > 0 ? (
-        <Wrapper>
+        <Section>
           <div className="w-4/6">
             <Select options={createHashSelectOptions(hashes)} />
           </div>
@@ -48,7 +48,7 @@ export default function HashSelect() {
             <p className="px-4">OR</p>
             <Generate />
           </div>
-        </Wrapper>
+        </Section>
       ) : (
         <section className="flex flex-col mb-8">
           <HashPill />
