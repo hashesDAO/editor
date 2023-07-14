@@ -1,8 +1,8 @@
 'use client';
 
 import { SandpackPreview, SandpackProvider } from '@codesandbox/sandpack-react';
-import { SelectedHash, useHashContext } from '../contexts/HashContext';
 import { useMemo } from 'react';
+import { SelectedHash, useHashContext } from '../contexts/HashContext';
 import { INITIAL_SELECTED_HASH } from '../util/constants';
 
 const htmlBoilerplate = `

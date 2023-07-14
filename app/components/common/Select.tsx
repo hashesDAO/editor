@@ -1,11 +1,15 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
-import useOutsideClick from '../../hooks/useOutsideClick';
-import { FaChevronDown } from 'react-icons/fa';
 import { SelectedHash, useHashDispatch } from '@/app/contexts/HashContext';
+import { useCallback, useEffect, useState } from 'react';
+import { FaChevronDown } from 'react-icons/fa';
+import useOutsideClick from '../../hooks/useOutsideClick';
 
-export default function Select({ options }: { options: { label: SelectedHash; value: SelectedHash }[] }) {
+type Props = {
+  options: { label: SelectedHash; value: SelectedHash }[];
+};
+
+export default function Select({ options }: Props) {
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number>();
   const [selectedOption, setSelectedOption] = useState<string>();
   const { dropDownRef, isOpen, setIsOpen } = useOutsideClick();
