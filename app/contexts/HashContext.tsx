@@ -1,16 +1,15 @@
+'use client';
+
 import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
 
-type SelectedHash = `0x${string}`;
-type HashDispatch = Dispatch<SetStateAction<HashState | undefined>>;
-type HashState = {
-  selectedHash: SelectedHash;
-};
+export type SelectedHash = `0x${string}`;
+type HashDispatch = Dispatch<SetStateAction<SelectedHash | undefined>>;
 
-const HashContext = createContext<{ selectedHash: SelectedHash } | undefined>(undefined);
+const HashContext = createContext<SelectedHash | undefined>(undefined);
 const HashDispatchContext = createContext<HashDispatch | undefined>(undefined);
 
 export function HashContextProvider({ children }: { children: React.ReactNode }) {
-  const [selectedHash, setSelectedHash] = useState<HashState>();
+  const [selectedHash, setSelectedHash] = useState<SelectedHash | undefined>();
 
   return (
     <HashContext.Provider value={selectedHash}>

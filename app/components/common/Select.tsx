@@ -3,19 +3,22 @@
 import { useCallback, useEffect, useState } from 'react';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import { FaChevronDown } from 'react-icons/fa';
+import { SelectedHash, useHashDispatch } from '@/app/contexts/HashContext';
 
 export default function Select({ options }: { options: { label: string; value: string }[] }) {
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number>();
   const [selectedOption, setSelectedOption] = useState<string>();
   const { dropDownRef, isOpen, setIsOpen } = useOutsideClick();
+  const dispatch = useHashDispatch();
 
   function handleSelectClick() {
     setIsOpen((prev) => !prev);
   }
 
   const handleOptionClick = useCallback(
-    (val: string) => {
+    (val: SelectedHash) => {
       setSelectedOption(val);
+      dispatch(val);
       setIsOpen(false);
     },
     [setSelectedOption, setIsOpen],
