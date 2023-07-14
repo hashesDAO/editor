@@ -1,6 +1,7 @@
 'use client';
 
 import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
+import { INITIAL_SELECTED_HASH } from '../util/constants';
 
 export type SelectedHash = `0x${string}`;
 type HashDispatch = Dispatch<SetStateAction<SelectedHash | undefined>>;
@@ -9,7 +10,7 @@ const HashContext = createContext<SelectedHash | undefined>(undefined);
 const HashDispatchContext = createContext<HashDispatch | undefined>(undefined);
 
 export function HashContextProvider({ children }: { children: React.ReactNode }) {
-  const [selectedHash, setSelectedHash] = useState<SelectedHash | undefined>('0x123');
+  const [selectedHash, setSelectedHash] = useState<SelectedHash | undefined>(INITIAL_SELECTED_HASH);
 
   return (
     <HashContext.Provider value={selectedHash}>
