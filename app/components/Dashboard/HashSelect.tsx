@@ -38,9 +38,9 @@ export default function HashSelect() {
   }
 
   return (
-    <Wrapper>
+    <>
       {hashes && hashes.length > 0 ? (
-        <>
+        <Wrapper>
           <div className="w-4/6">
             <Select options={createHashSelectOptions(hashes)} />
           </div>
@@ -48,10 +48,15 @@ export default function HashSelect() {
             <p className="px-4">OR</p>
             <Generate />
           </div>
-        </>
+        </Wrapper>
       ) : (
-        <HashPill />
+        <section className="flex flex-col mb-8">
+          <HashPill />
+          {hashes?.length === 0 && (
+            <p className="ml-2 text-xs">No Hashes found in your wallet. Design and mint your new Hash NFT today. ⚡️</p>
+          )}
+        </section>
       )}
-    </Wrapper>
+    </>
   );
 }
