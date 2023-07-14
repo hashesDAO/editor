@@ -1,6 +1,6 @@
 'use client';
 
-import { ChainNames } from '@/app/util/types';
+import useHashesData from '@/app/hooks/useHashesData';
 import Select from '../common/Select';
 import HashPill from './HashPill';
 import Generate from './buttons/Generate';
@@ -20,17 +20,9 @@ const selectOptions = [
   },
 ];
 
-async function getWalletHashesData(walletAddress: `0x${string}`, chain: ChainNames) {
-  const res = await fetch(`http://localhost:3000/api/wallet/${walletAddress}?chain=${chain}`);
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data');
-  }
-  return res.json();
-}
-
-export default async function HashSelect() {
-  const data = await getWalletHashesData('0x26FE79E42fBA7A8A28C21A77b745bD954b39164b', 'homestead');
+export default function HashSelect() {
+  const data = useHashesData();
+  console.log('outside zzz ', data);
   return (
     <section className="flex mb-8">
       <div className="w-full">
