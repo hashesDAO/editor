@@ -24,7 +24,7 @@ export default function HashSelect() {
   if (isError) {
     return (
       <Wrapper>
-        <p className="w-full py-4 px-5">failed to load</p>
+        <HashPill />
       </Wrapper>
     );
   }
@@ -39,7 +39,7 @@ export default function HashSelect() {
 
   return (
     <Wrapper>
-      {hashes ? (
+      {hashes && hashes.length > 0 ? (
         <>
           <div className="w-4/6">
             <Select options={createHashSelectOptions(hashes)} />
@@ -50,9 +50,7 @@ export default function HashSelect() {
           </div>
         </>
       ) : (
-        <div className="w-full">
-          <HashPill />
-        </div>
+        <HashPill />
       )}
     </Wrapper>
   );
