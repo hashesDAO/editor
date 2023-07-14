@@ -9,7 +9,7 @@ const HashContext = createContext<SelectedHash | undefined>(undefined);
 const HashDispatchContext = createContext<HashDispatch | undefined>(undefined);
 
 export function HashContextProvider({ children }: { children: React.ReactNode }) {
-  const [selectedHash, setSelectedHash] = useState<SelectedHash | undefined>();
+  const [selectedHash, setSelectedHash] = useState<SelectedHash | undefined>('0x123');
 
   return (
     <HashContext.Provider value={selectedHash}>

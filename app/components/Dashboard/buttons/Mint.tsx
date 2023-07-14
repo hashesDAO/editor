@@ -1,10 +1,12 @@
 'use client';
 
+import { useHashContext } from '@/app/contexts/HashContext';
 import { useAccount } from 'wagmi';
 import Button from '../../common/Button';
 
 export default function Mint() {
   const { isConnected } = useAccount();
+  const selectedHash = useHashContext();
 
   if (!isConnected) {
     return null;
@@ -15,7 +17,7 @@ export default function Mint() {
       text={'UPDATE HASH'}
       buttonColor={'bg-primaryRed'}
       onClick={() => {
-        console.log('mint!!');
+        console.log(`mint with ${selectedHash}!`);
       }}
     />
   );
