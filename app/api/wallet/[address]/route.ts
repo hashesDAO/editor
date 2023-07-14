@@ -16,7 +16,6 @@ function bigNumToNumber(bn: any) {
 const addressTypeErrorMessage = 'address must be a string';
 const addressInvalidErrorMessage = 'valid (non-ens) wallet address must be provided';
 const contractBalanceErrorMessage = 'error getting contract balance';
-const walletHasNoHashErrorMessage = 'wallet does not have a hash token';
 
 export async function GET(req: Request, { params }: { params: { address: string } }) {
   const url = new URL(req.url);
@@ -47,10 +46,7 @@ export async function GET(req: Request, { params }: { params: { address: string 
   }
 
   if (!hashesCount) {
-    return new Response(walletHasNoHashErrorMessage, {
-      status: 404, //should this be 404?
-      statusText: walletHasNoHashErrorMessage,
-    });
+    return NextResponse.json({ hashes: [] });
   }
 
   try {
