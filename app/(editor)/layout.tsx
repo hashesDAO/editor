@@ -1,5 +1,5 @@
 import '@rainbow-me/rainbowkit/styles.css';
-import RainbowkitProviders from '../contexts/RainbowkitProviders';
+import RainbowkitProviders from '../contexts/RainbowkitContext';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
