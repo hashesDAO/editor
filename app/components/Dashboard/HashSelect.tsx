@@ -3,6 +3,7 @@
 import useHashesData from '@/app/hooks/useHashesData';
 import { useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
+import { MdEdit } from 'react-icons/md';
 import type { HashesData } from '../../util/types';
 import Button from '../common/Button';
 import CircleButton from '../common/CircleButton';
@@ -27,7 +28,7 @@ export default function HashSelect() {
   const { hashData, isError, isLoading } = useHashesData();
   const { hashes } = hashData || {};
 
-  function handleCreateButtonClick() {
+  function handleEnableEditModeClick() {
     setIsEditing(true);
   }
 
@@ -40,11 +41,7 @@ export default function HashSelect() {
   }
 
   if (isError) {
-    return (
-      <Section>
-        <HashPill />
-      </Section>
-    );
+    return <Section>{/* <HashPill /> */}</Section>;
   }
 
   if (isLoading) {
@@ -86,18 +83,46 @@ export default function HashSelect() {
               </div>
               <div className="w-2/6 flex flex-row items-center">
                 <p className="px-4">OR</p>
-                <Button text="CREATE NEW" onClick={handleCreateButtonClick} />
+                <Button text="CREATE NEW" onClick={handleEnableEditModeClick} />
               </div>
             </>
           )}
         </Section>
       ) : (
-        <section className="flex flex-col mb-8">
-          <HashPill />
-          {hashes?.length === 0 && (
-            <p className="ml-2 text-xs">No Hashes found in your wallet. Design and mint your new Hash NFT today. ⚡️</p>
+        <>
+          {isEditing ? (
+            <Section>
+              <div className="w-4/6">
+                <div className="flex">
+                  <CircleButton onClick={handleBackButtonClick}>
+                    <FaArrowLeft />
+                  </CircleButton>
+                  <input
+                    type="text"
+                    className="w-full py-4 px-5 bg-traitGray rounded-full"
+                    placeholder="Enter a phrase"
+                    value={newHashValue}
+                    onChange={handleOnChange}
+                  />
+                </div>
+              </div>
+              <div className="w-2/6 flex flex-row items-center">
+                <Generate onClick={() => {}} value={newHashValue} />
+              </div>
+            </Section>
+          ) : (
+            <section className="flex flex-col mb-8">
+              <HashPill value={newHashValue || 'Create a Hash'} onClick={handleEnableEditModeClick}>
+                <MdEdit className="cursor-pointer" />
+              </HashPill>
+              {/* {hashes?.length === 0 && (
+                <p className="ml-2 text-xs">
+                  No Hashes found in your wallet. Design and mint your new Hash NFT today. ⚡️
+                </p>
+              )} */}
+            </section>
           )}
-        </section>
+        </>
       )}
     </>
   );
