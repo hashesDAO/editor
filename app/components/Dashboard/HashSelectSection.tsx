@@ -22,12 +22,11 @@ function createHashSelectOptions(data: HashesData[]) {
 
 type EditModeSectionProps = {
   onClick: () => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  input: JSX.Element;
   submitButton: JSX.Element;
 };
 
-function EditModeSection({ onClick, onChange, value, submitButton }: EditModeSectionProps) {
+function EditModeSection({ onClick, input, submitButton }: EditModeSectionProps) {
   return (
     <>
       <div className="w-4/6">
@@ -35,13 +34,7 @@ function EditModeSection({ onClick, onChange, value, submitButton }: EditModeSec
           <CircleButton onClick={onClick}>
             <FaArrowLeft />
           </CircleButton>
-          <input
-            type="text"
-            className="w-full py-4 px-5 bg-traitGray rounded-full"
-            placeholder="Enter a phrase"
-            value={value}
-            onChange={onChange}
-          />
+          {input}
         </div>
       </div>
       <div className="w-2/6 flex flex-row items-center">{submitButton}</div>
@@ -88,8 +81,15 @@ export default function HashSelect() {
         {isEditing ? (
           <EditModeSection
             onClick={handleBackButtonClick}
-            onChange={handleOnChange}
-            value={newHashPhrase}
+            input={
+              <input
+                type="text"
+                className="w-full py-4 px-5 bg-traitGray rounded-full"
+                placeholder="Enter a phrase"
+                value={newHashPhrase}
+                onChange={handleOnChange}
+              />
+            }
             submitButton={<Generate value={newHashPhrase} onClick={handleEditModeSubmit} />}
           />
         ) : (
