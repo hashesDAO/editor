@@ -52,7 +52,7 @@ function EditModeSection({
         </div>
       </div>
       <div className="w-2/6 flex flex-row items-center">
-        <Generate onClick={() => {}} value={value} />
+        <Generate value={value} />
       </div>
     </>
   );
