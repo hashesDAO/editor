@@ -10,6 +10,8 @@ import CircleButton from '../common/CircleButton';
 import Select from '../common/Select';
 import HashPill from './HashPill';
 import Generate from './buttons/Generate';
+import { Address } from 'viem';
+import { useHashDispatch } from '@/app/contexts/HashContext';
 
 function createHashSelectOptions(data: HashesData[]) {
   return data.map(({ hash_value }) => ({
@@ -22,9 +24,10 @@ type EditModeSectionProps = {
   onClick: () => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
+  submitButton: JSX.Element;
 };
 
-function EditModeSection({ onClick, onChange, value }: EditModeSectionProps) {
+function EditModeSection({ onClick, onChange, value, submitButton }: EditModeSectionProps) {
   return (
     <>
       <div className="w-4/6">
@@ -41,9 +44,7 @@ function EditModeSection({ onClick, onChange, value }: EditModeSectionProps) {
           />
         </div>
       </div>
-      <div className="w-2/6 flex flex-row items-center">
-        <Generate value={value} />
-      </div>
+      <div className="w-2/6 flex flex-row items-center">{submitButton}</div>
     </>
   );
 }
@@ -51,7 +52,9 @@ function EditModeSection({ onClick, onChange, value }: EditModeSectionProps) {
 export default function HashSelect() {
   const [isEditing, setIsEditing] = useState(false);
   const [newHashPhrase, setNewHashPhrase] = useState('');
+  const [newlyGeneratedHash, setNewlyGeneratedHash] = useState('');
   const { hashData, isError, isLoading } = useHashesData();
+  const dispatch = useHashDispatch();
   const { hashes } = hashData || {};
 
   function handleEnableEditModeClick() {
@@ -66,6 +69,11 @@ export default function HashSelect() {
     setNewHashPhrase(e.target.value);
   }
 
+  function handleEditModeSubmit(hash: Address) {
+    setNewlyGeneratedHash(hash);
+    dispatch(hash);
+  }
+
   if (isLoading) {
     return (
       <section className="flex mb-8">
@@ -78,7 +86,12 @@ export default function HashSelect() {
     <>
       <section className="flex mb-8">
         {isEditing ? (
-          <EditModeSection onClick={handleBackButtonClick} onChange={handleOnChange} value={newHashPhrase} />
+          <EditModeSection
+            onClick={handleBackButtonClick}
+            onChange={handleOnChange}
+            value={newHashPhrase}
+            submitButton={<Generate value={newHashPhrase} onClick={handleEditModeSubmit} />}
+          />
         ) : (
           <>
             {hashes && hashes.length > 0 ? (
@@ -92,7 +105,10 @@ export default function HashSelect() {
                 </div>
               </>
             ) : (
-              <HashPill value={newHashPhrase || 'Create a Hash'} onClick={handleEnableEditModeClick}>
+              <HashPill
+                value={newlyGeneratedHash.length > 0 ? newlyGeneratedHash : 'Create a Hash'}
+                onClick={handleEnableEditModeClick}
+              >
                 <MdEdit />
               </HashPill>
             )}

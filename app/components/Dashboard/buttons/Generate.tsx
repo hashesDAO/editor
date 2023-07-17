@@ -1,16 +1,19 @@
-import { useHashDispatch } from '@/app/contexts/HashContext';
 import { generateHash } from '@/app/util/generateHash';
 import { ChainNames } from '@/app/util/types';
 import { Tooltip } from 'react-tooltip';
-import { useAccount, useNetwork } from 'wagmi';
+import { Address, useAccount, useNetwork } from 'wagmi';
 import Button from '../../common/Button';
 
 const tooltipId = 'generate-hash';
 
-export default function Generate({ value }: { value: string }) {
+type Props = {
+  value: string;
+  onClick: (hash: Address) => void;
+};
+
+export default function Generate({ value, onClick }: Props) {
   const { address } = useAccount();
   const { chain } = useNetwork();
-  const dispatch = useHashDispatch();
   const isDisabled = !address || !chain?.network || !value;
 
   async function handleClick() {
@@ -23,7 +26,7 @@ export default function Generate({ value }: { value: string }) {
       console.error(hash);
     } else {
       console.log(`generated hash: ${hash}`);
-      dispatch(hash);
+      onClick(hash);
     }
   }
 
