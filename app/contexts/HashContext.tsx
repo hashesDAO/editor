@@ -1,9 +1,10 @@
 'use client';
 
 import { Dispatch, SetStateAction, createContext, useContext } from 'react';
+import { Address } from 'viem';
 import useSelectedHash from '../hooks/useSelectedHash';
 
-export type SelectedHash = `0x${string}`;
+export type SelectedHash = Address;
 type HashDispatch = Dispatch<SetStateAction<SelectedHash | undefined>>;
 
 const HashContext = createContext<SelectedHash | undefined>(undefined);

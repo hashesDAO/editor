@@ -1,18 +1,18 @@
-'use client';
+import { PropsWithChildren } from 'react';
 
-import { FaShuffle } from 'react-icons/fa6';
+type Props = PropsWithChildren & {
+  value: string;
+  onClick?: () => void;
+};
 
-export default function HashPill() {
-  function handleClick() {
-    console.log('clicked');
-  }
-
+export default function HashPill({ children, value, onClick }: Props) {
   return (
-    <div className="py-4 px-5 flex items-center justify-between bg-traitGray rounded-full w-full" onClick={handleClick}>
-      <p className={'w-4/6 truncate'}>
-        0xHashPillComponentTest0xHashPillComponentTest0xHashPillComponentTest0xHashPillComponentTest0xHashPillComponentTest
-      </p>
-      <FaShuffle className="cursor-pointer" />
+    <div
+      className="py-4 px-5 flex items-center justify-between bg-traitGray rounded-full w-full cursor-pointer"
+      onClick={onClick}
+    >
+      <p className={'w-4/6 truncate'}>{value}</p>
+      {children}
     </div>
   );
 }

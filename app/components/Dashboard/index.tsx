@@ -5,7 +5,7 @@ import Circle from '../common/Circle';
 import ControlMenu from './ControlMenu';
 import DashboardFooter from './DashboardFooter';
 import DragTrait from './DragTrait';
-import HashSelect from './HashSelect';
+import HashSelectSection from './HashSelectSection';
 import ProjectTitle from './ProjectTitle';
 import Trait from './Trait';
 import TraitOptions from './TraitOptions';
@@ -40,7 +40,7 @@ export default function Dashboard() {
       <ProjectTitle>
         <Share />
       </ProjectTitle>
-      <HashSelect />
+      <HashSelectSection />
       <ControlMenu />
       <div className="flex flex-wrap mb-24">
         {traitTypes.map(({ title, info }) => (
