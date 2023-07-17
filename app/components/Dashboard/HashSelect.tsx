@@ -22,6 +22,38 @@ function Section({ children }: { children: React.ReactNode }) {
   return <section className="flex mb-8">{children}</section>;
 }
 
+function EditModeSection({
+  onClick,
+  onChange,
+  value,
+}: {
+  onClick: () => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+}) {
+  return (
+    <>
+      <div className="w-4/6">
+        <div className="flex">
+          <CircleButton onClick={onClick}>
+            <FaArrowLeft />
+          </CircleButton>
+          <input
+            type="text"
+            className="w-full py-4 px-5 bg-traitGray rounded-full"
+            placeholder="Enter a phrase"
+            value={value}
+            onChange={onChange}
+          />
+        </div>
+      </div>
+      <div className="w-2/6 flex flex-row items-center">
+        <Generate onClick={() => {}} value={value} />
+      </div>
+    </>
+  );
+}
+
 export default function HashSelect() {
   const [isEditing, setIsEditing] = useState(false);
   const [newHashValue, setNewHashValue] = useState('');
@@ -53,29 +85,11 @@ export default function HashSelect() {
   }
 
   return (
-    <>
+    <Section>
       {hashes && hashes.length > 0 ? (
-        <Section>
+        <>
           {isEditing ? (
-            <>
-              <div className="w-4/6">
-                <div className="flex">
-                  <CircleButton onClick={handleBackButtonClick}>
-                    <FaArrowLeft />
-                  </CircleButton>
-                  <input
-                    type="text"
-                    className="w-full py-4 px-5 bg-traitGray rounded-full"
-                    placeholder="Enter a phrase"
-                    value={newHashValue}
-                    onChange={handleOnChange}
-                  />
-                </div>
-              </div>
-              <div className="w-2/6 flex flex-row items-center">
-                <Generate onClick={() => {}} value={newHashValue} />
-              </div>
-            </>
+            <EditModeSection onClick={handleBackButtonClick} onChange={handleOnChange} value={newHashValue} />
           ) : (
             <>
               <div className="w-4/6">
@@ -87,43 +101,23 @@ export default function HashSelect() {
               </div>
             </>
           )}
-        </Section>
+        </>
       ) : (
         <>
           {isEditing ? (
-            <Section>
-              <div className="w-4/6">
-                <div className="flex">
-                  <CircleButton onClick={handleBackButtonClick}>
-                    <FaArrowLeft />
-                  </CircleButton>
-                  <input
-                    type="text"
-                    className="w-full py-4 px-5 bg-traitGray rounded-full"
-                    placeholder="Enter a phrase"
-                    value={newHashValue}
-                    onChange={handleOnChange}
-                  />
-                </div>
-              </div>
-              <div className="w-2/6 flex flex-row items-center">
-                <Generate onClick={() => {}} value={newHashValue} />
-              </div>
-            </Section>
+            <EditModeSection onClick={handleBackButtonClick} onChange={handleOnChange} value={newHashValue} />
           ) : (
-            <section className="flex flex-col mb-8">
-              <HashPill value={newHashValue || 'Create a Hash'} onClick={handleEnableEditModeClick}>
-                <MdEdit className="cursor-pointer" />
-              </HashPill>
-              {/* {hashes?.length === 0 && (
-                <p className="ml-2 text-xs">
-                  No Hashes found in your wallet. Design and mint your new Hash NFT today. ⚡️
-                </p>
-              )} */}
-            </section>
+            <HashPill value={newHashValue || 'Create a Hash'} onClick={handleEnableEditModeClick}>
+              <MdEdit className="cursor-pointer" />
+            </HashPill>
+            // {/* {hashes?.length === 0 && (
+            //   <p className="ml-2 text-xs">
+            //     No Hashes found in your wallet. Design and mint your new Hash NFT today. ⚡️
+            //   </p>
+            // )} */}
           )}
         </>
       )}
-    </>
+    </Section>
   );
 }
