@@ -17,5 +17,5 @@ export default function Generate({ onClick, value }: { onClick: () => void; valu
     onClick();
   }
 
-  return <Button disabled={!address || !chain?.network || !value} text={'GENERATE'} onClick={handleClick} />;
+  return <Button disabled={!address || !chain?.network || !value} text={'GENERATE HASH'} onClick={handleClick} />;
 }
