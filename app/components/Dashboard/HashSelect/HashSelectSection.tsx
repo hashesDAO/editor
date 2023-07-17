@@ -1,59 +1,22 @@
 'use client';
 
+import { useHashDispatch } from '@/app/contexts/HashContext';
 import useHashesData from '@/app/hooks/useHashesData';
 import { useEffect, useState } from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
+import { Address } from 'viem';
+import { useAccount } from 'wagmi';
 import type { HashesData } from '../../../util/types';
 import Button from '../../common/Button';
-import CircleButton from '../../common/CircleButton';
 import Select from '../../common/Select';
+import EditModeSection from './EditModeSection';
 import HashPill from './HashPill';
-import Generate from '../buttons/Generate';
-import { Address } from 'viem';
-import { useHashDispatch } from '@/app/contexts/HashContext';
-import { useAccount } from 'wagmi';
 
 function createHashSelectOptions(data: Array<HashesData | { hash_value: Address }>) {
   return data.map(({ hash_value }) => ({
     label: hash_value,
     value: hash_value,
   }));
-}
-
-type EditModeSectionProps = {
-  onBackButtonClick: () => void;
-  onSubmit: (hash: Address) => void;
-};
-
-function EditModeSection({ onBackButtonClick, onSubmit }: EditModeSectionProps) {
-  const [newHashPhrase, setNewHashPhrase] = useState('');
-
-  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setNewHashPhrase(e.target.value);
-  }
-
-  return (
-    <>
-      <div className="w-4/6">
-        <div className="flex">
-          <CircleButton onClick={onBackButtonClick}>
-            <FaArrowLeft />
-          </CircleButton>
-          <input
-            type="text"
-            className="w-full py-4 px-5 bg-traitGray rounded-full"
-            placeholder="Enter a phrase"
-            value={newHashPhrase}
-            onChange={handleOnChange}
-          />
-        </div>
-      </div>
-      <div className="w-2/6 flex flex-row items-center">
-        <Generate value={newHashPhrase} onClick={onSubmit} />
-      </div>
-    </>
-  );
 }
 
 export default function HashSelect() {
