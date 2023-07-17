@@ -1,9 +1,12 @@
 'use client';
 
+import { useHashContext } from '@/app/contexts/HashContext';
 import useHashesData from '@/app/hooks/useHashesData';
+import { INITIAL_SELECTED_HASH } from '@/app/util/constants';
 import { useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
+import { Address } from 'viem';
 import type { HashesData } from '../../util/types';
 import Button from '../common/Button';
 import CircleButton from '../common/CircleButton';
@@ -11,7 +14,7 @@ import Select from '../common/Select';
 import HashPill from './HashPill';
 import Generate from './buttons/Generate';
 
-function createHashSelectOptions(data: HashesData[]) {
+function createHashSelectOptions(data: Array<HashesData | { hash_value: Address }>) {
   return data.map(({ hash_value }) => ({
     label: hash_value,
     value: hash_value,
@@ -52,6 +55,8 @@ export default function HashSelect() {
   const [isEditing, setIsEditing] = useState(false);
   const [newHashPhrase, setNewHashPhrase] = useState('');
   const { hashData, isError, isLoading } = useHashesData();
+  const currentHash = useHashContext();
+  const isInitialHash = currentHash === INITIAL_SELECTED_HASH;
   const { hashes } = hashData || {};
 
   function handleEnableEditModeClick() {
@@ -84,7 +89,9 @@ export default function HashSelect() {
             {hashes && hashes.length > 0 ? (
               <>
                 <div className="w-4/6">
-                  <Select options={createHashSelectOptions(hashes)} />
+                  <Select
+                    options={createHashSelectOptions(isInitialHash ? hashes : [{ hash_value: currentHash }, ...hashes])}
+                  />
                 </div>
                 <div className="w-2/6 flex flex-row items-center">
                   <p className="px-4">OR</p>
@@ -92,7 +99,7 @@ export default function HashSelect() {
                 </div>
               </>
             ) : (
-              <HashPill value={newHashPhrase || 'Create a Hash'} onClick={handleEnableEditModeClick}>
+              <HashPill value={isInitialHash ? 'Create a Hash' : currentHash} onClick={handleEnableEditModeClick}>
                 <MdEdit />
               </HashPill>
             )}
