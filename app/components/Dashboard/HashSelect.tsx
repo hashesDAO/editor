@@ -86,38 +86,36 @@ export default function HashSelect() {
 
   return (
     <Section>
-      {hashes && hashes.length > 0 ? (
-        <>
-          {isEditing ? (
-            <EditModeSection onClick={handleBackButtonClick} onChange={handleOnChange} value={newHashValue} />
-          ) : (
-            <>
-              <div className="w-4/6">
-                <Select options={createHashSelectOptions(hashes)} />
-              </div>
-              <div className="w-2/6 flex flex-row items-center">
-                <p className="px-4">OR</p>
-                <Button text="CREATE NEW" onClick={handleEnableEditModeClick} />
-              </div>
-            </>
-          )}
-        </>
-      ) : (
-        <>
-          {isEditing ? (
-            <EditModeSection onClick={handleBackButtonClick} onChange={handleOnChange} value={newHashValue} />
-          ) : (
-            <HashPill value={newHashValue || 'Create a Hash'} onClick={handleEnableEditModeClick}>
-              <MdEdit className="cursor-pointer" />
-            </HashPill>
-            // {/* {hashes?.length === 0 && (
-            //   <p className="ml-2 text-xs">
-            //     No Hashes found in your wallet. Design and mint your new Hash NFT today. ⚡️
-            //   </p>
-            // )} */}
-          )}
-        </>
-      )}
+      <>
+        {isEditing ? (
+          <EditModeSection onClick={handleBackButtonClick} onChange={handleOnChange} value={newHashValue} />
+        ) : (
+          <>
+            {hashes && hashes.length > 0 ? (
+              <>
+                <div className="w-4/6">
+                  <Select options={createHashSelectOptions(hashes)} />
+                </div>
+                <div className="w-2/6 flex flex-row items-center">
+                  <p className="px-4">OR</p>
+                  <Button text="CREATE NEW" onClick={handleEnableEditModeClick} />
+                </div>
+              </>
+            ) : (
+              <>
+                <HashPill value={newHashValue || 'Create a Hash'} onClick={handleEnableEditModeClick}>
+                  <MdEdit className="cursor-pointer" />
+                </HashPill>
+                {hashes?.length === 0 && (
+                  <p className="ml-2 text-xs">
+                    No Hashes found in your wallet. Design and mint your new Hash NFT today. ⚡️
+                  </p>
+                )}
+              </>
+            )}
+          </>
+        )}
+      </>
     </Section>
   );
 }
