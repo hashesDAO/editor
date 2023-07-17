@@ -14,7 +14,7 @@ import { Address } from 'viem';
 import { useHashDispatch } from '@/app/contexts/HashContext';
 import { useAccount } from 'wagmi';
 
-function createHashSelectOptions(data: HashesData[]) {
+function createHashSelectOptions(data: Array<HashesData | { hash_value: Address }>) {
   return data.map(({ hash_value }) => ({
     label: hash_value,
     value: hash_value,
@@ -106,7 +106,11 @@ export default function HashSelect() {
             {hashes && hashes.length > 0 ? (
               <>
                 <div className="w-4/6">
-                  <Select options={createHashSelectOptions(hashes)} />
+                  <Select
+                    options={createHashSelectOptions(
+                      newlyGeneratedHash ? [{ hash_value: newlyGeneratedHash }, ...hashes] : hashes,
+                    )}
+                  />
                 </div>
                 <div className="w-2/6 flex flex-row items-center">
                   <p className="px-4">OR</p>

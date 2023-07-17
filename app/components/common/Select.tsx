@@ -1,9 +1,10 @@
 'use client';
 
-import { SelectedHash, useHashDispatch } from '@/app/contexts/HashContext';
+import { SelectedHash, useHashContext, useHashDispatch } from '@/app/contexts/HashContext';
 import { useCallback, useEffect, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 import useOutsideClick from '../../hooks/useOutsideClick';
+import { INITIAL_SELECTED_HASH } from '@/app/util/constants';
 
 type Props = {
   options: { label: SelectedHash; value: SelectedHash }[];
@@ -11,9 +12,9 @@ type Props = {
 
 export default function Select({ options }: Props) {
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number>();
-  const [selectedOption, setSelectedOption] = useState<string>();
   const { dropDownRef, isOpen, setIsOpen } = useOutsideClick();
   const dispatch = useHashDispatch();
+  const selectedHash = useHashContext();
 
   function handleSelectClick() {
     setIsOpen((prev) => !prev);
@@ -21,11 +22,10 @@ export default function Select({ options }: Props) {
 
   const handleOptionClick = useCallback(
     (val: SelectedHash) => {
-      setSelectedOption(val);
       dispatch(val);
       setIsOpen(false);
     },
-    [setSelectedOption, setIsOpen, dispatch],
+    [setIsOpen, dispatch],
   );
 
   const keydownAction = useCallback(
@@ -75,10 +75,10 @@ export default function Select({ options }: Props) {
 
   useEffect(() => {
     if (!isOpen) {
-      const currentIndex = options.findIndex((i) => i.value === selectedOption);
+      const currentIndex = options.findIndex((i) => i.value === selectedHash);
       setFocusedOptionIndex(currentIndex === -1 ? undefined : currentIndex);
     }
-  }, [isOpen, options, selectedOption, setFocusedOptionIndex]);
+  }, [isOpen, options, selectedHash, setFocusedOptionIndex]);
 
   return (
     <div ref={dropDownRef} className="relative w-full cursor-pointer">
@@ -86,7 +86,7 @@ export default function Select({ options }: Props) {
         className="py-4 px-5 flex items-center justify-between bg-traitGray rounded-full"
         onClick={handleSelectClick}
       >
-        <p className={'truncate'}>{selectedOption || 'Select a Hash'}</p>
+        <p className={'truncate'}>{selectedHash !== INITIAL_SELECTED_HASH ? selectedHash : 'Select a Hash'}</p>
         <FaChevronDown />
       </div>
 
