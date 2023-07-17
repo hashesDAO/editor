@@ -1,11 +1,12 @@
-import { keccak256, encodePacked, Address } from 'viem';
+import { Address, encodePacked, keccak256 } from 'viem';
+import { callReadOnlyFnFromHashesContract } from '.';
+import { ChainNames } from './types';
 
-export function generateHash(input: string, address: Address) {
-  // return keccak256(encodePacked(['uint256', 'address', 'string'], [BigInt(461), address, input]));
-  return keccak256(
-    encodePacked(
-      ['uint256', 'address', 'string'],
-      [BigInt(1063), '0x9fdc28740f4ccd64e51451480d0a2a4df5b98f90', 'smoking'],
-    ),
-  );
+export async function generateHash(input: string, address: Address, chain: ChainNames) {
+  try {
+    const nonce = await callReadOnlyFnFromHashesContract(chain, 'nonce');
+    return keccak256(encodePacked(['uint256', 'address', 'string'], [nonce as bigint, address, input]));
+  } catch (error) {
+    return new Error(`error from generateHash: ${error}`);
+  }
 }
