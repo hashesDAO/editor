@@ -1,7 +1,7 @@
-import Button from '../../common/Button';
 import { generateHash } from '@/app/util/generateHash';
 import { ChainNames } from '@/app/util/types';
 import { useAccount, useNetwork } from 'wagmi';
+import Button from '../../common/Button';
 
 export default function Generate({ onClick, value }: { onClick: () => void; value: string }) {
   const { address } = useAccount();

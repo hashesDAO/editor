@@ -60,7 +60,7 @@ function EditModeSection({
 
 export default function HashSelect() {
   const [isEditing, setIsEditing] = useState(false);
-  const [newHashValue, setNewHashValue] = useState('');
+  const [newHashPhrase, setNewHashPhrase] = useState('');
   const { hashData, isError, isLoading } = useHashesData();
   const { hashes } = hashData || {};
 
@@ -73,7 +73,7 @@ export default function HashSelect() {
   }
 
   function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setNewHashValue(e.target.value);
+    setNewHashPhrase(e.target.value);
   }
 
   if (isLoading) {
@@ -89,7 +89,7 @@ export default function HashSelect() {
       <Section>
         <>
           {isEditing ? (
-            <EditModeSection onClick={handleBackButtonClick} onChange={handleOnChange} value={newHashValue} />
+            <EditModeSection onClick={handleBackButtonClick} onChange={handleOnChange} value={newHashPhrase} />
           ) : (
             <>
               {hashes && hashes.length > 0 ? (
@@ -104,7 +104,7 @@ export default function HashSelect() {
                 </>
               ) : (
                 <>
-                  <HashPill value={newHashValue || 'Create a Hash'} onClick={handleEnableEditModeClick}>
+                  <HashPill value={newHashPhrase || 'Create a Hash'} onClick={handleEnableEditModeClick}>
                     <MdEdit />
                   </HashPill>
                 </>
