@@ -18,23 +18,13 @@ function createHashSelectOptions(data: HashesData[]) {
   }));
 }
 
-function Section({ children }: { children: React.ReactNode }) {
-  return <section className="flex mb-8">{children}</section>;
-}
-
-function HelpText({ text }: { text: string }) {
-  return <p className="ml-2 mb-8 text-xs">{text}</p>;
-}
-
-function EditModeSection({
-  onClick,
-  onChange,
-  value,
-}: {
+type EditModeSectionProps = {
   onClick: () => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
-}) {
+};
+
+function EditModeSection({ onClick, onChange, value }: EditModeSectionProps) {
   return (
     <>
       <div className="w-4/6">
@@ -78,46 +68,46 @@ export default function HashSelect() {
 
   if (isLoading) {
     return (
-      <Section>
+      <section className="flex mb-8">
         <p className="w-full py-4 px-5">loading...</p>
-      </Section>
+      </section>
     );
   }
 
   return (
     <>
-      <Section>
-        <>
-          {isEditing ? (
-            <EditModeSection onClick={handleBackButtonClick} onChange={handleOnChange} value={newHashPhrase} />
-          ) : (
-            <>
-              {hashes && hashes.length > 0 ? (
-                <>
-                  <div className="w-4/6">
-                    <Select options={createHashSelectOptions(hashes)} />
-                  </div>
-                  <div className="w-2/6 flex flex-row items-center">
-                    <p className="px-4">OR</p>
-                    <Button text="CREATE NEW" onClick={handleEnableEditModeClick} />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <HashPill value={newHashPhrase || 'Create a Hash'} onClick={handleEnableEditModeClick}>
-                    <MdEdit />
-                  </HashPill>
-                </>
-              )}
-            </>
-          )}
-        </>
-      </Section>
+      <section className="flex mb-8">
+        {isEditing ? (
+          <EditModeSection onClick={handleBackButtonClick} onChange={handleOnChange} value={newHashPhrase} />
+        ) : (
+          <>
+            {hashes && hashes.length > 0 ? (
+              <>
+                <div className="w-4/6">
+                  <Select options={createHashSelectOptions(hashes)} />
+                </div>
+                <div className="w-2/6 flex flex-row items-center">
+                  <p className="px-4">OR</p>
+                  <Button text="CREATE NEW" onClick={handleEnableEditModeClick} />
+                </div>
+              </>
+            ) : (
+              <HashPill value={newHashPhrase || 'Create a Hash'} onClick={handleEnableEditModeClick}>
+                <MdEdit />
+              </HashPill>
+            )}
+          </>
+        )}
+      </section>
       {hashes?.length === 0 && (
-        <HelpText text="No Hashes found in your wallet. Create and mint your new Hash NFT today. ⚡️" />
+        <p className="ml-2 mb-8 text-xs">
+          No Hashes found in your wallet. Create and mint your new Hash NFT today. ⚡️
+        </p>
       )}
       {isError && (
-        <HelpText text="Error fetching Hashes from your wallet. You may still generate new hashes using the form above. ⚡️" />
+        <p className="ml-2 mb-8 text-xs">
+          Error fetching Hashes from your wallet. You may still generate new hashes using the form above. ⚡️
+        </p>
       )}
     </>
   );
