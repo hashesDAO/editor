@@ -6,12 +6,12 @@ import { Address } from 'viem';
 import CircleButton from '../../common/CircleButton';
 import Generate from '../buttons/Generate';
 
-type EditModeSectionProps = {
+type Props = {
   onBackButtonClick: () => void;
   onSubmit: (hash: Address) => void;
 };
 
-export default function EditModeSection({ onBackButtonClick, onSubmit }: EditModeSectionProps) {
+export default function EditModeSection({ onBackButtonClick, onSubmit }: Props) {
   const [newHashPhrase, setNewHashPhrase] = useState('');
 
   function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {

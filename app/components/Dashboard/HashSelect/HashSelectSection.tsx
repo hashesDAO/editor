@@ -12,6 +12,25 @@ import Select from '../../common/Select';
 import EditModeSection from './EditModeSection';
 import HashPill from './HashPill';
 
+function useNewlyGeneratedHash() {
+  const [newlyGeneratedHash, setNewlyGeneratedHash] = useState<Address>();
+  const { isConnected } = useAccount();
+  const dispatch = useHashDispatch();
+
+  function handleEditModeSubmit(hash: Address) {
+    setNewlyGeneratedHash(hash);
+    dispatch(hash);
+  }
+
+  useEffect(() => {
+    if (!isConnected && newlyGeneratedHash) {
+      setNewlyGeneratedHash(undefined);
+    }
+  }, [isConnected, newlyGeneratedHash]);
+
+  return { newlyGeneratedHash, handleEditModeSubmit };
+}
+
 function createHashSelectOptions(data: Array<HashesData | { hash_value: Address }>) {
   return data.map(({ hash_value }) => ({
     label: hash_value,
@@ -21,17 +40,8 @@ function createHashSelectOptions(data: Array<HashesData | { hash_value: Address 
 
 export default function HashSelect() {
   const [isEditing, setIsEditing] = useState(false);
-  const [newlyGeneratedHash, setNewlyGeneratedHash] = useState<Address>();
+  const { newlyGeneratedHash, handleEditModeSubmit } = useNewlyGeneratedHash();
   const { hashData, isError, isLoading } = useHashesData();
-  const dispatch = useHashDispatch();
-  const { isConnected } = useAccount();
-
-  useEffect(() => {
-    if (!isConnected && newlyGeneratedHash) {
-      setNewlyGeneratedHash(undefined);
-    }
-  }, [isConnected, newlyGeneratedHash]);
-
   const { hashes } = hashData || {};
 
   function handleEnableEditModeClick() {
@@ -40,11 +50,6 @@ export default function HashSelect() {
 
   function handleBackButtonClick() {
     setIsEditing(false);
-  }
-
-  function handleEditModeSubmit(hash: Address) {
-    setNewlyGeneratedHash(hash);
-    dispatch(hash);
   }
 
   if (isLoading) {
