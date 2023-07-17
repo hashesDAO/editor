@@ -22,30 +22,42 @@ function createHashSelectOptions(data: Array<HashesData | { hash_value: Address 
 }
 
 type EditModeSectionProps = {
-  onClick: () => void;
-  input: JSX.Element;
-  submitButton: JSX.Element;
+  onBackButtonClick: () => void;
+  onSubmit: (hash: Address) => void;
 };
 
-function EditModeSection({ onClick, input, submitButton }: EditModeSectionProps) {
+function EditModeSection({ onBackButtonClick, onSubmit }: EditModeSectionProps) {
+  const [newHashPhrase, setNewHashPhrase] = useState('');
+
+  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setNewHashPhrase(e.target.value);
+  }
+
   return (
     <>
       <div className="w-4/6">
         <div className="flex">
-          <CircleButton onClick={onClick}>
+          <CircleButton onClick={onBackButtonClick}>
             <FaArrowLeft />
           </CircleButton>
-          {input}
+          <input
+            type="text"
+            className="w-full py-4 px-5 bg-traitGray rounded-full"
+            placeholder="Enter a phrase"
+            value={newHashPhrase}
+            onChange={handleOnChange}
+          />
         </div>
       </div>
-      <div className="w-2/6 flex flex-row items-center">{submitButton}</div>
+      <div className="w-2/6 flex flex-row items-center">
+        <Generate value={newHashPhrase} onClick={onSubmit} />
+      </div>
     </>
   );
 }
 
 export default function HashSelect() {
   const [isEditing, setIsEditing] = useState(false);
-  const [newHashPhrase, setNewHashPhrase] = useState('');
   const [newlyGeneratedHash, setNewlyGeneratedHash] = useState<Address>();
   const { hashData, isError, isLoading } = useHashesData();
   const dispatch = useHashDispatch();
@@ -67,10 +79,6 @@ export default function HashSelect() {
     setIsEditing(false);
   }
 
-  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setNewHashPhrase(e.target.value);
-  }
-
   function handleEditModeSubmit(hash: Address) {
     setNewlyGeneratedHash(hash);
     dispatch(hash);
@@ -88,19 +96,7 @@ export default function HashSelect() {
     <>
       <section className="flex mb-8">
         {isEditing ? (
-          <EditModeSection
-            onClick={handleBackButtonClick}
-            input={
-              <input
-                type="text"
-                className="w-full py-4 px-5 bg-traitGray rounded-full"
-                placeholder="Enter a phrase"
-                value={newHashPhrase}
-                onChange={handleOnChange}
-              />
-            }
-            submitButton={<Generate value={newHashPhrase} onClick={handleEditModeSubmit} />}
-          />
+          <EditModeSection onBackButtonClick={handleBackButtonClick} onSubmit={handleEditModeSubmit} />
         ) : (
           <>
             {hashes && hashes.length > 0 ? (
