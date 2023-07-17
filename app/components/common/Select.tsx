@@ -86,7 +86,7 @@ export default function Select({ options }: Props) {
         className="py-4 px-5 flex items-center justify-between bg-traitGray rounded-full"
         onClick={handleSelectClick}
       >
-        <p className={'truncate'}>{selectedOption || 'Select'}</p>
+        <p className={'truncate'}>{selectedOption || 'Select a Hash'}</p>
         <FaChevronDown />
       </div>
 
