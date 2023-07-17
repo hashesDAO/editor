@@ -1,7 +1,7 @@
 'use client';
 
 import useHashesData from '@/app/hooks/useHashesData';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
 import type { HashesData } from '../../util/types';
@@ -12,6 +12,7 @@ import HashPill from './HashPill';
 import Generate from './buttons/Generate';
 import { Address } from 'viem';
 import { useHashDispatch } from '@/app/contexts/HashContext';
+import { useAccount } from 'wagmi';
 
 function createHashSelectOptions(data: HashesData[]) {
   return data.map(({ hash_value }) => ({
@@ -45,9 +46,17 @@ function EditModeSection({ onClick, input, submitButton }: EditModeSectionProps)
 export default function HashSelect() {
   const [isEditing, setIsEditing] = useState(false);
   const [newHashPhrase, setNewHashPhrase] = useState('');
-  const [newlyGeneratedHash, setNewlyGeneratedHash] = useState('');
+  const [newlyGeneratedHash, setNewlyGeneratedHash] = useState<Address>();
   const { hashData, isError, isLoading } = useHashesData();
   const dispatch = useHashDispatch();
+  const { isConnected } = useAccount();
+
+  useEffect(() => {
+    if (!isConnected && newlyGeneratedHash) {
+      setNewlyGeneratedHash(undefined);
+    }
+  }, [isConnected, newlyGeneratedHash]);
+
   const { hashes } = hashData || {};
 
   function handleEnableEditModeClick() {
@@ -105,10 +114,7 @@ export default function HashSelect() {
                 </div>
               </>
             ) : (
-              <HashPill
-                value={newlyGeneratedHash.length > 0 ? newlyGeneratedHash : 'Create a Hash'}
-                onClick={handleEnableEditModeClick}
-              >
+              <HashPill value={newlyGeneratedHash || 'Create a Hash'} onClick={handleEnableEditModeClick}>
                 <MdEdit />
               </HashPill>
             )}
