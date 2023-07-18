@@ -1,18 +1,37 @@
 'use client';
 
+import { useHashDispatch } from '@/app/contexts/HashContext';
 import useHashesData from '@/app/hooks/useHashesData';
 import { useEffect, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
-import type { HashesData } from '../../util/types';
-import Button from '../common/Button';
-import CircleButton from '../common/CircleButton';
-import Select from '../common/Select';
-import HashPill from './HashPill';
-import Generate from './buttons/Generate';
 import { Address } from 'viem';
-import { useHashDispatch } from '@/app/contexts/HashContext';
 import { useAccount } from 'wagmi';
+import type { HashesData } from '../../../util/types';
+import Button from '../../common/Button';
+import CircleButton from '../../common/CircleButton';
+import Select from '../../common/Select';
+import GenerateHashForm from './GenerateHashForm';
+import HashPill from './HashPill';
+
+function useNewlyGeneratedHash() {
+  const [newlyGeneratedHash, setNewlyGeneratedHash] = useState<Address>();
+  const { isConnected } = useAccount();
+  const dispatch = useHashDispatch();
+
+  function handleSubmit(hash: Address) {
+    setNewlyGeneratedHash(hash);
+    dispatch(hash);
+  }
+
+  useEffect(() => {
+    if (!isConnected && newlyGeneratedHash) {
+      setNewlyGeneratedHash(undefined);
+    }
+  }, [isConnected, newlyGeneratedHash]);
+
+  return { newlyGeneratedHash, handleSubmit };
+}
 
 function createHashSelectOptions(data: Array<HashesData | { hash_value: Address }>) {
   return data.map(({ hash_value }) => ({
@@ -21,42 +40,10 @@ function createHashSelectOptions(data: Array<HashesData | { hash_value: Address 
   }));
 }
 
-type EditModeSectionProps = {
-  onClick: () => void;
-  input: JSX.Element;
-  submitButton: JSX.Element;
-};
-
-function EditModeSection({ onClick, input, submitButton }: EditModeSectionProps) {
-  return (
-    <>
-      <div className="w-4/6">
-        <div className="flex">
-          <CircleButton onClick={onClick}>
-            <FaArrowLeft />
-          </CircleButton>
-          {input}
-        </div>
-      </div>
-      <div className="w-2/6 flex flex-row items-center">{submitButton}</div>
-    </>
-  );
-}
-
 export default function HashSelect() {
   const [isEditing, setIsEditing] = useState(false);
-  const [newHashPhrase, setNewHashPhrase] = useState('');
-  const [newlyGeneratedHash, setNewlyGeneratedHash] = useState<Address>();
+  const { newlyGeneratedHash, handleSubmit } = useNewlyGeneratedHash();
   const { hashData, isError, isLoading } = useHashesData();
-  const dispatch = useHashDispatch();
-  const { isConnected } = useAccount();
-
-  useEffect(() => {
-    if (!isConnected && newlyGeneratedHash) {
-      setNewlyGeneratedHash(undefined);
-    }
-  }, [isConnected, newlyGeneratedHash]);
-
   const { hashes } = hashData || {};
 
   function handleEnableEditModeClick() {
@@ -65,15 +52,6 @@ export default function HashSelect() {
 
   function handleBackButtonClick() {
     setIsEditing(false);
-  }
-
-  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setNewHashPhrase(e.target.value);
-  }
-
-  function handleEditModeSubmit(hash: Address) {
-    setNewlyGeneratedHash(hash);
-    dispatch(hash);
   }
 
   if (isLoading) {
@@ -88,19 +66,12 @@ export default function HashSelect() {
     <>
       <section className="flex mb-8">
         {isEditing ? (
-          <EditModeSection
-            onClick={handleBackButtonClick}
-            input={
-              <input
-                type="text"
-                className="w-full py-4 px-5 bg-traitGray rounded-full"
-                placeholder="Enter a phrase"
-                value={newHashPhrase}
-                onChange={handleOnChange}
-              />
-            }
-            submitButton={<Generate value={newHashPhrase} onClick={handleEditModeSubmit} />}
-          />
+          <div className="flex items-center w-full">
+            <CircleButton onClick={handleBackButtonClick}>
+              <FaArrowLeft />
+            </CircleButton>
+            <GenerateHashForm onSubmit={handleSubmit} />
+          </div>
         ) : (
           <>
             {hashes && hashes.length > 0 ? (

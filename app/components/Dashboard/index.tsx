@@ -5,7 +5,7 @@ import Circle from '../common/Circle';
 import ControlMenu from './ControlMenu';
 import DashboardFooter from './DashboardFooter';
 import DragTrait from './DragTrait';
-import HashSelectSection from './HashSelectSection';
+import HashSelectSection from './HashSelect/HashSelectSection';
 import ProjectTitle from './ProjectTitle';
 import Trait from './Trait';
 import TraitOptions from './TraitOptions';
