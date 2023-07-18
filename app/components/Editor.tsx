@@ -2,8 +2,9 @@
 
 import { SandpackPreview, SandpackProvider } from '@codesandbox/sandpack-react';
 import { useMemo } from 'react';
-import { SelectedHash, useHashContext } from '../contexts/HashContext';
+import { useHashContext } from '../contexts/HashContext';
 import { INITIAL_SELECTED_HASH } from '../util/constants';
+import { Address } from 'viem';
 
 const htmlBoilerplate = `
 <html>
@@ -16,7 +17,7 @@ const htmlBoilerplate = `
 </html>
 `;
 
-function createP5Drawing(hash: SelectedHash) {
+function createP5Drawing(hash: Address | string) {
   return `
 var fr = 60;
 function setup() {
@@ -53,7 +54,7 @@ export default function Editor() {
   const files = useMemo(
     () => ({
       'sketch.js': {
-        code: createP5Drawing(parsedHash as SelectedHash),
+        code: createP5Drawing(parsedHash),
         active: true,
       },
       'index.html': {

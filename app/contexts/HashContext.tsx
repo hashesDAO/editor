@@ -4,11 +4,11 @@ import { Dispatch, SetStateAction, createContext, useContext } from 'react';
 import { Address } from 'viem';
 import useSelectedHash from '../hooks/useSelectedHash';
 
-export type SelectedHash = Address;
 export type SelectedHashData = {
-  selectedHash: SelectedHash;
+  selectedHash: Address;
   selectedHashPhrase: string;
 };
+
 type HashDispatch = Dispatch<SetStateAction<SelectedHashData>>;
 
 const HashContext = createContext<SelectedHashData | undefined>(undefined);
