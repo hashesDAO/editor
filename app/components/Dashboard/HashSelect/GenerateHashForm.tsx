@@ -14,7 +14,7 @@ type Props = {
 
 const tooltipId = 'generate-hash';
 
-export default function EditModeSection({ onSubmit }: Props) {
+export default function GenerateHashForm({ onSubmit }: Props) {
   const [newHashPhrase, setNewHashPhrase] = useState('');
   const { address } = useAccount();
   const { chain } = useNetwork();
@@ -22,7 +22,6 @@ export default function EditModeSection({ onSubmit }: Props) {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log('hitting submit');
     if (isDisabled) {
       return;
     }

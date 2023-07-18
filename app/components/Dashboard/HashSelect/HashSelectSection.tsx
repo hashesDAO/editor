@@ -11,7 +11,7 @@ import type { HashesData } from '../../../util/types';
 import Button from '../../common/Button';
 import CircleButton from '../../common/CircleButton';
 import Select from '../../common/Select';
-import EditModeSection from './EditModeSection';
+import GenerateHashForm from './GenerateHashForm';
 import HashPill from './HashPill';
 
 function useNewlyGeneratedHash() {
@@ -19,7 +19,7 @@ function useNewlyGeneratedHash() {
   const { isConnected } = useAccount();
   const dispatch = useHashDispatch();
 
-  function handleEditModeSubmit(hash: Address) {
+  function handleSubmit(hash: Address) {
     setNewlyGeneratedHash(hash);
     dispatch(hash);
   }
@@ -30,7 +30,7 @@ function useNewlyGeneratedHash() {
     }
   }, [isConnected, newlyGeneratedHash]);
 
-  return { newlyGeneratedHash, handleEditModeSubmit };
+  return { newlyGeneratedHash, handleSubmit };
 }
 
 function createHashSelectOptions(data: Array<HashesData | { hash_value: Address }>) {
@@ -42,7 +42,7 @@ function createHashSelectOptions(data: Array<HashesData | { hash_value: Address 
 
 export default function HashSelect() {
   const [isEditing, setIsEditing] = useState(false);
-  const { newlyGeneratedHash, handleEditModeSubmit } = useNewlyGeneratedHash();
+  const { newlyGeneratedHash, handleSubmit } = useNewlyGeneratedHash();
   const { hashData, isError, isLoading } = useHashesData();
   const { hashes } = hashData || {};
 
@@ -70,7 +70,7 @@ export default function HashSelect() {
             <CircleButton onClick={handleBackButtonClick}>
               <FaArrowLeft />
             </CircleButton>
-            <EditModeSection onSubmit={handleEditModeSubmit} />
+            <GenerateHashForm onSubmit={handleSubmit} />
           </div>
         ) : (
           <>
