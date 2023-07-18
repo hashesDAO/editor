@@ -33,14 +33,11 @@ export async function callReadOnlyFnFromHashesContract(chain: ChainNames, functi
   });
 
   try {
-    //TODO: fix type errors
     const res = await client.readContract({
       ...hashesContract,
-      // @ts-ignore: Unreachable code error
-      functionName, //
+      functionName: functionName as any,
       address: HASHES_ADDRESS[chain],
-      // @ts-ignore: Unreachable code error
-      args,
+      args: args as any,
     });
 
     return res;
