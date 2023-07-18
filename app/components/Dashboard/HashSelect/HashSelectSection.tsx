@@ -3,11 +3,13 @@
 import { useHashDispatch } from '@/app/contexts/HashContext';
 import useHashesData from '@/app/hooks/useHashesData';
 import { useEffect, useState } from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
 import { Address } from 'viem';
 import { useAccount } from 'wagmi';
 import type { HashesData } from '../../../util/types';
 import Button from '../../common/Button';
+import CircleButton from '../../common/CircleButton';
 import Select from '../../common/Select';
 import EditModeSection from './EditModeSection';
 import HashPill from './HashPill';
@@ -64,7 +66,12 @@ export default function HashSelect() {
     <>
       <section className="flex mb-8">
         {isEditing ? (
-          <EditModeSection onBackButtonClick={handleBackButtonClick} onSubmit={handleEditModeSubmit} />
+          <div className="flex items-center w-full">
+            <CircleButton onClick={handleBackButtonClick}>
+              <FaArrowLeft />
+            </CircleButton>
+            <EditModeSection onSubmit={handleEditModeSubmit} />
+          </div>
         ) : (
           <>
             {hashes && hashes.length > 0 ? (
