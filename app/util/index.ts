@@ -1,7 +1,8 @@
-import { createPublicClient, http, Address } from 'viem';
+import { createPublicClient, http, Address, createWalletClient, custom, Abi } from 'viem';
 import { goerli, mainnet } from 'viem/chains';
 import { hashesContract } from './hashesContract';
 import { ChainNames } from './types';
+import { Chain } from 'wagmi';
 
 export const MAINNET_HASHES_ADDRESS = '0xD07e72b00431af84AD438CA995Fd9a7F0207542d';
 
@@ -10,6 +11,20 @@ export const HASHES_ADDRESS: { [key: string]: Address } = {
   mainnet: MAINNET_HASHES_ADDRESS,
   goerli: '0x2Fe6A4F23ac78c137Ce7D2aD9108a607b624AF5C',
 };
+
+function getPublicClient({ chain }: { chain: Chain }) {
+  return createPublicClient({
+    chain,
+    transport: http(),
+  });
+}
+
+function getWalletClient({ chain }: { chain: Chain }) {
+  return createWalletClient({
+    chain,
+    transport: custom(window.ethereum),
+  });
+}
 
 export async function callReadOnlyFnFromHashesContract(chain: ChainNames, functionName: string, args?: any[]) {
   const client = createPublicClient({
@@ -31,5 +46,26 @@ export async function callReadOnlyFnFromHashesContract(chain: ChainNames, functi
     return res;
   } catch (error) {
     return new Error(`error from callReadOnlyFnFromHashesContract: ${error}`);
+  }
+}
+
+export async function callWriteFnFromHashesContract(chain: ChainNames, functionName: string, args?: any[]) {
+  const parsedChain = chain === 'goerli' ? goerli : mainnet;
+  const client = getPublicClient({ chain: parsedChain });
+  const walletClient = getWalletClient({ chain: parsedChain });
+  const [account] = await walletClient.getAddresses();
+
+  try {
+    const { request } = await client.simulateContract({
+      abi: hashesContract.abi as Abi,
+      functionName, //
+      address: HASHES_ADDRESS[chain],
+      account,
+      args,
+    });
+
+    await walletClient.writeContract(request);
+  } catch (error) {
+    return new Error(`error from callWriteFnFromHashesContract: ${error}`);
   }
 }
