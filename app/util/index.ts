@@ -62,7 +62,7 @@ export async function callWriteFnFromHashesContract(chain: ChainNames, functionN
       args,
     });
 
-    await walletClient.writeContract(request);
+    return await walletClient.writeContract(request);
   } catch (error) {
     return new Error(`error from callWriteFnFromHashesContract: ${error}`);
   }

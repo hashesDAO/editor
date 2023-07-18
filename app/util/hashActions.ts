@@ -1,5 +1,5 @@
 import { Address, encodePacked, keccak256 } from 'viem';
-import { callReadOnlyFnFromHashesContract } from '.';
+import { callReadOnlyFnFromHashesContract, callWriteFnFromHashesContract } from '.';
 import { ChainNames } from './types';
 
 export async function generateHash(input: string, address: Address, chain: ChainNames): Promise<Address | Error> {
@@ -11,7 +11,10 @@ export async function generateHash(input: string, address: Address, chain: Chain
   }
 }
 
-export async function mintHash(hash: Address) {
+export async function mintHash(phrase: string, mintFee: number, chain: ChainNames) {
   try {
-  } catch (error) {}
+    return await callWriteFnFromHashesContract(chain, 'generate', [mintFee, phrase]);
+  } catch (error) {
+    return new Error(`error within mintHash(): ${error}`);
+  }
 }

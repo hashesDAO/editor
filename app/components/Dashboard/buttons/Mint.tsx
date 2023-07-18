@@ -1,14 +1,20 @@
 'use client';
 
 import { useHashContext } from '@/app/contexts/HashContext';
-import { useAccount } from 'wagmi';
+import { useAccount, useNetwork } from 'wagmi';
 import Button from '../../common/Button';
 import useHashesData from '@/app/hooks/useHashesData';
+import { mintHash } from '@/app/util/hashActions';
+import { ChainNames } from '@/app/util/types';
 
-function mint() {}
+function mint(phrase: string, chain: ChainNames) {
+  const tx = mintHash(phrase, 0, chain);
+  console.log('tx: ', tx);
+}
 
 export default function Mint() {
   const { isConnected } = useAccount();
+  const { chain } = useNetwork();
   const selectedHash = useHashContext();
   const { hashData } = useHashesData();
   const { hashes } = hashData || {};
@@ -22,7 +28,11 @@ export default function Mint() {
     console.log(`mint with ${selectedHash}!`);
 
     if (!parsedHashes || !parsedHashes.includes(selectedHash)) {
-      // mint();
+      if (!chain?.network) {
+        console.error('no chain network found');
+        return;
+      }
+      mint('something', chain.network as ChainNames);
     } else {
       console.log(`hash found ${selectedHash}`);
     }
