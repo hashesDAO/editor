@@ -17,7 +17,7 @@ export default function Mint() {
       text={'UPDATE HASH'}
       buttonColor={'bg-primaryRed'}
       onClick={() => {
-        console.log(`mint with ${selectedHash}!`);
+        console.log(`mint with ${selectedHash} and ${selectedHashPhrase}!`);
       }}
     />
   );
