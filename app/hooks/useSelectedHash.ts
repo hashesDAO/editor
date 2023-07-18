@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
-import { SelectedHash } from '../contexts/HashContext';
+import { SelectedHashData } from '../contexts/HashContext';
 import { INITIAL_SELECTED_HASH } from '../util/constants';
 
+const initialData = {
+  selectedHash: INITIAL_SELECTED_HASH,
+  selectedHashPhrase: '',
+};
 export default function useSelectedHash() {
-  const [selectedHash, setSelectedHash] = useState<SelectedHash | undefined>(INITIAL_SELECTED_HASH);
+  const [selectedHashData, setSelectedHashData] = useState<SelectedHashData>(initialData);
   const { isConnected } = useAccount();
 
   useEffect(() => {
     if (!isConnected) {
-      setSelectedHash(INITIAL_SELECTED_HASH);
+      setSelectedHashData(initialData);
     }
-  }, [isConnected, setSelectedHash]);
+  }, [isConnected, setSelectedHashData]);
 
-  return { selectedHash, setSelectedHash };
+  return { selectedHashData, setSelectedHashData };
 }
