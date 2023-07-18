@@ -1,8 +1,8 @@
-import { createPublicClient, http, Address, createWalletClient, custom, Abi } from 'viem';
+import { Abi, Address, createPublicClient, createWalletClient, custom, http } from 'viem';
 import { goerli, mainnet } from 'viem/chains';
+import { Chain } from 'wagmi';
 import { hashesContract } from './hashesContract';
 import { ChainNames } from './types';
-import { Chain } from 'wagmi';
 
 export const MAINNET_HASHES_ADDRESS = '0xD07e72b00431af84AD438CA995Fd9a7F0207542d';
 
@@ -55,7 +55,7 @@ export async function callWriteFnFromHashesContract(chain: ChainNames, functionN
   try {
     const { request } = await client.simulateContract({
       abi: hashesContract.abi as Abi,
-      functionName, //
+      functionName,
       address: HASHES_ADDRESS[chain],
       account,
       args,
