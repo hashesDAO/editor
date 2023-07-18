@@ -19,11 +19,11 @@ function useNewlyGeneratedHash() {
   const { isConnected } = useAccount();
   const dispatch = useHashDispatch();
 
-  function handleSubmit(hash: Address) {
+  function handleSubmit(hash: Address, phrase: string) {
     setNewlyGeneratedHash(hash);
     dispatch({
       selectedHash: hash,
-      selectedHashPhrase: '',
+      selectedHashPhrase: phrase,
     });
   }
 

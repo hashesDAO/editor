@@ -9,7 +9,7 @@ import { useAccount, useNetwork } from 'wagmi';
 import Button from '../../common/Button';
 
 type Props = {
-  onSubmit: (hash: Address) => void;
+  onSubmit: (hash: Address, phrase: string) => void;
 };
 
 const tooltipId = 'generate-hash';
@@ -36,7 +36,7 @@ export default function GenerateHashForm({ onSubmit }: Props) {
       console.error(hash);
     } else {
       console.log(`generated hash: ${hash}`);
-      onSubmit(hash);
+      onSubmit(hash, newHashPhrase);
     }
   }
 
