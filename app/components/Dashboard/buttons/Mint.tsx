@@ -6,7 +6,7 @@ import Button from '../../common/Button';
 
 export default function Mint() {
   const { isConnected } = useAccount();
-  const selectedHash = useHashContext();
+  const { selectedHash, selectedHashPhrase } = useHashContext();
 
   if (!isConnected) {
     return null;

@@ -47,7 +47,7 @@ function draw() {
 }
 
 export default function Editor() {
-  const selectedHash = useHashContext();
+  const { selectedHash } = useHashContext();
   const parsedHash = selectedHash === INITIAL_SELECTED_HASH ? '"0xhello"' : selectedHash;
 
   const files = useMemo(

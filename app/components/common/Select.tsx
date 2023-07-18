@@ -14,7 +14,7 @@ export default function Select({ options }: Props) {
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number>();
   const { dropDownRef, isOpen, setIsOpen } = useOutsideClick();
   const dispatch = useHashDispatch();
-  const selectedHash = useHashContext();
+  const { selectedHash } = useHashContext();
 
   function handleSelectClick() {
     setIsOpen((prev) => !prev);
@@ -22,7 +22,10 @@ export default function Select({ options }: Props) {
 
   const handleOptionClick = useCallback(
     (val: SelectedHash) => {
-      dispatch(val);
+      dispatch({
+        selectedHash: val,
+        selectedHashPhrase: '',
+      });
       setIsOpen(false);
     },
     [setIsOpen, dispatch],
