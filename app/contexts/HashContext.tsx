@@ -5,17 +5,21 @@ import { Address } from 'viem';
 import useSelectedHash from '../hooks/useSelectedHash';
 
 export type SelectedHash = Address;
-type HashDispatch = Dispatch<SetStateAction<SelectedHash | undefined>>;
+export type SelectedHashData = {
+  selectedHash: SelectedHash;
+  selectedHashPhrase: string;
+};
+type HashDispatch = Dispatch<SetStateAction<SelectedHashData>>;
 
-const HashContext = createContext<SelectedHash | undefined>(undefined);
+const HashContext = createContext<SelectedHashData | undefined>(undefined);
 const HashDispatchContext = createContext<HashDispatch | undefined>(undefined);
 
 export function HashContextProvider({ children }: { children: React.ReactNode }) {
-  const { selectedHash, setSelectedHash } = useSelectedHash();
+  const { selectedHashData, setSelectedHashData } = useSelectedHash();
 
   return (
-    <HashContext.Provider value={selectedHash}>
-      <HashDispatchContext.Provider value={setSelectedHash}>{children}</HashDispatchContext.Provider>
+    <HashContext.Provider value={selectedHashData}>
+      <HashDispatchContext.Provider value={setSelectedHashData}>{children}</HashDispatchContext.Provider>
     </HashContext.Provider>
   );
 }
