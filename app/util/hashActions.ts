@@ -10,3 +10,8 @@ export async function generateHash(input: string, address: Address, chain: Chain
     return new Error(`error within generateHash(): ${error}`);
   }
 }
+
+export async function mintHash(hash: Address) {
+  try {
+  } catch (error) {}
+}

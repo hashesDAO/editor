@@ -1,6 +1,6 @@
 'use client';
 
-import { generateHash } from '@/app/util/generateHash';
+import { generateHash } from '@/app/util/hashActions';
 import { ChainNames } from '@/app/util/types';
 import { useState } from 'react';
 import { Tooltip } from 'react-tooltip';
