@@ -22,6 +22,7 @@ function getPublicClient({ chain }: { chain: Chain }) {
 function getWalletClient({ chain }: { chain: Chain }) {
   return createWalletClient({
     chain,
+    // @ts-ignore: Unreachable code error
     transport: custom(window.ethereum),
   });
 }
