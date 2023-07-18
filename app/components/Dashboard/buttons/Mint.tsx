@@ -15,7 +15,7 @@ function mint(phrase: string, chain: ChainNames) {
 export default function Mint() {
   const { isConnected } = useAccount();
   const { chain } = useNetwork();
-  const selectedHash = useHashContext();
+  const { selectedHash, selectedHashPhrase } = useHashContext();
   const { hashData } = useHashesData();
   const { hashes } = hashData || {};
   const parsedHashes = hashes?.map(({ hash_value }) => hash_value);
@@ -25,7 +25,7 @@ export default function Mint() {
   }
 
   function handleClick() {
-    console.log(`mint with ${selectedHash}!`);
+    console.log(`mint with ${selectedHash} and ${selectedHashPhrase}!`);
 
     if (!parsedHashes || !parsedHashes.includes(selectedHash)) {
       if (!chain?.network) {

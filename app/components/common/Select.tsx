@@ -1,28 +1,32 @@
 'use client';
 
-import { SelectedHash, useHashContext, useHashDispatch } from '@/app/contexts/HashContext';
+import { useHashContext, useHashDispatch } from '@/app/contexts/HashContext';
 import { useCallback, useEffect, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import { INITIAL_SELECTED_HASH } from '@/app/util/constants';
+import { Address } from 'viem';
 
 type Props = {
-  options: { label: SelectedHash; value: SelectedHash }[];
+  options: { label: Address; value: Address }[];
 };
 
 export default function Select({ options }: Props) {
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number>();
   const { dropDownRef, isOpen, setIsOpen } = useOutsideClick();
   const dispatch = useHashDispatch();
-  const selectedHash = useHashContext();
+  const { selectedHash } = useHashContext();
 
   function handleSelectClick() {
     setIsOpen((prev) => !prev);
   }
 
   const handleOptionClick = useCallback(
-    (val: SelectedHash) => {
-      dispatch(val);
+    (val: Address) => {
+      dispatch({
+        selectedHash: val,
+        selectedHashPhrase: '',
+      });
       setIsOpen(false);
     },
     [setIsOpen, dispatch],
