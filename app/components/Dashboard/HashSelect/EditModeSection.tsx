@@ -20,19 +20,17 @@ export default function EditModeSection({ onBackButtonClick, onSubmit }: Props) 
 
   return (
     <>
-      <div className="w-4/6">
-        <div className="flex">
-          <CircleButton onClick={onBackButtonClick}>
-            <FaArrowLeft />
-          </CircleButton>
-          <input
-            type="text"
-            className="w-full py-4 px-5 bg-traitGray rounded-full"
-            placeholder="Enter a phrase"
-            value={newHashPhrase}
-            onChange={handleOnChange}
-          />
-        </div>
+      <div className="w-4/6 flex">
+        <CircleButton onClick={onBackButtonClick}>
+          <FaArrowLeft />
+        </CircleButton>
+        <input
+          type="text"
+          className="w-full py-4 px-5 bg-traitGray rounded-full"
+          placeholder="Enter a phrase"
+          value={newHashPhrase}
+          onChange={handleOnChange}
+        />
       </div>
       <div className="w-2/6 flex flex-row items-center">
         <Generate value={newHashPhrase} onClick={onSubmit} />
