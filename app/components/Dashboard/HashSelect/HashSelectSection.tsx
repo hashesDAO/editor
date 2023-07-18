@@ -21,7 +21,10 @@ function useNewlyGeneratedHash() {
 
   function handleSubmit(hash: Address) {
     setNewlyGeneratedHash(hash);
-    dispatch(hash);
+    dispatch({
+      selectedHash: hash,
+      selectedHashPhrase: '',
+    });
   }
 
   useEffect(() => {
