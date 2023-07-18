@@ -11,9 +11,10 @@ export async function generateHash(input: string, address: Address, chain: Chain
   }
 }
 
-export async function mintHash(phrase: string, mintFee: number, chain: ChainNames) {
+export async function mintHash(phrase: string, chain: ChainNames) {
   try {
-    return await callWriteFnFromHashesContract(chain, 'generate', [mintFee, phrase]);
+    const mintFee = (await callReadOnlyFnFromHashesContract(chain, 'mintFee')) as bigint;
+    return await callWriteFnFromHashesContract(chain, 'generate', [phrase], mintFee);
   } catch (error) {
     return new Error(`error within mintHash(): ${error}`);
   }

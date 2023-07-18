@@ -47,7 +47,12 @@ export async function callReadOnlyFnFromHashesContract(chain: ChainNames, functi
   }
 }
 
-export async function callWriteFnFromHashesContract(chain: ChainNames, functionName: string, args?: any[]) {
+export async function callWriteFnFromHashesContract(
+  chain: ChainNames,
+  functionName: string,
+  args?: any[],
+  value?: bigint,
+) {
   const parsedChain = chain === 'goerli' ? goerli : mainnet;
   const client = getPublicClient({ chain: parsedChain });
   const walletClient = getWalletClient({ chain: parsedChain });
@@ -60,6 +65,7 @@ export async function callWriteFnFromHashesContract(chain: ChainNames, functionN
       address: HASHES_ADDRESS[chain],
       account,
       args,
+      value,
     });
 
     return await walletClient.writeContract(request);
