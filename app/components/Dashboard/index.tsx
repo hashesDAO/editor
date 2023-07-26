@@ -45,7 +45,7 @@ export default function Dashboard() {
       <ControlMenu />
       <div className="flex flex-wrap mb-24">
         <Traits />
-        {traitTypes.map(({ title, info }) => (
+        {/* {traitTypes.map(({ title, info }) => (
           <TraitSet key={title} title={title} info={info}>
             <Trait name="BRUSH">
               <TraitOptions
@@ -115,7 +115,7 @@ export default function Dashboard() {
               />
             </Trait>
           </TraitSet>
-        ))}
+        ))} */}
       </div>
       <DashboardFooter />
     </div>
