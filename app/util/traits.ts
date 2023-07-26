@@ -1,4 +1,4 @@
-const traits = [
+export const traits = [
   {
     section: 'Drawing',
     description: 'Draw elements on the canvas.',
