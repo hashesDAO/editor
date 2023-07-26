@@ -11,6 +11,7 @@ import Trait from './Trait';
 import TraitOptions from './TraitOptions';
 import TraitSet from './TraitSet';
 import Share from './buttons/Share';
+import Traits from './Traits';
 
 const traitTypes: {
   title: TraitType;
@@ -43,6 +44,7 @@ export default function Dashboard() {
       <HashSelectSection />
       <ControlMenu />
       <div className="flex flex-wrap mb-24">
+        <Traits />
         {traitTypes.map(({ title, info }) => (
           <TraitSet key={title} title={title} info={info}>
             <Trait name="BRUSH">
