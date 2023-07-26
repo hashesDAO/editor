@@ -1,21 +1,23 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
+import Trait from './Trait';
+import TraitSet from './TraitSet';
 
 const traitSectionMapping = [
   {
     description: 'Draw elements on the canvas.',
-    type: 'drawing',
+    type: 'draw',
   },
   {
     description: 'Repeat a trait sequence to create patterns.',
     type: 'repeat',
   },
   {
-    description: 'Modify canvas before drawing (ex: setup the background, adjust stroke, fill).',
+    description: 'Modify canvas before drawing.',
     type: 'pre-process',
   },
   {
-    description: 'Modify canvas after drawing (ex: apply filters, re-arrange pixels).',
+    description: 'Modify canvas after drawing.',
     type: 'post-process',
   },
 ];
@@ -38,15 +40,17 @@ export default async function Traits() {
 
   return (
     <>
-      <h1>Traits</h1>
-      <code>
+      {/* <code>
         <pre>{JSON.stringify(parsedTraits, null, 2)}</pre>
-      </code>
-      <ul>
-        {traits?.map(({ id, name }) => (
-          <li key={id}>{name}</li>
-        ))}
-      </ul>
+      </code> */}
+      {parsedTraits?.map(({ description, type, traits }) => (
+        <TraitSet key={type} title={type.toUpperCase()} info={description}>
+          {/* @ts-ignore-next-line */}
+          {traits.map(({ id, name }) => (
+            <Trait key={id} name={name} />
+          ))}
+        </TraitSet>
+      ))}
     </>
   );
 }
