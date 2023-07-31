@@ -3,17 +3,12 @@
 import { createContext, useContext, useReducer } from 'react';
 import { Trait, traitsReducer } from '../reducers/traitsReducer';
 
-export type TraitsData = {
-  id: string;
-  content: string;
-};
-
 type DispatchFns = {
   handleUpdateTrait: (shouldAdd: boolean, id: string, functionContent: string) => void;
 };
 
-const TraitsContext = createContext<Trait[] | undefined>(undefined);
-const TraitsDispatchContext = createContext<DispatchFns | undefined>(undefined);
+const Context = createContext<Trait[] | undefined>(undefined);
+const DispatchContext = createContext<DispatchFns | undefined>(undefined);
 
 export function TraitsContextProvider({ children }: { children: React.ReactNode }) {
   const [traitsData, dispatch] = useReducer(traitsReducer, []);
@@ -27,14 +22,14 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
   }
 
   return (
-    <TraitsContext.Provider value={traitsData}>
-      <TraitsDispatchContext.Provider value={{ handleUpdateTrait }}>{children}</TraitsDispatchContext.Provider>
-    </TraitsContext.Provider>
+    <Context.Provider value={traitsData}>
+      <DispatchContext.Provider value={{ handleUpdateTrait }}>{children}</DispatchContext.Provider>
+    </Context.Provider>
   );
 }
 
 export function useTraitsContext() {
-  const context = useContext(TraitsContext);
+  const context = useContext(Context);
   if (context === undefined) {
     throw new Error('useTraitsContext must be used within a TraitsContextProvider');
   }
@@ -42,7 +37,7 @@ export function useTraitsContext() {
 }
 
 export function useTraitsDispatch() {
-  const context = useContext(TraitsDispatchContext);
+  const context = useContext(DispatchContext);
   if (context === undefined) {
     throw new Error('useTraitsDispatch must be used within a TraitsContextProvider');
   }
