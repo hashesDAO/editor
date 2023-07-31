@@ -9,7 +9,7 @@ export default function DragTrait({ name }: { name: string }) {
       <Drag />
       <div className="px-2 w-full">
         <Trait name={name}>
-          <TraitOptions />
+          <TraitOptions name={name} />
         </Trait>
       </div>
       <Add />

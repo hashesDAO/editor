@@ -14,7 +14,7 @@ function isJSXElement(element: unknown): element is JSX.Element {
   return typeof element === 'object' && element !== null && 'type' in element;
 }
 
-export default function TraitOptions({ options }: { options?: TraitOption[] }) {
+export default function TraitOptions({ name, options }: { name: string; options?: TraitOption[] }) {
   const [selectedOption, setSelectedOption] = useState<StringOrNumber>();
 
   function handleClick(option: StringOrNumber) {
@@ -40,7 +40,7 @@ export default function TraitOptions({ options }: { options?: TraitOption[] }) {
           ))}
         </ul>
       ) : (
-        <Toggle />
+        <Toggle name={name} />
       )}
     </>
   );

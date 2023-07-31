@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export default function Toggle() {
+export default function Toggle({ name }: { name: string }) {
   const [enabled, setEnabled] = useState(false);
 
   function handleClick() {
