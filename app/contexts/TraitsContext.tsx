@@ -1,23 +1,34 @@
 'use client';
 
-import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
+import { createContext, useContext, useReducer } from 'react';
+import { Trait, traitsReducer } from '../reducers/traitsReducer';
 
 export type TraitsData = {
   id: string;
   content: string;
 };
 
-type TraitsDispatch = Dispatch<SetStateAction<TraitsData | undefined>>;
+type DispatchFns = {
+  handleUpdateTrait: (shouldAdd: boolean, id: string, functionContent: string) => void;
+};
 
-const TraitsContext = createContext<TraitsData | undefined>(undefined);
-const TraitsDispatchContext = createContext<TraitsDispatch | undefined>(undefined);
+const TraitsContext = createContext<Trait[] | undefined>(undefined);
+const TraitsDispatchContext = createContext<DispatchFns | undefined>(undefined);
 
 export function TraitsContextProvider({ children }: { children: React.ReactNode }) {
-  const [TraitsData, setTraitsData] = useState<TraitsData>();
+  const [traitsData, dispatch] = useReducer(traitsReducer, []);
+
+  function handleUpdateTrait(shouldAdd: boolean, id: string, functionContent: string) {
+    dispatch({
+      type: shouldAdd ? 'ADD' : 'REMOVE',
+      id,
+      functionContent,
+    });
+  }
 
   return (
-    <TraitsContext.Provider value={TraitsData}>
-      <TraitsDispatchContext.Provider value={setTraitsData}>{children}</TraitsDispatchContext.Provider>
+    <TraitsContext.Provider value={traitsData}>
+      <TraitsDispatchContext.Provider value={{ handleUpdateTrait }}>{children}</TraitsDispatchContext.Provider>
     </TraitsContext.Provider>
   );
 }
