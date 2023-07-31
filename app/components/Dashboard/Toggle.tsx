@@ -1,12 +1,14 @@
 'use client';
 
+import type { TraitValue } from '@/app/util/types';
 import { useState } from 'react';
 
-export default function Toggle({ name }: { name: string }) {
+export default function Toggle({ value }: { value: TraitValue }) {
   const [enabled, setEnabled] = useState(false);
 
   function handleClick() {
     setEnabled(!enabled);
+    console.log('toggle: ', value);
   }
 
   return (

@@ -47,8 +47,8 @@ export default async function Traits() {
       {parsedTraits?.map(({ description, type, traits }) => (
         <TraitSet key={type} title={type.toUpperCase()} info={description}>
           {/* @ts-ignore-next-line */}
-          {traits.map(({ id, name }) => (
-            <DragTrait key={id} name={name} />
+          {traits.map(({ id, name, content }) => (
+            <DragTrait key={id} name={name} value={{ id, content }} />
           ))}
         </TraitSet>
       ))}

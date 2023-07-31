@@ -10,3 +10,8 @@ export type HashesData = {
   type: 'DAO' | 'Standard';
   token_id: number;
 };
+
+export type TraitValue = {
+  id: string;
+  content: string;
+};
