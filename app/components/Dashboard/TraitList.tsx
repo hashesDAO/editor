@@ -1,12 +1,12 @@
 'use client';
 
-import Trait from './Trait';
-import TraitSet from './TraitSet';
-import { DragTrait } from './DragTrait';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import Toggle from './Toggle';
 import { ParsedTrait, TraitObject } from '@/app/util/types';
 import { useState } from 'react';
+import { DragDropContext, Draggable, DropResult, Droppable } from 'react-beautiful-dnd';
+import { DragTrait } from './DragTrait';
+import Toggle from './Toggle';
+import Trait from './Trait';
+import TraitSet from './TraitSet';
 
 function isDragTrait(type: string) {
   return type === 'draw' || type === 'repeat';
@@ -45,8 +45,7 @@ export default function TraitList({ traits }: { traits: ParsedTrait[] }) {
   const nonDraggableTraits = traits.filter(({ type }) => !isDragTrait(type));
   const [dragTraits, setDragTraits] = useState(() => draggableTraits);
 
-  function handleDragEnd(res) {
-    const { source, destination } = res;
+  function handleDragEnd({ source, destination }: DropResult) {
     // dropped outside the list
     if (!destination) {
       return;
