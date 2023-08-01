@@ -3,10 +3,11 @@
 import { ParsedTrait, TraitObject } from '@/app/util/types';
 import { useState } from 'react';
 import { DragDropContext, Draggable, DropResult, Droppable } from 'react-beautiful-dnd';
-import { DragTrait } from './DragTrait';
+import DragTrait from './DragTrait';
 import Toggle from './Toggle';
 import Trait from './Trait';
 import TraitSet from './TraitSet';
+import { Drag } from './buttons/Drag';
 
 function isDragTrait(type: string) {
   return type === 'draw' || type === 'repeat';
@@ -20,9 +21,21 @@ function DraggableTraitList({ type, traits }: { type: string; traits: TraitObjec
           {traits.map(({ id, name, content }, index: number) => (
             <Draggable key={id} draggableId={id} index={index}>
               {(provided) => (
-                <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                  <DragTrait key={id} name={name} value={{ id, content }} />
-                </li>
+                <div
+                  {...provided.draggableProps}
+                  style={{
+                    ...provided.draggableProps.style,
+                    width: 'initial',
+                    // border: '1px solid red',
+                  }}
+                >
+                  <DragTrait
+                    key={id}
+                    name={name}
+                    value={{ id, content }}
+                    dragIcon={<Drag ref={provided.innerRef} {...provided.dragHandleProps} />}
+                  />
+                </div>
               )}
             </Draggable>
           ))}
