@@ -6,6 +6,7 @@ import { DragTrait } from './DragTrait';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Toggle from './Toggle';
 import { ParsedTrait, TraitObject } from '@/app/util/types';
+import { useState } from 'react';
 
 function isDragTrait(type: string) {
   return type === 'draw' || type === 'repeat';
@@ -32,14 +33,46 @@ function DraggableTraitList({ type, traits }: { type: string; traits: TraitObjec
   );
 }
 
+function reorderList(list: TraitObject[], startIndex: number, endIndex: number) {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+  return result;
+}
+
 export default function TraitList({ traits }: { traits: ParsedTrait[] }) {
   const draggableTraits = traits.filter(({ type }) => isDragTrait(type));
   const nonDraggableTraits = traits.filter(({ type }) => !isDragTrait(type));
+  const [dragTraits, setDragTraits] = useState(() => draggableTraits);
+
+  function handleDragEnd(res) {
+    const { source, destination } = res;
+    // dropped outside the list
+    if (!destination) {
+      return;
+    }
+
+    const traitType = destination.droppableId;
+    const traitTypeToUpdate = dragTraits.find(({ type }) => type === traitType)?.traits || [];
+    const reorderedTraits = reorderList(traitTypeToUpdate, source.index, destination.index);
+
+    const newDragTraits = dragTraits.map((trait) => {
+      if (trait.type === traitType) {
+        return {
+          ...trait,
+          traits: reorderedTraits,
+        };
+      }
+      return trait;
+    });
+
+    setDragTraits(newDragTraits);
+  }
 
   return (
     <>
-      <DragDropContext onDragEnd={() => {}}>
-        {draggableTraits.map(({ description, type, traits }) => (
+      <DragDropContext onDragEnd={handleDragEnd}>
+        {dragTraits.map(({ description, type, traits }) => (
           <TraitSet key={type} title={type.toUpperCase()} info={description}>
             <DraggableTraitList type={type} traits={traits} />
           </TraitSet>
