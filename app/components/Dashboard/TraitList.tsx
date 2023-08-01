@@ -32,25 +32,32 @@ function DraggableTraitList({ type, traits }: { type: string; traits: any[] }) {
 }
 
 export default function TraitList({ traits }: { traits: any[] }) {
+  const draggableTraits = traits.filter(({ type }) => isDragTrait(type));
+  const nonDraggableTraits = traits.filter(({ type }) => !isDragTrait(type));
+
   return (
-    <DragDropContext onDragEnd={() => {}}>
-      {traits.map(({ description, type, traits }) => (
-        <TraitSet key={type} title={type.toUpperCase()} info={description}>
-          {isDragTrait(type) ? (
+    <>
+      <DragDropContext onDragEnd={() => {}}>
+        {draggableTraits.map(({ description, type, traits }) => (
+          <TraitSet key={type} title={type.toUpperCase()} info={description}>
             <DraggableTraitList type={type} traits={traits} />
-          ) : (
-            <ul>
-              {traits.map(({ id, name, content }: any, index: number) => (
-                <li key={id}>
-                  <Trait name={name}>
-                    <Toggle value={{ id, content }} />
-                  </Trait>
-                </li>
-              ))}
-            </ul>
-          )}
+          </TraitSet>
+        ))}
+      </DragDropContext>
+
+      {nonDraggableTraits.map(({ description, type, traits }) => (
+        <TraitSet key={type} title={type.toUpperCase()} info={description}>
+          <ul>
+            {traits.map(({ id, name, content }: any) => (
+              <li key={id}>
+                <Trait name={name}>
+                  <Toggle value={{ id, content }} />
+                </Trait>
+              </li>
+            ))}
+          </ul>
         </TraitSet>
       ))}
-    </DragDropContext>
+    </>
   );
 }
