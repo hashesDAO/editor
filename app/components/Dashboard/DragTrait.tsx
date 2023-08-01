@@ -2,17 +2,19 @@ import type { TraitValue } from '@/app/util/types';
 import Toggle from './Toggle';
 import Trait from './Trait';
 import Add from './buttons/Add';
-import Drag from './buttons/Drag';
+import { Drag } from './buttons/Drag';
+import { forwardRef } from 'react';
 
 type Props = {
   name: string;
   value: TraitValue;
+  ref: React.Ref<HTMLDivElement>;
 };
 
-export default function DragTrait({ name, value }: Props) {
+export const DragTrait = forwardRef(function DragTrait({ name, value, ref }: Props) {
   return (
     <div className="flex justify-between">
-      <Drag />
+      <Drag ref={ref} />
       <div className="px-2 w-full">
         <Trait name={name}>
           {/* <TraitOptions /> */}
@@ -22,4 +24,4 @@ export default function DragTrait({ name, value }: Props) {
       <Add />
     </div>
   );
-}
+});

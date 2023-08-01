@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import Trait from './Trait';
 import TraitSet from './TraitSet';
 import DragTrait from './DragTrait';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const traitSectionMapping = [
   {
@@ -40,18 +41,39 @@ export default async function Traits() {
   const parsedTraits = mapTraitsToSections(traits);
 
   return (
-    <>
+    <DragDropContext onDragEnd={() => {}}>
       {/* <code>
         <pre>{JSON.stringify(parsedTraits, null, 2)}</pre>
       </code> */}
       {parsedTraits?.map(({ description, type, traits }) => (
         <TraitSet key={type} title={type.toUpperCase()} info={description}>
-          {/* @ts-ignore-next-line */}
-          {traits.map(({ id, name, content }) => (
-            <DragTrait key={id} name={name} value={{ id, content }} />
-          ))}
+          <Droppable droppableId={type}>
+            {(provided) => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                {traits.map(({ id, name, content }: any, index: number) => (
+                  <Draggable key={id} draggableId={id} index={index}>
+                    {(provided) => (
+                      <DragTrait
+                        name={name}
+                        value={{ id, content }}
+                        forwardedRef={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+
+            {/* @ts-ignore-next-line */}
+            {/* {traits.map(({ id, name, content }) => (
+              <DragTrait key={id} name={name} value={{ id, content }} />
+            ))} */}
+          </Droppable>
         </TraitSet>
       ))}
-    </>
+    </DragDropContext>
   );
 }
