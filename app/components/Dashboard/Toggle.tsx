@@ -1,14 +1,16 @@
 'use client';
 
+import { useTraitsDispatch } from '@/app/contexts/TraitsContext';
 import type { TraitValue } from '@/app/util/types';
 import { useState } from 'react';
 
 export default function Toggle({ value }: { value: TraitValue }) {
   const [enabled, setEnabled] = useState(false);
+  const { handleUpdateTrait } = useTraitsDispatch();
 
   function handleClick() {
     setEnabled(!enabled);
-    console.log('toggle: ', value);
+    handleUpdateTrait(!enabled, value.id, value.content);
   }
 
   return (
