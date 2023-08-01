@@ -1,7 +1,6 @@
 import { Address } from 'viem';
-import { ARTISTIC, AUGMENT, GEOMETRY, PATTERNS } from './constants';
 
-export type TraitType = typeof ARTISTIC | typeof AUGMENT | typeof GEOMETRY | typeof PATTERNS;
+export type TraitType = 'draw' | 'repeat' | 'pre-process' | 'post-process';
 
 export type ChainNames = 'homestead' | 'mainnet' | 'goerli';
 
@@ -14,4 +13,15 @@ export type HashesData = {
 export type TraitValue = {
   id: string;
   content: string;
+};
+
+export type TraitObject = TraitValue & {
+  type: TraitType;
+  name: string;
+};
+
+export type ParsedTrait = {
+  type: TraitType;
+  description: string;
+  traits: TraitObject[];
 };

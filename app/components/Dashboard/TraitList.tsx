@@ -5,17 +5,18 @@ import TraitSet from './TraitSet';
 import { DragTrait } from './DragTrait';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Toggle from './Toggle';
+import { ParsedTrait, TraitObject } from '@/app/util/types';
 
 function isDragTrait(type: string) {
   return type === 'draw' || type === 'repeat';
 }
 
-function DraggableTraitList({ type, traits }: { type: string; traits: any[] }) {
+function DraggableTraitList({ type, traits }: { type: string; traits: TraitObject[] }) {
   return (
     <Droppable droppableId={type}>
       {(provided) => (
         <ul ref={provided.innerRef} {...provided.droppableProps}>
-          {traits.map(({ id, name, content }: any, index: number) => (
+          {traits.map(({ id, name, content }, index: number) => (
             <Draggable key={id} draggableId={id} index={index}>
               {(provided) => (
                 <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
@@ -31,7 +32,7 @@ function DraggableTraitList({ type, traits }: { type: string; traits: any[] }) {
   );
 }
 
-export default function TraitList({ traits }: { traits: any[] }) {
+export default function TraitList({ traits }: { traits: ParsedTrait[] }) {
   const draggableTraits = traits.filter(({ type }) => isDragTrait(type));
   const nonDraggableTraits = traits.filter(({ type }) => !isDragTrait(type));
 
@@ -48,7 +49,7 @@ export default function TraitList({ traits }: { traits: any[] }) {
       {nonDraggableTraits.map(({ description, type, traits }) => (
         <TraitSet key={type} title={type.toUpperCase()} info={description}>
           <ul>
-            {traits.map(({ id, name, content }: any) => (
+            {traits.map(({ id, name, content }) => (
               <li key={id}>
                 <Trait name={name}>
                   <Toggle value={{ id, content }} />

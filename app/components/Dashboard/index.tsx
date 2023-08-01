@@ -1,4 +1,3 @@
-import { ARTISTIC, AUGMENT, GEOMETRY, PATTERNS } from '@/app/util/constants';
 import type { TraitType } from '@/app/util/types';
 import Image from 'next/image';
 import Circle from '../common/Circle';
@@ -14,27 +13,27 @@ import Share from './buttons/Share';
 import Traits from './Traits';
 import { Suspense } from 'react';
 
-const traitTypes: {
-  title: TraitType;
-  info: string;
-}[] = [
-  {
-    title: ARTISTIC,
-    info: 'hi artistic',
-  },
-  {
-    title: AUGMENT,
-    info: 'hi augment',
-  },
-  {
-    title: GEOMETRY,
-    info: 'hi geometry',
-  },
-  {
-    title: PATTERNS,
-    info: 'hi patterns',
-  },
-];
+// const traitTypes: {
+//   title: TraitType;
+//   info: string;
+// }[] = [
+//   {
+//     title: ARTISTIC,
+//     info: 'hi artistic',
+//   },
+//   {
+//     title: AUGMENT,
+//     info: 'hi augment',
+//   },
+//   {
+//     title: GEOMETRY,
+//     info: 'hi geometry',
+//   },
+//   {
+//     title: PATTERNS,
+//     info: 'hi patterns',
+//   },
+// ];
 
 export default function Dashboard() {
   return (

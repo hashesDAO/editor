@@ -1,29 +1,30 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import TraitList from './TraitList';
+import { ParsedTrait, TraitObject } from '@/app/util/types';
 
-function mapTraitsToSections(traits: any) {
+function mapTraitsToSections(traits: TraitObject[]): ParsedTrait[] {
   const traitSectionMapping = [
     {
       description: 'Draw elements on the canvas.',
-      type: 'draw',
+      type: 'draw' as const,
     },
     {
       description: 'Repeat a trait sequence to create patterns.',
-      type: 'repeat',
+      type: 'repeat' as const,
     },
     {
       description: 'Modify canvas before drawing.',
-      type: 'pre-process',
+      type: 'pre-process' as const,
     },
     {
       description: 'Modify canvas after drawing.',
-      type: 'post-process',
+      type: 'post-process' as const,
     },
   ];
 
   return traitSectionMapping.map((section) => {
-    const sectionTraits = traits.filter((trait: any) => trait.type === section.type);
+    const sectionTraits = traits.filter((trait) => trait.type === section.type);
     return {
       ...section,
       traits: sectionTraits,
@@ -34,5 +35,6 @@ function mapTraitsToSections(traits: any) {
 export default async function Traits() {
   const supabase = createServerComponentClient({ cookies });
   const { data: traits } = await supabase.from('traits').select();
-  return <TraitList traits={mapTraitsToSections(traits)} />;
+  // TODO: handle potential error
+  return <TraitList traits={mapTraitsToSections(traits!)} />;
 }
