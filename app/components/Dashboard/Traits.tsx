@@ -4,8 +4,9 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import Trait from './Trait';
 import TraitSet from './TraitSet';
-import DragTrait from './DragTrait';
+import { DragTrait } from './DragTrait';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import Toggle from './Toggle';
 
 const traitSectionMapping = [
   {
@@ -259,6 +260,31 @@ function mapTraitsToSections(traits: any) {
   });
 }
 
+function DraggableTraitList({ type, traits }: { type: string; traits: any[] }) {
+  return (
+    <Droppable droppableId={type}>
+      {(provided) => (
+        <ul ref={provided.innerRef} {...provided.droppableProps}>
+          {traits.map(({ id, name, content }: any, index: number) => (
+            <Draggable key={id} draggableId={id} index={index}>
+              {(provided) => (
+                <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                  <DragTrait key={id} name={name} value={{ id, content }} />
+                </li>
+              )}
+            </Draggable>
+          ))}
+          {provided.placeholder}
+        </ul>
+      )}
+    </Droppable>
+  );
+}
+
+function isDragTrait(type: string) {
+  return type === 'draw' || type === 'repeat';
+}
+
 export default async function Traits() {
   // const supabase = createServerComponentClient({ cookies });
   // const { data: traits } = await supabase.from('traits').select();
@@ -268,28 +294,19 @@ export default async function Traits() {
     <DragDropContext onDragEnd={() => {}}>
       {parsedTraits?.map(({ description, type, traits }) => (
         <TraitSet key={type} title={type.toUpperCase()} info={description}>
-          <Droppable droppableId={type}>
-            {(provided) => (
-              <ul ref={provided.innerRef} {...provided.droppableProps}>
-                {traits.map(({ id, name, content }: any, index: number) => (
-                  <Draggable key={id} draggableId={id} index={index}>
-                    {(provided) => (
-                      <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                        {/* <DragTrait key={id} name={name} value={{ id, content }} /> */}
-                        {name}
-                      </li>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </ul>
-            )}
-
-            {/* @ts-ignore-next-line */}
-            {/* {traits.map(({ id, name, content }) => (
-              <DragTrait key={id} name={name} value={{ id, content }} />
-            ))} */}
-          </Droppable>
+          {isDragTrait(type) ? (
+            <DraggableTraitList type={type} traits={traits} />
+          ) : (
+            <ul>
+              {traits.map(({ id, name, content }: any, index: number) => (
+                <li>
+                  <Trait name={name}>
+                    <Toggle value={{ id, content }} />
+                  </Trait>
+                </li>
+              ))}
+            </ul>
+          )}
         </TraitSet>
       ))}
     </DragDropContext>
