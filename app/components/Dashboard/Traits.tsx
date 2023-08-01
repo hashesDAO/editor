@@ -2,6 +2,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import Trait from './Trait';
 import TraitSet from './TraitSet';
+import DragTrait from './DragTrait';
 
 const traitSectionMapping = [
   {
@@ -46,8 +47,8 @@ export default async function Traits() {
       {parsedTraits?.map(({ description, type, traits }) => (
         <TraitSet key={type} title={type.toUpperCase()} info={description}>
           {/* @ts-ignore-next-line */}
-          {traits.map(({ id, name }) => (
-            <Trait key={id} name={name} />
+          {traits.map(({ id, name, content }) => (
+            <DragTrait key={id} name={name} value={{ id, content }} />
           ))}
         </TraitSet>
       ))}
