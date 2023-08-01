@@ -1,7 +1,8 @@
 'use client';
 
+import { useContainerDimensions } from '@/app/hooks/useContainerDimensions';
 import { ParsedTrait, TraitObject } from '@/app/util/types';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { DragDropContext, Draggable, DropResult, Droppable } from 'react-beautiful-dnd';
 import DragTrait from './DragTrait';
 import Toggle from './Toggle';
@@ -14,35 +15,39 @@ function isDragTrait(type: string) {
 }
 
 function DraggableTraitList({ type, traits }: { type: string; traits: TraitObject[] }) {
+  const componentRef = useRef<HTMLDivElement>(null);
+  const { width: dynamicWidth } = useContainerDimensions(componentRef);
+
   return (
-    <Droppable droppableId={type}>
-      {(provided) => (
-        <ul ref={provided.innerRef} {...provided.droppableProps}>
-          {traits.map(({ id, name, content }, index: number) => (
-            <Draggable key={id} draggableId={id} index={index}>
-              {(provided) => (
-                <div
-                  {...provided.draggableProps}
-                  style={{
-                    ...provided.draggableProps.style,
-                    width: 'initial',
-                    // border: '1px solid red',
-                  }}
-                >
-                  <DragTrait
-                    key={id}
-                    name={name}
-                    value={{ id, content }}
-                    dragIcon={<Drag ref={provided.innerRef} {...provided.dragHandleProps} />}
-                  />
-                </div>
-              )}
-            </Draggable>
-          ))}
-          {provided.placeholder}
-        </ul>
-      )}
-    </Droppable>
+    <div ref={componentRef}>
+      <Droppable droppableId={type}>
+        {(provided) => (
+          <ul ref={provided.innerRef} {...provided.droppableProps}>
+            {traits.map(({ id, name, content }, index: number) => (
+              <Draggable key={id} draggableId={id} index={index}>
+                {(provided) => (
+                  <div
+                    {...provided.draggableProps}
+                    style={{
+                      ...provided.draggableProps.style,
+                      width: dynamicWidth,
+                    }}
+                  >
+                    <DragTrait
+                      key={id}
+                      name={name}
+                      value={{ id, content }}
+                      dragIcon={<Drag ref={provided.innerRef} {...provided.dragHandleProps} />}
+                    />
+                  </div>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </ul>
+        )}
+      </Droppable>
+    </div>
   );
 }
 
