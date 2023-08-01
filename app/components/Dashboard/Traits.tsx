@@ -1,7 +1,7 @@
+import { ParsedTrait, TraitObject } from '@/app/util/types';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import TraitList from './TraitList';
-import { ParsedTrait, TraitObject } from '@/app/util/types';
 
 function mapTraitsToSections(traits: TraitObject[]): ParsedTrait[] {
   const traitSectionMapping = [

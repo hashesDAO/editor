@@ -1,9 +1,9 @@
 import type { TraitValue } from '@/app/util/types';
+import { forwardRef } from 'react';
 import Toggle from './Toggle';
 import Trait from './Trait';
 import Add from './buttons/Add';
 import { Drag } from './buttons/Drag';
-import { forwardRef } from 'react';
 
 type Props = {
   name: string;
