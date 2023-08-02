@@ -7,6 +7,7 @@ import { DragDropContext, Draggable, DropResult, Droppable } from 'react-beautif
 import DragTrait from './DragTrait';
 import TraitSet from './TraitSet';
 import { Drag } from './buttons/Drag';
+import { useTraitsContext } from '@/app/contexts/TraitsContext';
 
 function TraitList({ type, traits }: { type: string; traits: TraitObject[] }) {
   const componentRef = useRef<HTMLDivElement>(null);
@@ -52,6 +53,7 @@ function reorderList(list: TraitObject[], startIndex: number, endIndex: number) 
 }
 
 export default function DraggableTraitList({ traits }: { traits: ParsedTrait[] }) {
+  const selectedTraits = useTraitsContext();
   const [dragTraits, setDragTraits] = useState(() => traits);
 
   function handleDragEnd({ source, destination }: DropResult) {
@@ -80,11 +82,14 @@ export default function DraggableTraitList({ traits }: { traits: ParsedTrait[] }
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <div className="w-1/2">
-        {dragTraits.map(({ description, type, traits }) => (
-          <TraitSet key={type} title={type.toUpperCase()} info={description}>
-            <TraitList type={type} traits={traits} />
-          </TraitSet>
-        ))}
+        <>
+          <code>{JSON.stringify(selectedTraits)}</code>
+          {dragTraits.map(({ description, type, traits }) => (
+            <TraitSet key={type} title={type.toUpperCase()} info={description}>
+              <TraitList type={type} traits={traits} />
+            </TraitSet>
+          ))}
+        </>
       </div>
     </DragDropContext>
   );

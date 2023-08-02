@@ -1,5 +1,4 @@
 import type { TraitValue } from '@/app/util/types';
-import Toggle from './Toggle';
 import Trait from './Trait';
 import Remove from './buttons/Remove';
 
@@ -14,12 +13,9 @@ export default function DragTrait({ name, value, dragIcon }: Props) {
     <div className="flex justify-between">
       {dragIcon}
       <div className="px-2 w-full">
-        <Trait name={name}>
-          {/* <TraitOptions /> */}
-          {/* <Toggle value={value} /> */}
-        </Trait>
+        <Trait name={name} />
       </div>
-      <Remove />
+      <Remove value={value} />
     </div>
   );
 }

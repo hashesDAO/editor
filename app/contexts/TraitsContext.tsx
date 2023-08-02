@@ -13,9 +13,9 @@ const DispatchContext = createContext<DispatchFns | undefined>(undefined);
 export function TraitsContextProvider({ children }: { children: React.ReactNode }) {
   const [traitsData, dispatch] = useReducer(traitsReducer, []);
 
-  function handleUpdateTrait(id: string, functionContent: string) {
+  function handleUpdateTrait(shouldAdd: boolean, id: string, functionContent: string) {
     dispatch({
-      type: 'ADD',
+      type: shouldAdd ? 'ADD' : 'REMOVE',
       id,
       functionContent,
     });
