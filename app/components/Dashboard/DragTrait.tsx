@@ -1,7 +1,7 @@
 import type { TraitValue } from '@/app/util/types';
 import Toggle from './Toggle';
 import Trait from './Trait';
-import Add from './buttons/Add';
+import Remove from './buttons/Remove';
 
 type Props = {
   name: string;
@@ -16,10 +16,10 @@ export default function DragTrait({ name, value, dragIcon }: Props) {
       <div className="px-2 w-full">
         <Trait name={name}>
           {/* <TraitOptions /> */}
-          <Toggle value={value} />
+          {/* <Toggle value={value} /> */}
         </Trait>
       </div>
-      <Add />
+      <Remove />
     </div>
   );
 }

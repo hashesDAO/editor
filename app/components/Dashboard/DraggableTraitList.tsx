@@ -79,11 +79,13 @@ export default function DraggableTraitList({ traits }: { traits: ParsedTrait[] }
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      {dragTraits.map(({ description, type, traits }) => (
-        <TraitSet key={type} title={type.toUpperCase()} info={description}>
-          <TraitList type={type} traits={traits} />
-        </TraitSet>
-      ))}
+      <div className="w-1/2">
+        {dragTraits.map(({ description, type, traits }) => (
+          <TraitSet key={type} title={type.toUpperCase()} info={description}>
+            <TraitList type={type} traits={traits} />
+          </TraitSet>
+        ))}
+      </div>
     </DragDropContext>
   );
 }
