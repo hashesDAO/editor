@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Circle from '../common/Circle';
 import ControlMenu from './ControlMenu';
 import DashboardFooter from './DashboardFooter';
-import { DragTrait } from './DragTrait';
+import DragTrait from './DragTrait';
 import HashSelectSection from './HashSelect/HashSelectSection';
 import ProjectTitle from './ProjectTitle';
 import Trait from './Trait';
