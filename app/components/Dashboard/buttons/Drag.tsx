@@ -1,17 +1,12 @@
 'use client';
 
-import CircleButton from '../../common/CircleButton';
+import { forwardRef } from 'react';
 import { IoMenuOutline } from 'react-icons/io5';
 
-export default function Drag() {
+export const Drag = forwardRef(function Drag(props: Object, ref: any) {
   return (
-    <CircleButton
-      className="mt-[-10px]"
-      onClick={() => {
-        console.log('drag');
-      }}
-    >
+    <button ref={ref} className={`rounded-full p-4 flex justify-center items-center mt-[-12px]`} {...props}>
       <IoMenuOutline />
-    </CircleButton>
+    </button>
   );
-}
+});

@@ -1,31 +1,30 @@
+import { ParsedTrait, TraitObject } from '@/app/util/types';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import Trait from './Trait';
-import TraitSet from './TraitSet';
-import DragTrait from './DragTrait';
+import TraitList from './TraitList';
 
-const traitSectionMapping = [
-  {
-    description: 'Draw elements on the canvas.',
-    type: 'draw',
-  },
-  {
-    description: 'Repeat a trait sequence to create patterns.',
-    type: 'repeat',
-  },
-  {
-    description: 'Modify canvas before drawing.',
-    type: 'pre-process',
-  },
-  {
-    description: 'Modify canvas after drawing.',
-    type: 'post-process',
-  },
-];
+function mapTraitsToSections(traits: TraitObject[]): ParsedTrait[] {
+  const traitSectionMapping = [
+    {
+      description: 'Draw elements on the canvas.',
+      type: 'draw' as const,
+    },
+    {
+      description: 'Repeat a trait sequence to create patterns.',
+      type: 'repeat' as const,
+    },
+    {
+      description: 'Modify canvas before drawing.',
+      type: 'pre-process' as const,
+    },
+    {
+      description: 'Modify canvas after drawing.',
+      type: 'post-process' as const,
+    },
+  ];
 
-function mapTraitsToSections(traits: any) {
   return traitSectionMapping.map((section) => {
-    const sectionTraits = traits.filter((trait: any) => trait.type === section.type);
+    const sectionTraits = traits.filter((trait) => trait.type === section.type);
     return {
       ...section,
       traits: sectionTraits,
@@ -36,22 +35,6 @@ function mapTraitsToSections(traits: any) {
 export default async function Traits() {
   const supabase = createServerComponentClient({ cookies });
   const { data: traits } = await supabase.from('traits').select();
-
-  const parsedTraits = mapTraitsToSections(traits);
-
-  return (
-    <>
-      {/* <code>
-        <pre>{JSON.stringify(parsedTraits, null, 2)}</pre>
-      </code> */}
-      {parsedTraits?.map(({ description, type, traits }) => (
-        <TraitSet key={type} title={type.toUpperCase()} info={description}>
-          {/* @ts-ignore-next-line */}
-          {traits.map(({ id, name, content }) => (
-            <DragTrait key={id} name={name} value={{ id, content }} />
-          ))}
-        </TraitSet>
-      ))}
-    </>
-  );
+  // TODO: handle potential error
+  return <TraitList traits={mapTraitsToSections(traits!)} />;
 }

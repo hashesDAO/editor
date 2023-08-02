@@ -2,17 +2,17 @@ import type { TraitValue } from '@/app/util/types';
 import Toggle from './Toggle';
 import Trait from './Trait';
 import Add from './buttons/Add';
-import Drag from './buttons/Drag';
 
 type Props = {
   name: string;
   value: TraitValue;
+  dragIcon: JSX.Element;
 };
 
-export default function DragTrait({ name, value }: Props) {
+export default function DragTrait({ name, value, dragIcon }: Props) {
   return (
     <div className="flex justify-between">
-      <Drag />
+      {dragIcon}
       <div className="px-2 w-full">
         <Trait name={name}>
           {/* <TraitOptions /> */}
