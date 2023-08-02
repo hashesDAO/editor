@@ -6,7 +6,7 @@ import { FiPlus } from 'react-icons/fi';
 export default function Add() {
   return (
     <CircleButton
-      styles="self-start mt-1"
+      styles="self-start ml-1"
       onClick={() => {
         console.log('add');
       }}
