@@ -8,9 +8,9 @@ export default function TraitList({ traits }: { traits: ParsedTrait[] }) {
       {traits.map(({ description, type, traits }) => (
         <TraitSet key={type} title={type.toUpperCase()} info={description}>
           <ul>
-            {traits.map(({ id, name, content }) => (
+            {traits.map(({ id, name, functionContent }) => (
               <li key={id} className="flex justify-between">
-                <Trait name={name} value={{ id, content }} />
+                <Trait name={name} value={{ id, functionContent }} />
               </li>
             ))}
           </ul>
