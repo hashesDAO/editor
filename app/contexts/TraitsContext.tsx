@@ -4,7 +4,8 @@ import { createContext, useContext, useReducer } from 'react';
 import { Trait, traitsReducer } from '../reducers/traitsReducer';
 
 type DispatchFns = {
-  handleUpdateTrait: (shouldAdd: boolean, id: string, content: string) => void;
+  handleAddTrait: (id: string, content: string) => void;
+  handleRemoveTrait: (id: string) => void;
   handleReorderedTraits: (traits: Trait[]) => void;
 };
 
@@ -14,16 +15,24 @@ const DispatchContext = createContext<DispatchFns | undefined>(undefined);
 export function TraitsContextProvider({ children }: { children: React.ReactNode }) {
   const [traitsData, dispatch] = useReducer(traitsReducer, []);
 
-  function handleUpdateTrait(shouldAdd: boolean, id: string, content: string) {
+  function handleAddTrait(id: string, content: string) {
+    dispatch({
+      type: 'ADD',
+      id,
+      content,
+    });
+  }
+
+  function handleRemoveTrait(id: string) {
     //prevent unnecessary dispatches
-    if (shouldAdd === false && !traitsData.find((trait) => trait.id === id)) {
+    if (!traitsData.find((trait) => trait.id === id)) {
       return null;
     }
 
     dispatch({
-      type: shouldAdd ? 'ADD' : 'REMOVE',
-      id: id,
-      content,
+      type: 'REMOVE',
+      id,
+      content: '',
     });
   }
 
@@ -48,7 +57,7 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
 
   return (
     <Context.Provider value={traitsData}>
-      <DispatchContext.Provider value={{ handleUpdateTrait, handleReorderedTraits }}>
+      <DispatchContext.Provider value={{ handleAddTrait, handleRemoveTrait, handleReorderedTraits }}>
         {children}
       </DispatchContext.Provider>
     </Context.Provider>

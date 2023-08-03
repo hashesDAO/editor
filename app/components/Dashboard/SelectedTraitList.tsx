@@ -34,7 +34,6 @@ function TraitList({ traits }: TraitListProps) {
                     <DragTrait
                       key={id}
                       name={id}
-                      value={{ id, content }}
                       dragIcon={<Drag ref={provided.innerRef} {...provided.dragHandleProps} />}
                     />
                   </div>

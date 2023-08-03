@@ -1,15 +1,14 @@
 'use client';
 
 import { useTraitsDispatch } from '@/app/contexts/TraitsContext';
-import type { TraitValue } from '@/app/util/types';
 import { FiMinus } from 'react-icons/fi';
 import CircleButton from '../../common/CircleButton';
 
-export default function Remove({ value }: { value: TraitValue }) {
-  const { handleUpdateTrait } = useTraitsDispatch();
+export default function Remove({ id }: { id: string }) {
+  const { handleRemoveTrait } = useTraitsDispatch();
 
   function handleClick() {
-    handleUpdateTrait(false, value.id, value.content);
+    handleRemoveTrait(id);
   }
   return (
     <CircleButton styles="self-start ml-1" onClick={handleClick}>
