@@ -16,16 +16,16 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
   const [traitsData, dispatch] = useReducer(traitsReducer, []);
 
   function handleAddTrait(id: string, content: string, name: string) {
+    const numTraits = traitsData.filter((trait) => trait.name === name).length;
     dispatch({
       type: 'ADD',
-      id,
+      id: `${id}-${numTraits + 1}`,
       content,
       name,
     });
   }
 
   function handleRemoveTrait(id: string) {
-    //prevent unnecessary dispatches
     if (!traitsData.find((trait) => trait.id === id)) {
       return null;
     }
@@ -42,17 +42,17 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
     return traitsData.length === traits.length && traitsData.every((trait, index) => trait.id === traits[index].id);
   }
 
-  //TODO: fix this (bad typing)
   function handleReorderedTraits(traits: Trait[]) {
-    //prevent unnecessary dispatches
     if (isSameTraitList(traits)) {
       return null;
     }
 
+    //TODO: fix this (bad typing)
     dispatch({
       type: 'REORDER',
       id: '',
       content: '',
+      name: '',
       traits,
     });
   }
