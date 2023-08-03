@@ -17,7 +17,7 @@ function TraitList({ type, traits }: { type: string; traits: TraitObject[] }) {
       <Droppable droppableId={type}>
         {(provided) => (
           <ul ref={provided.innerRef} {...provided.droppableProps}>
-            {traits.map(({ id, name, content }, index: number) => (
+            {traits.map(({ id, name, content }, index) => (
               <Draggable key={id} draggableId={id} index={index}>
                 {(provided) => (
                   <div

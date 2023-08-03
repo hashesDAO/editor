@@ -1,4 +1,4 @@
-import { ParsedTrait } from '@/app/util/types';
+import type { ParsedTrait } from '@/app/util/types';
 import Trait from './Trait';
 import TraitSet from './TraitSet';
 

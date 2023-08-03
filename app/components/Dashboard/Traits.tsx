@@ -1,4 +1,4 @@
-import { ParsedTrait, TraitObject } from '@/app/util/types';
+import type { ParsedTrait, TraitObject } from '@/app/util/types';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import DraggableTraitList from './DraggableTraitList';

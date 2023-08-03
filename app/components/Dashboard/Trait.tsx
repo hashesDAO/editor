@@ -1,7 +1,7 @@
 'use client';
 
 import { useTraitsDispatch } from '@/app/contexts/TraitsContext';
-import { TraitValue } from '@/app/util/types';
+import type { TraitValue } from '@/app/util/types';
 
 type Props = React.PropsWithChildren<{
   name: string;
