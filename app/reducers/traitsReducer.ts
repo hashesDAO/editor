@@ -6,6 +6,7 @@ export type Action = {
   type: string;
   id: string;
   functionContent: string;
+  traits?: Trait[];
 };
 
 export type Trait = {
@@ -25,7 +26,11 @@ export function traitsReducer(traits: Trait[], action: Action) {
         ...traits,
       ];
     case 'REMOVE':
-      return traits.filter(({ id }) => id !== action.id);
+      const index = traits.findIndex((trait) => trait.id === id);
+      return [...traits.slice(0, index), ...traits.slice(index + 1)];
+    case 'REORDER':
+      const { traits: newTraits } = action;
+      return newTraits!;
     default: {
       throw Error('Unknown action: ' + action.type);
     }

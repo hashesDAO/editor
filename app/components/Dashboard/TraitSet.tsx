@@ -7,7 +7,7 @@ type Props = React.PropsWithChildren<{
 
 export default function TraitSet({ title, children, info }: Props) {
   return (
-    <section className="w-1/2 mb-8">
+    <section className="mb-8">
       <p className="inline-block text-xs mb-3 opacity-40 font-medium tracking-wide">{title}</p>
       <TraitInfo tooltipText={info} id={title} />
       {children}
