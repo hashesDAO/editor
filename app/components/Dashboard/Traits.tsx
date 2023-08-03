@@ -40,7 +40,7 @@ export default async function Traits() {
   return (
     <>
       <TraitList traits={mapTraitsToSections(traits!)} />
-      <DraggableTraitList traits={mapTraitsToSections(traits!)} />
+      <DraggableTraitList />
     </>
   );
 }
