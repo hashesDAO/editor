@@ -41,7 +41,7 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
     dispatch({
       type: 'REORDER',
       id: '',
-      functionContent: '',
+      content: '',
       traits,
     });
   }

@@ -12,7 +12,7 @@ export type HashesData = {
 
 export type TraitValue = {
   id: string;
-  functionContent: string;
+  content: string;
 };
 
 export type TraitObject = TraitValue & {
