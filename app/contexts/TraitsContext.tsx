@@ -5,6 +5,7 @@ import { Trait, traitsReducer } from '../reducers/traitsReducer';
 
 type DispatchFns = {
   handleUpdateTrait: (shouldAdd: boolean, id: string, functionContent: string) => void;
+  handleReorderedTraits: (traits: Trait[]) => void;
 };
 
 const Context = createContext<Trait[] | undefined>(undefined);
@@ -26,9 +27,20 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
     });
   }
 
+  function handleReorderedTraits(traits: Trait[]) {
+    dispatch({
+      type: 'REORDER',
+      id: '',
+      functionContent: '',
+      traits,
+    });
+  }
+
   return (
     <Context.Provider value={traitsData}>
-      <DispatchContext.Provider value={{ handleUpdateTrait }}>{children}</DispatchContext.Provider>
+      <DispatchContext.Provider value={{ handleUpdateTrait, handleReorderedTraits }}>
+        {children}
+      </DispatchContext.Provider>
     </Context.Provider>
   );
 }
