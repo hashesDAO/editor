@@ -1,7 +1,7 @@
 import type { ParsedTrait, TraitObject } from '@/app/util/types';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import DraggableTraitList from './DraggableTraitList';
+import SelectedTraitList from './SelectedTraitList';
 import TraitList from './TraitList';
 
 function mapTraitsToSections(traits: TraitObject[]): ParsedTrait[] {
@@ -40,7 +40,7 @@ export default async function Traits() {
   return (
     <>
       <TraitList traits={mapTraitsToSections(traits!)} />
-      <DraggableTraitList />
+      <SelectedTraitList />
     </>
   );
 }
