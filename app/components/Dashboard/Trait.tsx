@@ -13,7 +13,7 @@ export default function Trait({ name, value, children }: Props) {
 
   function handleClick() {
     if (value) {
-      handleAddTrait(value.id, value.content);
+      handleAddTrait(value.id, value.content, name);
     }
   }
 

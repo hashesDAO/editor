@@ -6,16 +6,18 @@ export type Action = {
   type: string;
   id: string;
   content: string;
+  name: string;
   traits?: Trait[];
 };
 
 export type Trait = {
   id: string;
   content: string;
+  name: string;
 };
 
 export function traitsReducer(traits: Trait[], action: Action) {
-  const { type, id, content } = action;
+  const { type, id, content, name } = action;
   switch (type) {
     case 'ADD':
       return [
@@ -23,6 +25,7 @@ export function traitsReducer(traits: Trait[], action: Action) {
         {
           id,
           content,
+          name,
         },
       ];
     case 'REMOVE':

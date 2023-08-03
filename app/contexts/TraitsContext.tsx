@@ -4,7 +4,7 @@ import { createContext, useContext, useReducer } from 'react';
 import { Trait, traitsReducer } from '../reducers/traitsReducer';
 
 type DispatchFns = {
-  handleAddTrait: (id: string, content: string) => void;
+  handleAddTrait: (id: string, content: string, name: string) => void;
   handleRemoveTrait: (id: string) => void;
   handleReorderedTraits: (traits: Trait[]) => void;
 };
@@ -15,11 +15,12 @@ const DispatchContext = createContext<DispatchFns | undefined>(undefined);
 export function TraitsContextProvider({ children }: { children: React.ReactNode }) {
   const [traitsData, dispatch] = useReducer(traitsReducer, []);
 
-  function handleAddTrait(id: string, content: string) {
+  function handleAddTrait(id: string, content: string, name: string) {
     dispatch({
       type: 'ADD',
       id,
       content,
+      name,
     });
   }
 
@@ -33,6 +34,7 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
       type: 'REMOVE',
       id,
       content: '',
+      name: '',
     });
   }
 
