@@ -14,6 +14,11 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
   const [traitsData, dispatch] = useReducer(traitsReducer, []);
 
   function handleUpdateTrait(shouldAdd: boolean, id: string, functionContent: string) {
+    //prevent unnecessary dispatches
+    if (shouldAdd === false && !traitsData.find((trait) => trait.id === id)) {
+      return null;
+    }
+
     dispatch({
       type: shouldAdd ? 'ADD' : 'REMOVE',
       id,

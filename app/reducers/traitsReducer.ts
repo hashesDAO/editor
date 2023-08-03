@@ -25,7 +25,8 @@ export function traitsReducer(traits: Trait[], action: Action) {
         ...traits,
       ];
     case 'REMOVE':
-      return traits.filter(({ id }) => id !== action.id);
+      const index = traits.findIndex((trait) => trait.id === id);
+      return [...traits.slice(0, index), ...traits.slice(index + 1)];
     default: {
       throw Error('Unknown action: ' + action.type);
     }
