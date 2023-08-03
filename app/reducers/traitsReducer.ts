@@ -19,11 +19,11 @@ export function traitsReducer(traits: Trait[], action: Action) {
   switch (type) {
     case 'ADD':
       return [
+        ...traits,
         {
           id,
           content,
         },
-        ...traits,
       ];
     case 'REMOVE':
       const index = traits.findIndex((trait) => trait.id === id);
