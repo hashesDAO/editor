@@ -9,7 +9,11 @@ import DragTrait from './DragTrait';
 import TraitSet from './TraitSet';
 import { Drag } from './buttons/Drag';
 
-function TraitList({ traits }: { traits: Trait[] }) {
+type TraitListProps = {
+  traits: Trait[];
+};
+
+function TraitList({ traits }: TraitListProps) {
   const componentRef = useRef<HTMLDivElement>(null);
   const { width: dynamicWidth } = useContainerDimensions(componentRef);
   return (

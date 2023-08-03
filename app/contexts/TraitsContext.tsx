@@ -27,7 +27,17 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
     });
   }
 
+  function isSameTraitList(traits: Trait[]) {
+    return traitsData.length === traits.length && traitsData.every((trait, index) => trait.id === traits[index].id);
+  }
+
+  //TODO: fix this (bad typing)
   function handleReorderedTraits(traits: Trait[]) {
+    //prevent unnecessary dispatches
+    if (isSameTraitList(traits)) {
+      return null;
+    }
+
     dispatch({
       type: 'REORDER',
       id: '',
