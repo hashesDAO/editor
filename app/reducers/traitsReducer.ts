@@ -5,23 +5,23 @@
 export type Action = {
   type: string;
   id: string;
-  functionContent: string;
+  content: string;
   traits?: Trait[];
 };
 
 export type Trait = {
   id: string;
-  functionContent: string;
+  content: string;
 };
 
 export function traitsReducer(traits: Trait[], action: Action) {
-  const { type, id, functionContent } = action;
+  const { type, id, content } = action;
   switch (type) {
     case 'ADD':
       return [
         {
           id,
-          functionContent,
+          content,
         },
         ...traits,
       ];
