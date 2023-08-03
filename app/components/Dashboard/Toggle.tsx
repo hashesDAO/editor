@@ -10,7 +10,7 @@ export default function Toggle({ value }: { value: TraitValue }) {
 
   function handleClick() {
     setEnabled(!enabled);
-    handleUpdateTrait(!enabled, value.id, value.functionContent);
+    handleUpdateTrait(!enabled, value.id, value.content);
   }
 
   return (

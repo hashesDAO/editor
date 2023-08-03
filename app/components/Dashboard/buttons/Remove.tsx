@@ -9,7 +9,7 @@ export default function Remove({ value }: { value: TraitValue }) {
   const { handleUpdateTrait } = useTraitsDispatch();
 
   function handleClick() {
-    handleUpdateTrait(false, value.id, value.functionContent);
+    handleUpdateTrait(false, value.id, value.content);
   }
   return (
     <CircleButton styles="self-start ml-1" onClick={handleClick}>

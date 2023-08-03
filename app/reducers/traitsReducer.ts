@@ -5,25 +5,25 @@
 export type Action = {
   type: string;
   id: string;
-  functionContent: string;
+  content: string;
   traits?: Trait[];
 };
 
 export type Trait = {
   id: string;
-  functionContent: string;
+  content: string;
 };
 
 export function traitsReducer(traits: Trait[], action: Action) {
-  const { type, id, functionContent } = action;
+  const { type, id, content } = action;
   switch (type) {
     case 'ADD':
       return [
+        ...traits,
         {
           id,
-          functionContent,
+          content,
         },
-        ...traits,
       ];
     case 'REMOVE':
       const index = traits.findIndex((trait) => trait.id === id);
