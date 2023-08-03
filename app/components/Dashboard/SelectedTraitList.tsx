@@ -21,7 +21,7 @@ function TraitList({ traits }: TraitListProps) {
       <Droppable droppableId={'type'}>
         {(provided) => (
           <ul ref={provided.innerRef} {...provided.droppableProps}>
-            {traits.map(({ id, content }, index) => (
+            {traits.map(({ id, name }, index) => (
               <Draggable key={`${id}-${index}`} draggableId={`${id}-${index}`} index={index}>
                 {(provided) => (
                   <div
@@ -33,8 +33,8 @@ function TraitList({ traits }: TraitListProps) {
                   >
                     <DragTrait
                       key={id}
-                      name={id}
-                      value={{ id, content }}
+                      id={id}
+                      name={name}
                       dragIcon={<Drag ref={provided.innerRef} {...provided.dragHandleProps} />}
                     />
                   </div>

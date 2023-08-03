@@ -4,7 +4,8 @@ import { createContext, useContext, useReducer } from 'react';
 import { Trait, traitsReducer } from '../reducers/traitsReducer';
 
 type DispatchFns = {
-  handleUpdateTrait: (shouldAdd: boolean, id: string, content: string) => void;
+  handleAddTrait: (id: string, content: string, name: string) => void;
+  handleRemoveTrait: (id: string) => void;
   handleReorderedTraits: (traits: Trait[]) => void;
 };
 
@@ -14,16 +15,26 @@ const DispatchContext = createContext<DispatchFns | undefined>(undefined);
 export function TraitsContextProvider({ children }: { children: React.ReactNode }) {
   const [traitsData, dispatch] = useReducer(traitsReducer, []);
 
-  function handleUpdateTrait(shouldAdd: boolean, id: string, content: string) {
-    //prevent unnecessary dispatches
-    if (shouldAdd === false && !traitsData.find((trait) => trait.id === id)) {
+  function handleAddTrait(id: string, content: string, name: string) {
+    const numTraits = traitsData.filter((trait) => trait.name === name).length;
+    dispatch({
+      type: 'ADD',
+      id: `${id}-${numTraits + 1}`,
+      content,
+      name,
+    });
+  }
+
+  function handleRemoveTrait(id: string) {
+    if (!traitsData.find((trait) => trait.id === id)) {
       return null;
     }
 
     dispatch({
-      type: shouldAdd ? 'ADD' : 'REMOVE',
-      id: id,
-      content,
+      type: 'REMOVE',
+      id,
+      content: '',
+      name: '',
     });
   }
 
@@ -31,24 +42,24 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
     return traitsData.length === traits.length && traitsData.every((trait, index) => trait.id === traits[index].id);
   }
 
-  //TODO: fix this (bad typing)
   function handleReorderedTraits(traits: Trait[]) {
-    //prevent unnecessary dispatches
     if (isSameTraitList(traits)) {
       return null;
     }
 
+    //TODO: fix this (bad typing)
     dispatch({
       type: 'REORDER',
       id: '',
       content: '',
+      name: '',
       traits,
     });
   }
 
   return (
     <Context.Provider value={traitsData}>
-      <DispatchContext.Provider value={{ handleUpdateTrait, handleReorderedTraits }}>
+      <DispatchContext.Provider value={{ handleAddTrait, handleRemoveTrait, handleReorderedTraits }}>
         {children}
       </DispatchContext.Provider>
     </Context.Provider>

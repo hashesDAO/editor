@@ -4,13 +4,13 @@ import { useTraitsDispatch } from '@/app/contexts/TraitsContext';
 import type { TraitValue } from '@/app/util/types';
 import { useState } from 'react';
 
-export default function Toggle({ value }: { value: TraitValue }) {
+export default function Toggle({ value, name }: { value: TraitValue; name: string }) {
   const [enabled, setEnabled] = useState(false);
-  const { handleUpdateTrait } = useTraitsDispatch();
+  const { handleAddTrait } = useTraitsDispatch();
 
   function handleClick() {
     setEnabled(!enabled);
-    handleUpdateTrait(!enabled, value.id, value.content);
+    handleAddTrait(value.id, value.content, name);
   }
 
   return (

@@ -9,11 +9,11 @@ type Props = React.PropsWithChildren<{
 }>;
 
 export default function Trait({ name, value, children }: Props) {
-  const { handleUpdateTrait } = useTraitsDispatch();
+  const { handleAddTrait } = useTraitsDispatch();
 
   function handleClick() {
     if (value) {
-      handleUpdateTrait(true, value.id, value.content);
+      handleAddTrait(value.id, value.content, name);
     }
   }
 
