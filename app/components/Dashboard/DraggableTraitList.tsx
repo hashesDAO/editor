@@ -81,16 +81,14 @@ export default function DraggableTraitList({ traits }: { traits: ParsedTrait[] }
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="w-1/2">
-        <>
-          <code>{JSON.stringify(selectedTraits)}</code>
-          {dragTraits.map(({ description, type, traits }) => (
-            <TraitSet key={type} title={type.toUpperCase()} info={description}>
-              <TraitList type={type} traits={traits} />
-            </TraitSet>
-          ))}
-        </>
-      </div>
+      <section className="w-1/2">
+        <code>{JSON.stringify(selectedTraits)}</code>
+        {dragTraits.map(({ description, type, traits }) => (
+          <TraitSet key={type} title={type.toUpperCase()} info={description}>
+            <TraitList type={type} traits={traits} />
+          </TraitSet>
+        ))}
+      </section>
     </DragDropContext>
   );
 }

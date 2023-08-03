@@ -4,7 +4,7 @@ import TraitSet from './TraitSet';
 
 export default function TraitList({ traits }: { traits: ParsedTrait[] }) {
   return (
-    <div className="w-1/2">
+    <section className="w-1/2">
       {traits.map(({ description, type, traits }) => (
         <TraitSet key={type} title={type.toUpperCase()} info={description}>
           <ul>
@@ -16,6 +16,6 @@ export default function TraitList({ traits }: { traits: ParsedTrait[] }) {
           </ul>
         </TraitSet>
       ))}
-    </div>
+    </section>
   );
 }

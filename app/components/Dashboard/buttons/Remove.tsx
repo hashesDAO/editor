@@ -9,7 +9,6 @@ export default function Remove({ value }: { value: TraitValue }) {
   const { handleUpdateTrait } = useTraitsDispatch();
 
   function handleClick() {
-    console.log('Remove');
     handleUpdateTrait(false, value.id, value.content);
   }
   return (
