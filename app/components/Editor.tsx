@@ -6,6 +6,8 @@ import { useHashContext } from '../contexts/HashContext';
 import { INITIAL_SELECTED_HASH } from '../util/constants';
 import * as attributeLibrary from '../util/attributeLibrary';
 import { Address } from 'viem';
+import { Trait } from '../reducers/traitsReducer';
+import { useTraitsContext } from '../contexts/TraitsContext';
 
 const htmlBoilerplate = `
 <html>
@@ -18,7 +20,8 @@ const htmlBoilerplate = `
 </html>
 `;
 
-function createP5Drawing(hash: Address | string) {
+function createP5Drawing(hash: Address | string, traits: Trait[]) {
+  console.log('this', this);
   return `
 var fr = 60;
 function setup() {
@@ -29,35 +32,29 @@ function setup() {
 }
 
 function draw() {
-  // Calculate the center coordinates of the canvas
-  const centerX = width / 2;
-  const centerY = height / 2;
-
-  const squareSize = 200; // Size of the square
-
-  // Draw the square
-  rectMode(CENTER); // Set the rectangle mode to draw from the center
-  stroke(0); // Set the stroke color to black
-  fill(255); // Set the fill color to white
-  rect(centerX, centerY, squareSize, squareSize); // Draw the square
-
-  // Draw the text
-  textAlign(CENTER, CENTER); // Set the text alignment to center
-  textSize(32); // Set the text size
-  fill(0); // Set the text color to black
-  text(${hash}, centerX, centerY); // Draw the text at the center of the square
+  ${traits.reduce(
+    (prev, curr) => {
+      const traitWrapper = new Function('p5', 'lib', 'hash', curr.content);
+      const trait = traitWrapper(p5, attributeLibrary, hash);
+      return trait(prev);
+    },
+    () => {
+      console.log('emptyFn');
+    },
+  )()}
 }
 `;
 }
 
 export default function Editor() {
   const { selectedHash } = useHashContext();
+  const selectedTraits = useTraitsContext();
   const parsedHash = selectedHash === INITIAL_SELECTED_HASH ? '"0xhello"' : selectedHash;
 
   const files = useMemo(() => {
     return {
       'sketch.js': {
-        code: createP5Drawing(parsedHash),
+        code: createP5Drawing(parsedHash, selectedTraits),
         active: true,
       },
       'index.html': {
@@ -65,7 +62,7 @@ export default function Editor() {
         hidden: true,
       },
     };
-  }, [parsedHash]);
+  }, [parsedHash, selectedTraits]);
 
   return (
     <SandpackProvider
