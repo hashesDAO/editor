@@ -33,10 +33,11 @@ export function traitsReducer(state: TraitsState, action: Action) {
   switch (type) {
     case 'ADD':
       const addedTraits = [...state.traits, { id, content, name }];
+      const newCache = [...state.cache, addedTraits];
       return {
         traits: addedTraits,
-        cache: [...state.cache, addedTraits],
-        cacheIndex: state.cacheIndex + 1,
+        cache: newCache,
+        cacheIndex: newCache.length - 1,
       };
     case 'REMOVE':
       const index = state.traits.findIndex((trait) => trait.id === id);

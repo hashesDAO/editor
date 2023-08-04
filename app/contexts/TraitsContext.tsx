@@ -7,6 +7,8 @@ type DispatchFns = {
   handleAddTrait: (id: string, content: string, name: string) => void;
   handleRemoveTrait: (id: string) => void;
   handleReorderedTraits: (traits: Trait[]) => void;
+  handleUndo: () => void;
+  handleRedo: () => void;
 };
 
 const Context = createContext<Trait[] | undefined>(undefined);
@@ -60,9 +62,37 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
     });
   }
 
+  function handleUndo() {
+    if (traitsData.cacheIndex === 0) {
+      return null;
+    }
+
+    dispatch({
+      type: 'UNDO',
+      id: '',
+      content: '',
+      name: '',
+    });
+  }
+
+  function handleRedo() {
+    if (traitsData.cacheIndex === traitsData.cache.length - 1) {
+      return null;
+    }
+
+    dispatch({
+      type: 'REDO',
+      id: '',
+      content: '',
+      name: '',
+    });
+  }
+
   return (
     <Context.Provider value={traitsData.traits}>
-      <DispatchContext.Provider value={{ handleAddTrait, handleRemoveTrait, handleReorderedTraits }}>
+      <DispatchContext.Provider
+        value={{ handleAddTrait, handleRemoveTrait, handleReorderedTraits, handleUndo, handleRedo }}
+      >
         {children}
       </DispatchContext.Provider>
     </Context.Provider>
