@@ -32,16 +32,9 @@ function createP5Drawing(hash: Address | string, traits: Trait[]) {
     };
 
     p5.draw = function() {
-      ${traits.reduce(
-        (prev, curr: Trait) => {
-          const traitWrapper = new Function('p5', 'lib', 'hash', curr.content);
-          const trait = traitWrapper('p5', attributeLibrary, hash);
-          return trait(prev);
-        },
-        () => {
-          console.log('emptyFn');
-        },
-      )}
+      p5.background(0);
+      p5.fill(255);
+      p5.rect(x,y,50,50);
     };
   };
 
