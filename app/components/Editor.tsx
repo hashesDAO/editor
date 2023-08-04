@@ -4,6 +4,7 @@ import { SandpackPreview, SandpackProvider } from '@codesandbox/sandpack-react';
 import { useMemo } from 'react';
 import { useHashContext } from '../contexts/HashContext';
 import { INITIAL_SELECTED_HASH } from '../util/constants';
+import * as attributeLibrary from '../util/attributeLibrary';
 import { Address } from 'viem';
 
 const htmlBoilerplate = `
