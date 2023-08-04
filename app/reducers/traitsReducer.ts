@@ -30,41 +30,42 @@ export const initialTraitsState = {
 
 export function traitsReducer(state: TraitsState, action: Action) {
   const { type, id, content, name } = action;
+  const { traits, cache, cacheIndex } = state;
   switch (type) {
     case 'ADD':
-      const addedTraits = [...state.traits, { id, content, name }];
-      const newCache = [...state.cache, addedTraits];
+      const addedTraits = [...traits, { id, content, name }];
+      const newCache = [...cache, addedTraits];
       return {
         traits: addedTraits,
         cache: newCache,
         cacheIndex: newCache.length - 1,
       };
     case 'REMOVE':
-      const index = state.traits.findIndex((trait) => trait.id === id);
-      const remainingTraits = [...state.traits.slice(0, index), ...state.traits.slice(index + 1)];
+      const index = traits.findIndex((trait) => trait.id === id);
+      const remainingTraits = [...traits.slice(0, index), ...traits.slice(index + 1)];
       return {
         traits: remainingTraits,
-        cache: [...state.cache, remainingTraits],
-        cacheIndex: state.cacheIndex + 1,
+        cache: [...cache, remainingTraits],
+        cacheIndex: cacheIndex + 1,
       };
     case 'REORDER':
       const { traits: newTraits } = action;
       return {
         traits: newTraits!,
-        cache: [...state.cache, newTraits!],
-        cacheIndex: state.cacheIndex + 1,
+        cache: [...cache, newTraits!],
+        cacheIndex: cacheIndex + 1,
       };
     case 'UNDO':
       return {
         ...state,
-        traits: state.cache[state.cacheIndex - 1],
-        cacheIndex: state.cacheIndex - 1,
+        traits: cache[cacheIndex - 1],
+        cacheIndex: cacheIndex - 1,
       };
     case 'REDO':
       return {
         ...state,
-        traits: state.cache[state.cacheIndex + 1],
-        cacheIndex: state.cacheIndex + 1,
+        traits: cache[cacheIndex + 1],
+        cacheIndex: cacheIndex + 1,
       };
     default: {
       throw Error('Unknown action: ' + action.type);
