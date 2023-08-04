@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useReducer } from 'react';
-import { Trait, traitsReducer } from '../reducers/traitsReducer';
+import { Trait, initialTraitsState, traitsReducer } from '../reducers/traitsReducer';
 
 type DispatchFns = {
   handleAddTrait: (id: string, content: string, name: string) => void;
@@ -11,12 +11,6 @@ type DispatchFns = {
 
 const Context = createContext<Trait[] | undefined>(undefined);
 const DispatchContext = createContext<DispatchFns | undefined>(undefined);
-
-const initialTraitsState = {
-  traits: [],
-  cache: [],
-  cacheIndex: 0,
-};
 
 export function TraitsContextProvider({ children }: { children: React.ReactNode }) {
   const [traitsData, dispatch] = useReducer(traitsReducer, initialTraitsState);
