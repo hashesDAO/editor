@@ -22,7 +22,9 @@ function createP5Drawing(hash: Address | string) {
 var fr = 60;
 function setup() {
   createCanvas(400, 400);
+  background(255, 255)
   frameRate(fr);
+  noLoop();
 }
 
 function draw() {
@@ -51,8 +53,8 @@ export default function Editor() {
   const { selectedHash } = useHashContext();
   const parsedHash = selectedHash === INITIAL_SELECTED_HASH ? '"0xhello"' : selectedHash;
 
-  const files = useMemo(
-    () => ({
+  const files = useMemo(() => {
+    return {
       'sketch.js': {
         code: createP5Drawing(parsedHash),
         active: true,
@@ -61,9 +63,8 @@ export default function Editor() {
         code: htmlBoilerplate,
         hidden: true,
       },
-    }),
-    [parsedHash],
-  );
+    };
+  }, [parsedHash]);
 
   return (
     <SandpackProvider
