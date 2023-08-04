@@ -22,7 +22,7 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
     dispatch({
       type: 'ADD',
       id: `${id}-${numTraits + 1}`,
-      content,
+      content: content.replace(/\s+/g, ' '),
       name,
     });
   }

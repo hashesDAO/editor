@@ -5,6 +5,9 @@ import { useMemo } from 'react';
 import { useHashContext } from '../contexts/HashContext';
 import { INITIAL_SELECTED_HASH } from '../util/constants';
 import { Address } from 'viem';
+import type { Trait } from '../reducers/traitsReducer';
+import * as attributeLibrary from '../util/attributeLibrary';
+import { useTraitsContext } from '../contexts/TraitsContext';
 
 const htmlBoilerplate = `
 <html>
@@ -17,44 +20,47 @@ const htmlBoilerplate = `
 </html>
 `;
 
-function createP5Drawing(hash: Address | string) {
+function createP5Drawing(hash: Address | string, traits: Trait[]) {
   return `
-var fr = 60;
-function setup() {
-  createCanvas(400, 400);
-  frameRate(fr);
-}
+  const s = ( p5 ) => {
 
-function draw() {
-  // Calculate the center coordinates of the canvas
-  const centerX = width / 2;
-  const centerY = height / 2;
+    let x = 100;
+    let y = 100;
 
-  const squareSize = 200; // Size of the square
+    p5.setup = function() {
+      p5.createCanvas(700, 410);
+    };
 
-  // Draw the square
-  rectMode(CENTER); // Set the rectangle mode to draw from the center
-  stroke(0); // Set the stroke color to black
-  fill(255); // Set the fill color to white
-  rect(centerX, centerY, squareSize, squareSize); // Draw the square
+    p5.draw = function() {
+      ${traits.reduce(
+        (prev, curr: Trait) => {
+          const traitWrapper = new Function('p5', 'lib', 'hash', curr.content);
+          const trait = traitWrapper('p5', attributeLibrary, hash);
+          return trait(prev);
+        },
+        () => {
+          console.log('emptyFn');
+        },
+      )}
+    };
+  };
 
-  // Draw the text
-  textAlign(CENTER, CENTER); // Set the text alignment to center
-  textSize(32); // Set the text size
-  fill(0); // Set the text color to black
-  text(${hash}, centerX, centerY); // Draw the text at the center of the square
-}
+  let myp5 = new p5(s);
 `;
 }
 
 export default function Editor() {
   const { selectedHash } = useHashContext();
+  const selectedTraits = useTraitsContext();
   const parsedHash = selectedHash === INITIAL_SELECTED_HASH ? '"0xhello"' : selectedHash;
+
+  const demo = createP5Drawing(parsedHash, selectedTraits);
+  console.log(demo);
 
   const files = useMemo(
     () => ({
       'sketch.js': {
-        code: createP5Drawing(parsedHash),
+        code: createP5Drawing(parsedHash, selectedTraits),
         active: true,
       },
       'index.html': {
