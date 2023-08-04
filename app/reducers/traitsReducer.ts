@@ -16,24 +16,34 @@ export type Trait = {
   name: string;
 };
 
-export function traitsReducer(traits: Trait[], action: Action) {
+export type TraitsState = {
+  traits: Trait[];
+  cache: Trait[];
+  cacheIndex: number;
+};
+
+export function traitsReducer(state: TraitsState, action: Action) {
   const { type, id, content, name } = action;
   switch (type) {
     case 'ADD':
-      return [
-        ...traits,
-        {
-          id,
-          content,
-          name,
-        },
-      ];
+      const addedTraits = [...state.traits, { id, content, name }];
+      return {
+        ...state,
+        traits: addedTraits,
+      };
     case 'REMOVE':
-      const index = traits.findIndex((trait) => trait.id === id);
-      return [...traits.slice(0, index), ...traits.slice(index + 1)];
+      const index = state.traits.findIndex((trait) => trait.id === id);
+      const remainingTraits = [...state.traits.slice(0, index), ...state.traits.slice(index + 1)];
+      return {
+        ...state,
+        traits: remainingTraits,
+      };
     case 'REORDER':
       const { traits: newTraits } = action;
-      return newTraits!;
+      return {
+        ...state,
+        traits: newTraits!,
+      };
     default: {
       throw Error('Unknown action: ' + action.type);
     }

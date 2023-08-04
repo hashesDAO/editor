@@ -12,11 +12,17 @@ type DispatchFns = {
 const Context = createContext<Trait[] | undefined>(undefined);
 const DispatchContext = createContext<DispatchFns | undefined>(undefined);
 
+const initialTraitsState = {
+  traits: [],
+  cache: [],
+  cacheIndex: 0,
+};
+
 export function TraitsContextProvider({ children }: { children: React.ReactNode }) {
-  const [traitsData, dispatch] = useReducer(traitsReducer, []);
+  const [traitsData, dispatch] = useReducer(traitsReducer, initialTraitsState);
 
   function handleAddTrait(id: string, content: string, name: string) {
-    const numTraits = traitsData.filter((trait) => trait.name === name).length;
+    const numTraits = traitsData.traits.filter((trait) => trait.name === name).length;
     dispatch({
       type: 'ADD',
       id: `${id}-${numTraits + 1}`,
@@ -26,7 +32,7 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
   }
 
   function handleRemoveTrait(id: string) {
-    if (!traitsData.find((trait) => trait.id === id)) {
+    if (!traitsData.traits.find((trait) => trait.id === id)) {
       return null;
     }
 
@@ -39,7 +45,10 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
   }
 
   function isSameTraitList(traits: Trait[]) {
-    return traitsData.length === traits.length && traitsData.every((trait, index) => trait.id === traits[index].id);
+    return (
+      traitsData.traits.length === traits.length &&
+      traitsData.traits.every((trait, index) => trait.id === traits[index].id)
+    );
   }
 
   function handleReorderedTraits(traits: Trait[]) {
@@ -58,7 +67,7 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
   }
 
   return (
-    <Context.Provider value={traitsData}>
+    <Context.Provider value={traitsData.traits}>
       <DispatchContext.Provider value={{ handleAddTrait, handleRemoveTrait, handleReorderedTraits }}>
         {children}
       </DispatchContext.Provider>
