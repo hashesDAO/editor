@@ -21,25 +21,65 @@ const htmlBoilerplate = `
 `;
 
 function createP5Drawing(hash: Address | string, traits: Trait[]) {
-  return `
-  const s = ( p5 ) => {
+  console.log('is initial?', traits.length === 0 || hash === INITIAL_SELECTED_HASH);
+  if (traits.length === 0 || hash === INITIAL_SELECTED_HASH) {
+    return `
+    const s = ( p5 ) => {
 
-    let x = 100;
-    let y = 100;
+      let x = 100;
+      let y = 100;
 
-    p5.setup = function() {
-      p5.createCanvas(700, 410);
+      p5.setup = function() {
+        p5.createCanvas(700, 410);
+        p5.background(255, 255);
+        p5.noLoop();
+      };
+
+      p5.draw = function() {
+        p5.background(255, 255);
+        p5.textSize(32);
+        p5.text('Select a hash and traits to get started.', 10, 30);
+      };
     };
 
-    p5.draw = function() {
-      p5.background(0);
-      p5.fill(255);
-      p5.rect(x,y,50,50);
-    };
-  };
+    let myp5 = new p5(s);
+  `;
+  } else {
+    const dude = (p5: any) =>
+      traits.reduce(
+        (prev, curr) => {
+          const traitWrapper = new Function('p5', 'lib', 'hash', curr.content);
+          const trait = traitWrapper(p5, attributeLibrary, hash);
+          console.log('firing', typeof p5);
+          return trait(prev);
+        },
+        () => {
+          console.log('emptyFn');
+        },
+      );
 
-  let myp5 = new p5(s);
-`;
+    console.log('dude', dude.toString());
+
+    return `
+      const s = ( p5 ) => {
+
+        let x = 100;
+        let y = 100;
+
+        p5.setup = function() {
+          p5.createCanvas(700, 410);
+          p5.background(255, 255);
+          p5.noLoop();
+        };
+
+        p5.draw = function() {
+          return ${dude('p5')}
+        };
+      };
+
+      let myp5 = new p5(s);
+      `;
+  }
 }
 
 export default function Editor() {
