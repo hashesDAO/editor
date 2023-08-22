@@ -9,6 +9,7 @@ type DispatchFns = {
   handleReorderedTraits: (traits: Trait[]) => void;
   handleUndo: () => void;
   handleRedo: () => void;
+  handleShuffle: () => void;
 };
 
 const Context = createContext<Trait[] | undefined>(undefined);
@@ -88,10 +89,19 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
     });
   }
 
+  function handleShuffle() {
+    dispatch({
+      type: 'SHUFFLE',
+      id: '',
+      content: '',
+      name: '',
+    });
+  }
+
   return (
     <Context.Provider value={traitsData.traits}>
       <DispatchContext.Provider
-        value={{ handleAddTrait, handleRemoveTrait, handleReorderedTraits, handleUndo, handleRedo }}
+        value={{ handleAddTrait, handleRemoveTrait, handleReorderedTraits, handleUndo, handleRedo, handleShuffle }}
       >
         {children}
       </DispatchContext.Provider>

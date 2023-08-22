@@ -67,6 +67,17 @@ export function traitsReducer(state: TraitsState, action: Action) {
         traits: cache[cacheIndex + 1],
         cacheIndex: cacheIndex + 1,
       };
+    case 'SHUFFLE':
+      const shuffledTraits = [...traits];
+      for (let i = shuffledTraits.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledTraits[i], shuffledTraits[j]] = [shuffledTraits[j], shuffledTraits[i]];
+      }
+      return {
+        traits: shuffledTraits,
+        cache: [...cache, shuffledTraits],
+        cacheIndex: cacheIndex + 1,
+      };
     default: {
       throw Error('Unknown action: ' + action.type);
     }
