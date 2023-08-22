@@ -6,12 +6,12 @@ import { FaShuffle } from 'react-icons/fa6';
 import CircleButton from '../common/CircleButton';
 
 export default function ControlMenu() {
-  const { handleUndo, handleRedo } = useTraitsDispatch();
+  const { handleUndo, handleRedo, handleShuffle } = useTraitsDispatch();
   const controls = [
     {
       icon: FaShuffle,
       onClick: () => {
-        console.log('SHUFFLE');
+        handleShuffle();
       },
     },
     {
