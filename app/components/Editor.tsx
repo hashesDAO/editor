@@ -1,81 +1,60 @@
 'use client';
 
-import { SandpackPreview, SandpackProvider } from '@codesandbox/sandpack-react';
-import { useMemo } from 'react';
-import { useHashContext } from '../contexts/HashContext';
-import { INITIAL_SELECTED_HASH } from '../util/constants';
+import { useEffect, useRef } from 'react';
 import { Address } from 'viem';
+import { useHashContext } from '../contexts/HashContext';
+import { useTraitsContext } from '../contexts/TraitsContext';
+import type { Trait } from '../reducers/traitsReducer';
+import * as attributeLibrary from '../util/attributeLibrary';
 
-const htmlBoilerplate = `
-<html>
-  <head>
-    <meta charset="utf-8" />
-  </head>
-  <body>
-    <script src="sketch.js"></script>
-  </body>
-</html>
-`;
+let p5: any;
+let p5Instance: any;
 
-function createP5Drawing(hash: Address | string) {
-  return `
-var fr = 60;
-function setup() {
-  createCanvas(400, 400);
-  frameRate(fr);
-}
+const renderP5 = (hash: Address | string, traits: Trait[]) => (p5: any) => {
+  const renderTraitStack = traits.reduce(
+    (prev, curr) => {
+      const traitWrapper = new Function('p5', 'lib', 'hash', curr.content);
+      const trait = traitWrapper(p5, attributeLibrary, hash);
+      return trait(prev);
+    },
+    () => {
+      console.log('emptyFn');
+    },
+  );
 
-function draw() {
-  // Calculate the center coordinates of the canvas
-  const centerX = width / 2;
-  const centerY = height / 2;
+  p5.setup = () => {
+    const container = document.querySelector('#canvas-container')!;
+    p5.createCanvas(container.clientHeight, container.clientHeight);
+    p5.background(255, 255);
+    p5.noLoop();
+  };
 
-  const squareSize = 200; // Size of the square
-
-  // Draw the square
-  rectMode(CENTER); // Set the rectangle mode to draw from the center
-  stroke(0); // Set the stroke color to black
-  fill(255); // Set the fill color to white
-  rect(centerX, centerY, squareSize, squareSize); // Draw the square
-
-  // Draw the text
-  textAlign(CENTER, CENTER); // Set the text alignment to center
-  textSize(32); // Set the text size
-  fill(0); // Set the text color to black
-  text(${hash}, centerX, centerY); // Draw the text at the center of the square
-}
-`;
-}
+  p5.draw = () => {
+    renderTraitStack();
+  };
+};
 
 export default function Editor() {
+  const p5Ref = useRef(document.createElement('div'));
   const { selectedHash } = useHashContext();
-  const parsedHash = selectedHash === INITIAL_SELECTED_HASH ? '"0xhello"' : selectedHash;
+  const selectedTraits = useTraitsContext();
 
-  const files = useMemo(
-    () => ({
-      'sketch.js': {
-        code: createP5Drawing(parsedHash),
-        active: true,
-      },
-      'index.html': {
-        code: htmlBoilerplate,
-        hidden: true,
-      },
-    }),
-    [parsedHash],
-  );
+  useEffect(() => {
+    p5 = require('p5');
+  }, []);
 
-  return (
-    <SandpackProvider
-      theme="dark"
-      template="static"
-      options={{
-        externalResources: ['https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js'],
-      }}
-      files={files}
-      className="w-full"
-    >
-      <SandpackPreview showOpenInCodeSandbox={false} showRefreshButton={false} className="h-screen" />
-    </SandpackProvider>
-  );
+  useEffect(() => {
+    if (!p5 || !selectedHash) {
+      return;
+    }
+    if (p5Instance) {
+      p5Instance.remove();
+    }
+    if (p5Ref.current.firstChild) {
+      p5Ref.current.removeChild(p5Ref.current.firstChild);
+    }
+    p5Instance = new p5(renderP5(selectedHash, selectedTraits), p5Ref.current);
+  }, [selectedHash, selectedTraits]);
+
+  return <div ref={p5Ref} className="h-screen" id="canvas-container"></div>;
 }
