@@ -45,12 +45,12 @@ function createP5Drawing(hash: Address | string, traits: Trait[]) {
     let myp5 = new p5(s);
   `;
   } else {
-    const dude = (p5: any) =>
+    const dude = (p5Name: any) =>
       traits.reduce(
         (prev, curr) => {
           const traitWrapper = new Function('p5', 'lib', 'hash', curr.content);
-          const trait = traitWrapper(p5, attributeLibrary, hash);
-          console.log('firing', typeof p5);
+          const trait = traitWrapper(p5Name, attributeLibrary, hash);
+          console.log('firing', typeof p5Name);
           return trait(prev);
         },
         () => {
