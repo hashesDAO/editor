@@ -3,10 +3,13 @@
 import { useHashContext } from '@/app/contexts/HashContext';
 import { useProjectTitleContext } from '@/app/contexts/ProjectTitleContext';
 import { useTraitsContext } from '@/app/contexts/TraitsContext';
+import useCopyToClipboard from '@/app/hooks/useCopyToClipboard';
 import { Trait } from '@/app/reducers/traitsReducer';
-import { INITIAL_SELECTED_HASH } from '@/app/util/constants';
+import { INITIAL_SELECTED_HASH, LOADING } from '@/app/util/constants';
+import { useReducer } from 'react';
 import { FaSave } from 'react-icons/fa';
 import { Tooltip } from 'react-tooltip';
+import { fetchReducer, initialFetchReducerState } from '../../../reducers/fetchReducer';
 import CircleButton from '../../common/CircleButton';
 
 const tooltip = {
@@ -14,41 +17,57 @@ const tooltip = {
   text: 'Create a title and design to save your project.',
 };
 
-async function updateDB(data: { title: string; traitIds: string[] }) {
-  await fetch('/api/traits/save', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-    .then((res) => res.json())
-    .catch((err) => {
-      console.error(`error saving traits: ${err}`);
-    });
-}
-
-function useUpdateDB() {
+function useSave() {
+  const [saveData, dispatchSaveData] = useReducer(fetchReducer, initialFetchReducerState);
   const title = useProjectTitleContext();
   const selectedTraits = useTraitsContext();
   const { selectedHash } = useHashContext();
   const isDisabled = title.length === 0 || selectedTraits.length === 0 || selectedHash === INITIAL_SELECTED_HASH;
 
   async function handleSave() {
-    await updateDB({
-      title,
-      traitIds: selectedTraits.map((trait: Trait) => trait.id),
-    });
+    dispatchSaveData({ type: LOADING });
+    await fetch('/api/traits/save', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title,
+        traitIds: selectedTraits.map((trait: Trait) => trait.id),
+      }),
+    })
+      .then(async (res) => {
+        const payloadData = await res.json();
+
+        dispatchSaveData({
+          type: 'SUCCESS',
+          payload: payloadData,
+        });
+      })
+      .catch((err) => {
+        console.error(`error saving traits: ${err}`);
+        dispatchSaveData({
+          type: 'ERROR',
+          payload: err,
+        });
+      });
   }
 
-  return { handleSave, isDisabled };
+  return { handleSave, isDisabled, saveData };
 }
 
+const errMessage = 'Error occurred while saving your project. Please try again.';
+
 export default function Save() {
-  const { handleSave, isDisabled } = useUpdateDB();
+  const { handleSave, isDisabled, saveData } = useSave();
+  const [isCopied, copy] = useCopyToClipboard();
+
+  function handleCopy() {
+    copy(window.location.href);
+  }
 
   return (
-    <>
+    <div className="flex items-center">
       <CircleButton
         onClick={handleSave}
         data-tooltip-id={tooltip.id}
@@ -56,9 +75,18 @@ export default function Save() {
         disabled={isDisabled}
         styles="disabled:cursor-not-allowed"
       >
-        <FaSave fontSize={'1.25rem'} />
+        {saveData.loading ? <p className="text-xs">...saving</p> : <FaSave fontSize={'1.25rem'} />}
       </CircleButton>
       {isDisabled && <Tooltip id={tooltip.id} />}
-    </>
+      {saveData.error && <p className="ml-2 text-red-500 text-xs">{errMessage}</p>}
+      {saveData.data && (
+        <p className="ml-2 text-green-500 text-xs">
+          Project saved!{' '}
+          <span className="ml-2 underline cursor-pointer" onClick={handleCopy}>
+            {isCopied ? 'Copied!' : 'Copy project link'}
+          </span>
+        </p>
+      )}
+    </div>
   );
 }
