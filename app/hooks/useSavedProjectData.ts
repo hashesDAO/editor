@@ -1,7 +1,7 @@
 'use client';
 
-import useSWR from 'swr';
 import { usePathname } from 'next/navigation';
+import useSWR from 'swr';
 
 export default function useSavedProjectData() {
   const pathname = usePathname();
@@ -16,7 +16,7 @@ export default function useSavedProjectData() {
   // @ts-ignore
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data: projectData, error, isLoading } = useSWR(`/api/traits/${id}`, fetcher);
-  console.log('zzz inside deep', projectData);
+
   return {
     data: projectData?.data,
     isLoading,
