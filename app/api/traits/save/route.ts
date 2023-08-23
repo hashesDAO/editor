@@ -20,7 +20,7 @@ export async function POST(req: Request) {
   }
 
   const supabase = createServerComponentClient({ cookies });
-  //get project title data to increment forthcoming slug if not unique
+  //get duplicate project title data to increment forthcoming slug if not unique
   const { data: titleData, error: titleError } = await supabase.from(TABLE_NAME).select('title').eq('title', title);
 
   if (titleError) {
@@ -28,12 +28,9 @@ export async function POST(req: Request) {
     return;
   }
 
-  // console.log('zzz body', body);
-  // console.log('zzz titleData', titleData.length);
-
   const titleSlug = slugify(title);
   const slug = titleData.length === 0 ? titleSlug : `${titleSlug}-${titleData.length + 1}`;
-  const { data: postData, error: postError } = await supabase.from(TABLE_NAME).insert({
+  const { error: postError } = await supabase.from(TABLE_NAME).insert({
     title,
     trait_ids: traitIds,
     slug,
@@ -44,9 +41,5 @@ export async function POST(req: Request) {
     return;
   }
 
-  // console.log('zzz postData', postData);
-
-  return NextResponse.json({
-    slug,
-  });
+  return NextResponse.json({ slug });
 }
