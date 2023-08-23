@@ -9,7 +9,6 @@ import ProjectTitle from './ProjectTitle';
 import Trait from './Trait';
 import TraitOptions from './TraitOptions';
 import TraitSet from './TraitSet';
-import Share from './buttons/Share';
 import Traits from './Traits';
 import { Suspense } from 'react';
 
@@ -38,9 +37,7 @@ import { Suspense } from 'react';
 export default function Dashboard() {
   return (
     <div className="relative h-[90%] overflow-y-auto mt-4 p-4">
-      <ProjectTitle>
-        <Share />
-      </ProjectTitle>
+      <ProjectTitle />
       <HashSelectSection />
       <ControlMenu />
       <div className="flex flex-wrap mb-24">

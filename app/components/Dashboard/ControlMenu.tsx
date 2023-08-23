@@ -1,9 +1,10 @@
 'use client';
 
 import { useTraitsDispatch } from '@/app/contexts/TraitsContext';
-import { FaRedo, FaSave, FaUndo } from 'react-icons/fa';
+import { FaRedo, FaUndo } from 'react-icons/fa';
 import { FaShuffle } from 'react-icons/fa6';
 import CircleButton from '../common/CircleButton';
+import Save from './buttons/Save';
 
 export default function ControlMenu() {
   const { handleUndo, handleRedo, handleShuffle } = useTraitsDispatch();
@@ -26,12 +27,6 @@ export default function ControlMenu() {
         handleRedo();
       },
     },
-    {
-      icon: FaSave,
-      onClick: () => {
-        console.log('SAVE');
-      },
-    },
   ];
 
   return (
@@ -45,6 +40,9 @@ export default function ControlMenu() {
             </CircleButton>
           </li>
         ))}
+        <li className="pl-3">
+          <Save />
+        </li>
       </ul>
       <p className="text-sm opacity-40">
         Adjust the parameters below to create a bespoke work of art using a unique hash
