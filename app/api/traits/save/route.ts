@@ -2,8 +2,7 @@ import slugify from '@sindresorhus/slugify';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-
-const TABLE_NAME = 'user-traits';
+import { USER_TRAITS_TABLE_NAME } from '@/app/util/constants';
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -19,7 +18,10 @@ export async function POST(req: Request) {
 
   const supabase = createServerComponentClient({ cookies });
   //get duplicate project title data to increment forthcoming slug if not unique
-  const { data: titleData, error: titleError } = await supabase.from(TABLE_NAME).select('title').eq('title', title);
+  const { data: titleData, error: titleError } = await supabase
+    .from(USER_TRAITS_TABLE_NAME)
+    .select('title')
+    .eq('title', title);
 
   if (titleError) {
     return NextResponse.json({ error: `error getting title data from DB: ${titleError.message}` }, { status: 500 });
@@ -27,7 +29,7 @@ export async function POST(req: Request) {
 
   const titleSlug = slugify(title);
   const slug = titleData.length === 0 ? titleSlug : `${titleSlug}-${titleData.length + 1}`;
-  const { error: postError } = await supabase.from(TABLE_NAME).insert({
+  const { error: postError } = await supabase.from(USER_TRAITS_TABLE_NAME).insert({
     title,
     trait_ids: traitIds,
     slug,
