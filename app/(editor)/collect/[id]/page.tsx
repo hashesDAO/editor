@@ -2,6 +2,7 @@ import Dashboard from '@/app/components/Dashboard';
 import Editor from '@/app/components/Editor';
 import EditorError from '@/app/components/EditorError';
 import { HashContextProvider } from '@/app/contexts/HashContext';
+import { ProjectTitleContextProvider } from '@/app/contexts/ProjectTitleContext';
 import { TraitsContextProvider } from '@/app/contexts/TraitsContext';
 
 export default function Page() {
@@ -9,7 +10,9 @@ export default function Page() {
     <HashContextProvider>
       <TraitsContextProvider>
         <section className="col-start-1 col-span-12 bg-black h-screen rounded-tr-[60px] rounded-br-[50px] z-10">
-          <Dashboard />
+          <ProjectTitleContextProvider>
+            <Dashboard />
+          </ProjectTitleContextProvider>
         </section>
         <section className="col-start-12 col-span-full row-start-1 row-end-7">
           <EditorError>
