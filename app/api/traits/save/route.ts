@@ -8,15 +8,13 @@ const TABLE_NAME = 'user-traits';
 export async function POST(req: Request) {
   const body = await req.json();
 
-  if (!body) {
-    //TODO: Fix this
-    // return NextResponse.error(new Error('No body provided'));
-  }
-
   const { title, traitIds } = body;
 
   if (!title || !traitIds) {
-    // return NextResponse.error(new Error('Missing required fields'));
+    return NextResponse.json(
+      { error: 'request body must contain valid "title" and "traitIds" fields' },
+      { status: 400 },
+    );
   }
 
   const supabase = createServerComponentClient({ cookies });
@@ -24,8 +22,7 @@ export async function POST(req: Request) {
   const { data: titleData, error: titleError } = await supabase.from(TABLE_NAME).select('title').eq('title', title);
 
   if (titleError) {
-    console.log(`error getting title data: ${titleError.message}`);
-    return;
+    return NextResponse.json({ error: `error getting title data from DB: ${titleError.message}` }, { status: 500 });
   }
 
   const titleSlug = slugify(title);
@@ -37,9 +34,8 @@ export async function POST(req: Request) {
   });
 
   if (postError) {
-    console.log(`error posting data: ${postError.message}`);
-    return;
+    return NextResponse.json({ error: `error posting data to DB: ${postError.message}` }, { status: 500 });
   }
 
-  return NextResponse.json({ slug });
+  return NextResponse.json({ slug }, { status: 201 });
 }
