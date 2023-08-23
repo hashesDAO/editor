@@ -1,6 +1,7 @@
 'use client';
 
 import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
+import useSavedProject from '../hooks/useSavedProject';
 
 type ProjectTitleDispatch = Dispatch<SetStateAction<string>>;
 
@@ -9,6 +10,8 @@ const ProjectTitleDispatchContext = createContext<ProjectTitleDispatch | undefin
 
 export function ProjectTitleContextProvider({ children }: { children: React.ReactNode }) {
   const [projectTitle, setProjectTitle] = useState('');
+
+  const { data } = useSavedProject();
 
   return (
     <ProjectTitleContext.Provider value={projectTitle}>
