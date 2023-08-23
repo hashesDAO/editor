@@ -15,27 +15,37 @@ const tooltip = {
 };
 
 async function updateDB(data: { title: string; traitIds: string[] }) {
-  const res = await fetch('/api/traits/save', {
+  await fetch('/api/traits/save', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  });
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.error(`error saving traits: ${err}`);
+    });
 }
 
-export default function Save() {
+function useUpdateDB() {
   const title = useProjectTitleContext();
   const selectedTraits = useTraitsContext();
   const { selectedHash } = useHashContext();
   const isDisabled = title.length === 0 || selectedTraits.length === 0 || selectedHash === INITIAL_SELECTED_HASH;
 
-  function handleSave() {
-    updateDB({
+  async function handleSave() {
+    await updateDB({
       title,
       traitIds: selectedTraits.map((trait: Trait) => trait.id),
     });
   }
+
+  return { handleSave, isDisabled };
+}
+
+export default function Save() {
+  const { handleSave, isDisabled } = useUpdateDB();
 
   return (
     <>
