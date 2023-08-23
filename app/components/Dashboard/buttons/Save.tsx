@@ -82,7 +82,7 @@ export default function Save() {
       {saveData.error && <p className="ml-2 text-red-500 text-xs">{errMessage}</p>}
       {saveData.data && (
         <p className="ml-2 text-green-500 text-xs">
-          Project saved!{' '}
+          Project saved ⚡️{' '}
           <span className="ml-2 underline cursor-pointer" onClick={() => handleCopy(saveData.data)}>
             {isCopied ? 'Copied!' : 'Copy project link'}
           </span>
