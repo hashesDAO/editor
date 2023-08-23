@@ -1,7 +1,7 @@
+import slugify from '@sindresorhus/slugify';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import slugify from '@sindresorhus/slugify';
 
 const TABLE_NAME = 'user-traits';
 
