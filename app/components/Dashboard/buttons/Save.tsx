@@ -1,5 +1,8 @@
 'use client';
 
+import { useHashContext } from '@/app/contexts/HashContext';
+import { useTraitsContext } from '@/app/contexts/TraitsContext';
+import { INITIAL_SELECTED_HASH } from '@/app/util/constants';
 import { FaSave } from 'react-icons/fa';
 import { Tooltip } from 'react-tooltip';
 import CircleButton from '../../common/CircleButton';
@@ -10,7 +13,9 @@ const tooltip = {
 };
 
 export default function Save() {
-  const isDisabled = true;
+  const selectedTraits = useTraitsContext();
+  const { selectedHash } = useHashContext();
+  const isDisabled = selectedTraits.length === 0 || selectedHash === INITIAL_SELECTED_HASH;
 
   function handleSave() {
     console.log('SAVE');
