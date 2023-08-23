@@ -31,11 +31,12 @@ export async function POST(req: Request) {
   // console.log('zzz body', body);
   // console.log('zzz titleData', titleData.length);
 
-  const slug = slugify(title);
+  const titleSlug = slugify(title);
+  const slug = titleData.length === 0 ? titleSlug : `${titleSlug}-${titleData.length + 1}`;
   const { data: postData, error: postError } = await supabase.from(TABLE_NAME).insert({
     title,
     trait_ids: traitIds,
-    slug: titleData.length === 0 ? slug : `${slug}-${titleData.length + 1}`,
+    slug,
   });
 
   if (postError) {
@@ -46,6 +47,6 @@ export async function POST(req: Request) {
   // console.log('zzz postData', postData);
 
   return NextResponse.json({
-    data: 'data',
+    slug,
   });
 }

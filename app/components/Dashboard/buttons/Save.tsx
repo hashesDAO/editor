@@ -38,10 +38,11 @@ function useSave() {
     })
       .then(async (res) => {
         const payloadData = await res.json();
+        console.log('payloadData', payloadData);
 
         dispatchSaveData({
           type: 'SUCCESS',
-          payload: payloadData,
+          payload: payloadData.slug,
         });
       })
       .catch((err) => {
@@ -62,8 +63,8 @@ export default function Save() {
   const { handleSave, isDisabled, saveData } = useSave();
   const [isCopied, copy] = useCopyToClipboard();
 
-  function handleCopy() {
-    copy(window.location.href);
+  function handleCopy(slug: string) {
+    copy(`${window.location.origin}/collect/${slug}`);
   }
 
   return (
@@ -82,7 +83,7 @@ export default function Save() {
       {saveData.data && (
         <p className="ml-2 text-green-500 text-xs">
           Project saved!{' '}
-          <span className="ml-2 underline cursor-pointer" onClick={handleCopy}>
+          <span className="ml-2 underline cursor-pointer" onClick={() => handleCopy(saveData.data)}>
             {isCopied ? 'Copied!' : 'Copy project link'}
           </span>
         </p>
