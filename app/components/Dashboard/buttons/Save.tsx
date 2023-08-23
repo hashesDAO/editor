@@ -12,17 +12,13 @@ import { Tooltip } from 'react-tooltip';
 import { fetchReducer, initialFetchReducerState } from '../../../reducers/fetchReducer';
 import CircleButton from '../../common/CircleButton';
 
-const tooltip = {
-  id: 'save-tooltip',
-  text: 'Create a title and design to save your project.',
-};
-
 function useSave() {
   const [saveData, dispatchSaveData] = useReducer(fetchReducer, initialFetchReducerState);
   const title = useProjectTitleContext();
   const selectedTraits = useTraitsContext();
   const { selectedHash } = useHashContext();
-  const isDisabled = title.length === 0 || selectedTraits.length === 0 || selectedHash === INITIAL_SELECTED_HASH;
+  const isDisabled =
+    saveData.loading || title.length === 0 || selectedTraits.length === 0 || selectedHash === INITIAL_SELECTED_HASH;
 
   async function handleSave() {
     dispatchSaveData({ type: LOADING });
@@ -58,6 +54,10 @@ function useSave() {
 }
 
 const errMessage = 'Error occurred while saving your project. Please try again.';
+const tooltip = {
+  id: 'save-tooltip',
+  text: 'Create a title and design to save your project.',
+};
 
 export default function Save() {
   const { handleSave, isDisabled, saveData } = useSave();
