@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useProjectTitleContext, useProjectTitleDispatch } from '@/app/contexts/ProjectTitleContext';
 
 export default function ProjectTitle({ children }: { children?: React.ReactNode }) {
-  const [title, setTitle] = useState<string>();
+  const title = useProjectTitleContext();
+  const setTitle = useProjectTitleDispatch();
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setTitle(event.target.value);
