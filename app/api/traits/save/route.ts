@@ -19,23 +19,23 @@ export async function POST(req: Request) {
     // return NextResponse.error(new Error('Missing required fields'));
   }
 
-  const slug = slugify(title);
-
   const supabase = createServerComponentClient({ cookies });
-  const { data: slugData, error: slugError } = await supabase.from(TABLE_NAME).select('*').eq('slug', slug);
+  //get project title data to increment forthcoming slug if not unique
+  const { data: titleData, error: titleError } = await supabase.from(TABLE_NAME).select('title').eq('title', title);
 
-  if (slugError) {
-    console.log(`error getting slug data: ${slugError.message}`);
+  if (titleError) {
+    console.log(`error getting title data: ${titleError.message}`);
     return;
   }
 
-  console.log('zzz body', body);
-  console.log('zzz slugData', slugData.length);
+  // console.log('zzz body', body);
+  // console.log('zzz titleData', titleData.length);
 
+  const slug = slugify(title);
   const { data: postData, error: postError } = await supabase.from(TABLE_NAME).insert({
     title,
     trait_ids: traitIds,
-    slug: slugData.length === 0 ? slug : `${slug}-${slugData.length}`,
+    slug: titleData.length === 0 ? slug : `${slug}-${titleData.length + 1}`,
   });
 
   if (postError) {
@@ -43,9 +43,7 @@ export async function POST(req: Request) {
     return;
   }
 
-  console.log('zzz postData', postData);
-
-  // const data = await res.json();
+  // console.log('zzz postData', postData);
 
   return NextResponse.json({
     data: 'data',
