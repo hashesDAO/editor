@@ -35,7 +35,6 @@ export default function GenerateHashForm({ onSubmit }: Props) {
     if (hash instanceof Error) {
       console.error(hash);
     } else {
-      console.log(`generated hash: ${hash}`);
       onSubmit(hash, newHashPhrase);
     }
   }

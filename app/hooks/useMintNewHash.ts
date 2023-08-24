@@ -12,16 +12,12 @@ export default function useMintNewHash() {
   const parsedHashes = hashes?.map(({ hash_value }) => hash_value);
 
   function handleMint() {
-    console.log(`mint with ${selectedHash} and ${selectedHashPhrase}!`);
-
     if (!parsedHashes || !parsedHashes.includes(selectedHash)) {
       if (!chain?.network) {
         console.error('no chain network found');
         return;
       }
       mintHash(selectedHashPhrase, chain.network as ChainNames);
-    } else {
-      console.log(`hash found ${selectedHash}`);
     }
   }
 

@@ -22,7 +22,6 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
 
   useEffect(() => {
     if (data?.data) {
-      console.log('data haha', data);
       dispatch({
         type: 'BULK_ADD',
         id: '',
