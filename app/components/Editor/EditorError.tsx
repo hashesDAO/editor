@@ -2,8 +2,8 @@
 
 import { PropsWithChildren } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import Button from './common/Button';
-import { useTraitsDispatch } from '../contexts/TraitsContext';
+import Button from '../common/Button';
+import { useTraitsDispatch } from '../../contexts/TraitsContext';
 
 type FallbackProps = {
   error: Error;

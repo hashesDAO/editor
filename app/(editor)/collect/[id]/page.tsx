@@ -1,6 +1,6 @@
 import Dashboard from '@/app/components/Dashboard';
-import Editor from '@/app/components/Editor';
-import EditorError from '@/app/components/EditorError';
+import Editor from '@/app/components/Editor/Editor';
+import EditorError from '@/app/components/Editor/EditorError';
 import { HashContextProvider } from '@/app/contexts/HashContext';
 import { ProjectTitleContextProvider } from '@/app/contexts/ProjectTitleContext';
 import { TraitsContextProvider } from '@/app/contexts/TraitsContext';
