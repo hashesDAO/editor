@@ -1,11 +1,10 @@
-import { ChainNames } from '@/app/util/types';
+import type { ChainNames, HashType } from '@/app/util/types';
 import { NextResponse } from 'next/server';
-import { callReadOnlyFnFromHashesContract } from '../../../util/';
-import { getHashType, hashType, isValidAddress } from '../../../util/validate';
+import { callReadOnlyFnFromHashesContract, getHashType, isValidAddress } from '../../../util/';
 
 type WalletHash = {
   hash_value: string;
-  type: hashType;
+  type: HashType;
   token_id: number;
 };
 

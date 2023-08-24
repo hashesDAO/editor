@@ -1,8 +1,8 @@
-import { Abi, Address, createPublicClient, createWalletClient, custom, http } from 'viem';
+import { Abi, Address, createPublicClient, createWalletClient, custom, http, isAddress } from 'viem';
 import { goerli, mainnet } from 'viem/chains';
 import { Chain } from 'wagmi';
 import { hashesContract } from './hashesContract';
-import { ChainNames } from './types';
+import type { ChainNames, HashType } from './types';
 
 export const MAINNET_HASHES_ADDRESS = '0xD07e72b00431af84AD438CA995Fd9a7F0207542d';
 
@@ -72,4 +72,12 @@ export async function callWriteFnFromHashesContract(
   } catch (error) {
     return new Error(`error from callWriteFnFromHashesContract: ${error}`);
   }
+}
+
+export function getHashType(tokenId: string | string[], isDeactivated: boolean): HashType {
+  return Number(tokenId) >= 1000 ? 'Standard' : isDeactivated ? 'DAO Deactivated' : 'DAO';
+}
+
+export function isValidAddress(address: string): boolean {
+  return typeof address === 'string' && address.length !== 0 && isAddress(address);
 }
