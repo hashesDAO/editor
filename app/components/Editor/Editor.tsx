@@ -24,7 +24,7 @@ const renderP5 = (hash: Address | string, traits: Trait[]) => (p5: any) => {
 
   p5.setup = () => {
     const container = document.querySelector('#canvas-container')!;
-    p5.createCanvas(container.clientHeight, container.clientHeight);
+    p5.createCanvas(container?.clientHeight, container?.clientHeight);
     p5.background(255, 255);
     p5.noLoop();
   };

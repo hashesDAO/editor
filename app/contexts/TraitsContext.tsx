@@ -1,6 +1,7 @@
 'use client';
 
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useContext, useEffect, useReducer } from 'react';
+import useSavedProjectData from '../hooks/useSavedProjectData';
 import { Trait, initialTraitsState, traitsReducer } from '../reducers/traitsReducer';
 
 type DispatchFns = {
@@ -17,6 +18,20 @@ const DispatchContext = createContext<DispatchFns | undefined>(undefined);
 
 export function TraitsContextProvider({ children }: { children: React.ReactNode }) {
   const [traitsData, dispatch] = useReducer(traitsReducer, initialTraitsState);
+  const { data } = useSavedProjectData();
+
+  useEffect(() => {
+    if (data?.data) {
+      console.log('data haha', data);
+      dispatch({
+        type: 'BULK_ADD',
+        id: '',
+        content: '',
+        name: '',
+        traits: data.data,
+      });
+    }
+  }, [data]);
 
   function handleAddTrait(id: string, content: string, name: string) {
     const numTraits = traitsData.traits.filter((trait) => trait.name === name).length;
