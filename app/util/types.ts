@@ -4,6 +4,8 @@ export type TraitType = 'draw' | 'repeat' | 'pre-process' | 'post-process';
 
 export type ChainNames = 'homestead' | 'mainnet' | 'goerli';
 
+export type HashType = 'DAO' | 'DAO Deactivated' | 'Standard';
+
 export type HashesData = {
   hash_value: Address;
   type: 'DAO' | 'Standard';
