@@ -28,8 +28,6 @@ export default function useSave() {
     })
       .then(async (res) => {
         const payloadData = await res.json();
-        console.log('payloadData', payloadData);
-
         dispatchSaveData({
           type: 'SUCCESS',
           payload: payloadData.slug,
