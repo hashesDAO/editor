@@ -56,5 +56,5 @@ export default function Editor() {
     p5Instance = new p5(renderP5(selectedHash, selectedTraits), p5Ref.current);
   }, [selectedHash, selectedTraits]);
 
-  return <div ref={p5Ref} className="h-screen w-screen" id="canvas-container"></div>;
+  return <div ref={p5Ref} className="h-screen" id="canvas-container"></div>;
 }
