@@ -2,10 +2,10 @@
 
 import { useEffect, useRef } from 'react';
 import { Address } from 'viem';
-import { useHashContext } from '../contexts/HashContext';
-import { useTraitsContext } from '../contexts/TraitsContext';
-import type { Trait } from '../reducers/traitsReducer';
-import * as attributeLibrary from '../util/attributeLibrary';
+import { useHashContext } from '../../contexts/HashContext';
+import { useTraitsContext } from '../../contexts/TraitsContext';
+import type { Trait } from '../../reducers/traitsReducer';
+import * as attributeLibrary from '../../util/attributeLibrary';
 
 let p5: any;
 let p5Instance: any;
