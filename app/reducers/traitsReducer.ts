@@ -40,6 +40,14 @@ export function traitsReducer(state: TraitsState, action: Action) {
         cache: newCache,
         cacheIndex: newCache.length - 1,
       };
+    case 'BULK_ADD':
+      const bulkAddedTraits = [...traits, ...action.traits!];
+      const newBulkCache = [...cache, bulkAddedTraits];
+      return {
+        traits: bulkAddedTraits,
+        cache: newBulkCache,
+        cacheIndex: newBulkCache.length + 1,
+      };
     case 'REMOVE':
       const index = traits.findIndex((trait) => trait.id === id);
       const remainingTraits = [...traits.slice(0, index), ...traits.slice(index + 1)];
