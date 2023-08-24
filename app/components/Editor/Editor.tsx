@@ -24,7 +24,7 @@ const renderP5 = (hash: Address | string, traits: Trait[]) => (p5: any) => {
 
   p5.setup = () => {
     const container = document.querySelector('#canvas-container')!;
-    p5.createCanvas(container?.clientHeight, container?.clientHeight);
+    p5.createCanvas(container?.clientWidth, container?.clientHeight);
     p5.background(255, 255);
     p5.noLoop();
   };
@@ -56,5 +56,5 @@ export default function Editor() {
     p5Instance = new p5(renderP5(selectedHash, selectedTraits), p5Ref.current);
   }, [selectedHash, selectedTraits]);
 
-  return <div ref={p5Ref} className="h-screen" id="canvas-container"></div>;
+  return <div ref={p5Ref} className="h-screen w-screen" id="canvas-container"></div>;
 }
