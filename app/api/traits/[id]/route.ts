@@ -30,10 +30,11 @@ export async function GET(request: Request) {
   }
 
   const parsedTraitsData = [...projectData.trait_ids].map((id) => {
-    const content = traitsData.find((trait) => trait.id === id.split('-')[0]).content;
+    const { content, name } = traitsData.find((trait) => trait.id === id.split('-')[0]);
     return {
       id,
       content,
+      name,
     };
   });
 
