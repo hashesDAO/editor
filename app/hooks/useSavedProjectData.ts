@@ -15,10 +15,9 @@ export default function useSavedProjectData() {
   }
   // @ts-ignore
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  const { data: projectData, error, isLoading } = useSWR(`/api/traits/${id}`, fetcher);
-
+  const { data, error, isLoading } = useSWR(`/api/traits/${id}`, fetcher);
   return {
-    data: projectData?.data,
+    data,
     isLoading,
     isError: error,
   };
