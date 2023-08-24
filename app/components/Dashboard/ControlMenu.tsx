@@ -45,7 +45,7 @@ export default function ControlMenu() {
         </li>
       </ul>
       <p className="text-sm opacity-40">
-        Adjust the parameters below to create a bespoke work of art using a unique hash
+        Adjust the parameters below to create a bespoke work of art using a unique hash.
       </p>
     </section>
   );
