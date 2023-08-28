@@ -12,9 +12,33 @@ import { INITIAL_SELECTED_HASH, VERIFY_MESSAGE } from '@/app/util/constants';
 const tooltipId = 'primary-action';
 const loadingText = '...LOADING';
 
-export default function Mint() {
-  const { isConnected } = useAccount();
+function noHashSelected(hash: string) {
+  return hash === INITIAL_SELECTED_HASH;
+}
+
+function MintButton() {
+  const { selectedHash } = useHashContext();
   const { handleMint } = useMintNewHash();
+  const { isLoading: isLoadingHashesData } = useHashesData();
+  const isDisabled = isLoadingHashesData || noHashSelected(selectedHash);
+
+  return (
+    <>
+      <Button
+        text={isLoadingHashesData ? loadingText : 'MINT HASH'}
+        buttonColor={'bg-primaryRed'}
+        onClick={handleMint}
+        disabled={isDisabled}
+        data-tooltip-id={tooltipId}
+        data-tooltip-content={'Generate a new Hash before minting.'}
+      />
+      {isDisabled && <Tooltip id={tooltipId} />}
+    </>
+  );
+}
+
+function UpdateButton() {
+  const { isConnected } = useAccount();
   const { selectedHash } = useHashContext();
   const { hashData, isError, isLoading: isLoadingHashesData } = useHashesData();
   const { handleUpdate, isDisabled: isDisabledViaSave } = useUpdate();
@@ -30,43 +54,38 @@ export default function Mint() {
 
   console.log('signedData', signedData);
 
-  const noHashSelected = selectedHash === INITIAL_SELECTED_HASH;
-
   if (!isConnected) {
     return null;
   }
 
-  const button = hashData?.hashes.length
-    ? {
-        text: isLoadingHashesData ? loadingText : 'UPDATE HASH',
-        fn: () => {
-          signMessage();
-          if (isSuccess && signedData) {
-            console.log('mk inside', signedData);
-            handleUpdate(signedData);
-          }
-        },
-        isDisabled: isDisabledViaSave || isLoadingHashesData || noHashSelected || isSignedLoading,
-        tooltipText: 'Create a design and select a Hash to update.',
-      }
-    : {
-        text: isLoadingHashesData ? loadingText : 'MINT HASH',
-        fn: handleMint,
-        isDisabled: isLoadingHashesData || noHashSelected,
-        tooltipText: 'Generate a new Hash before minting.',
-      };
+  const noHashSelected = selectedHash === INITIAL_SELECTED_HASH;
+  const isDisabled = isDisabledViaSave || isLoadingHashesData || noHashSelected || isSignedLoading;
+
+  function handleClick() {
+    signMessage();
+    if (isSuccess && signedData) {
+      handleUpdate(signedData);
+    }
+  }
 
   return (
     <>
       <Button
-        text={button.text}
+        text={isLoadingHashesData ? loadingText : 'UPDATE HASH'}
         buttonColor={'bg-primaryRed'}
-        onClick={button.fn}
-        disabled={button.isDisabled}
+        onClick={handleClick}
+        disabled={isDisabled}
         data-tooltip-id={tooltipId}
-        data-tooltip-content={button.tooltipText}
+        data-tooltip-content={'Create a design and select a Hash to update.'}
       />
-      {button.isDisabled && <Tooltip id={tooltipId} />}
+      {isDisabled && <Tooltip id={tooltipId} />}
     </>
   );
+}
+
+export default function Blah() {
+  const { hashData, isError, isLoading: isLoadingHashesData } = useHashesData();
+  {
+    hashData?.hashes.length ? <UpdateButton /> : <MintButton />;
+  }
 }
