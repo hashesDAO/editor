@@ -1,7 +1,7 @@
 'use client';
 
 import useUpdate from '@/app/hooks/useUpdate';
-import { LOADING_TEXT, VERIFY_MESSAGE } from '@/app/util/constants';
+import { LOADING_TEXT } from '@/app/util/constants';
 import { Tooltip } from 'react-tooltip';
 import { useSignMessage } from 'wagmi';
 import Button from '../../common/Button';
@@ -13,6 +13,8 @@ type Props = {
 
 const tooltipId = 'update-tooltip';
 
+export const verifyMessage = 'Sign message to verify ownership of your selected Hash.';
+
 export function UpdateButton({ isLoadingHashesData, noHashSelected }: Props) {
   const { handleUpdate, isDisabled: isDisabledViaSave } = useUpdate();
   const {
@@ -20,19 +22,19 @@ export function UpdateButton({ isLoadingHashesData, noHashSelected }: Props) {
     isError: isSignedError,
     isLoading: isSignedLoading,
     isSuccess,
-    signMessage,
+    signMessageAsync,
   } = useSignMessage({
-    message: VERIFY_MESSAGE,
+    message: verifyMessage,
   });
 
   console.log('signedData', signedData);
 
   const isDisabled = isDisabledViaSave || isLoadingHashesData || noHashSelected || isSignedLoading;
 
-  function handleClick() {
-    signMessage();
+  async function handleClick() {
+    await signMessageAsync();
     if (isSuccess && signedData) {
-      handleUpdate(signedData);
+      await handleUpdate(signedData);
     }
   }
 
