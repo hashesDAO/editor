@@ -11,6 +11,7 @@ import { INITIAL_SELECTED_HASH } from '@/app/util/constants';
 
 const tooltipId = 'primary-action';
 const loadingText = '...LOADING';
+
 export default function Mint() {
   const { isConnected } = useAccount();
   const { handleMint } = useMintNewHash();
@@ -27,7 +28,7 @@ export default function Mint() {
     ? {
         text: isLoadingHashesData ? loadingText : 'UPDATE HASH',
         fn: handleSave,
-        isDisabled: isDisabledViaSave || isLoadingHashesData,
+        isDisabled: isDisabledViaSave || isLoadingHashesData || noHashSelected,
         tooltipText: 'Create a design and select a Hash to update.',
       }
     : {
