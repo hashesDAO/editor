@@ -9,6 +9,10 @@ import { Tooltip } from 'react-tooltip';
 import { useHashContext } from '@/app/contexts/HashContext';
 import { INITIAL_SELECTED_HASH, VERIFY_MESSAGE } from '@/app/util/constants';
 
+type ButtonProps = {
+  isLoadingHashesData: boolean;
+};
+
 const tooltipId = 'primary-action';
 const loadingText = '...LOADING';
 
@@ -16,12 +20,10 @@ function noHashSelected(hash: string) {
   return hash === INITIAL_SELECTED_HASH;
 }
 
-function MintButton() {
+function MintButton({ isLoadingHashesData }: ButtonProps) {
   const { selectedHash } = useHashContext();
   const { handleMint } = useMintNewHash();
-  const { isLoading: isLoadingHashesData } = useHashesData();
   const isDisabled = isLoadingHashesData || noHashSelected(selectedHash);
-
   return (
     <>
       <Button
@@ -37,10 +39,8 @@ function MintButton() {
   );
 }
 
-function UpdateButton() {
-  const { isConnected } = useAccount();
+function UpdateButton({ isLoadingHashesData }: ButtonProps) {
   const { selectedHash } = useHashContext();
-  const { hashData, isError, isLoading: isLoadingHashesData } = useHashesData();
   const { handleUpdate, isDisabled: isDisabledViaSave } = useUpdate();
   const {
     data: signedData,
@@ -53,10 +53,6 @@ function UpdateButton() {
   });
 
   console.log('signedData', signedData);
-
-  if (!isConnected) {
-    return null;
-  }
 
   const noHashSelected = selectedHash === INITIAL_SELECTED_HASH;
   const isDisabled = isDisabledViaSave || isLoadingHashesData || noHashSelected || isSignedLoading;
@@ -84,8 +80,20 @@ function UpdateButton() {
 }
 
 export default function Blah() {
-  const { hashData, isError, isLoading: isLoadingHashesData } = useHashesData();
-  {
-    hashData?.hashes.length ? <UpdateButton /> : <MintButton />;
+  const { hashData, isError, isLoading } = useHashesData();
+  const { isConnected } = useAccount();
+
+  if (!isConnected) {
+    return null;
   }
+
+  return (
+    <>
+      {hashData?.hashes.length ? (
+        <UpdateButton isLoadingHashesData={isLoading} />
+      ) : (
+        <MintButton isLoadingHashesData={isLoading} />
+      )}
+    </>
+  );
 }
