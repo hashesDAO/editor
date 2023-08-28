@@ -78,7 +78,7 @@ function UpdateButton({ isLoadingHashesData }: ButtonProps) {
   );
 }
 
-export default function PrimaryAction() {
+export default function PrimaryActionButton() {
   const { hashData, isError, isLoading } = useHashesData();
   const { isConnected } = useAccount();
 

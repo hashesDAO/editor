@@ -1,5 +1,5 @@
 import ConnectButton from '../ConnectButton';
-import PrimaryAction from './buttons/PrimaryAction';
+import PrimaryActionButton from './buttons/PrimaryAction';
 
 export default function DashboardFooter() {
   return (
@@ -8,7 +8,7 @@ export default function DashboardFooter() {
       style={{ boxShadow: '0px -46px 64px -12px #131313' }}
     >
       <ConnectButton />
-      <PrimaryAction />
+      <PrimaryActionButton />
     </footer>
   );
 }
