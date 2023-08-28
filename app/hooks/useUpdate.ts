@@ -11,7 +11,7 @@ export default function useUpdate() {
   const { selectedHash } = useHashContext();
   const isDisabled = updateData.loading || selectedTraits.length === 0 || selectedHash === INITIAL_SELECTED_HASH;
 
-  async function handleSave() {
+  async function handleUpdate() {
     dispatchUpdateData({ type: LOADING });
     await fetch('/api/update', {
       method: 'POST',
@@ -40,5 +40,5 @@ export default function useUpdate() {
       });
   }
 
-  return { handleSave, isDisabled, updateData };
+  return { handleUpdate, isDisabled, updateData };
 }
