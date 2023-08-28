@@ -78,7 +78,7 @@ function UpdateButton({ isLoadingHashesData }: ButtonProps) {
   );
 }
 
-export default function Blah() {
+export default function PrimaryAction() {
   const { hashData, isError, isLoading } = useHashesData();
   const { isConnected } = useAccount();
 
