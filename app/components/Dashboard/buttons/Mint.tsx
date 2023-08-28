@@ -1,13 +1,13 @@
 'use client';
 
+import { useHashContext } from '@/app/contexts/HashContext';
 import useHashesData from '@/app/hooks/useHashesData';
 import useMintNewHash from '@/app/hooks/useMintNewHash';
 import useUpdate from '@/app/hooks/useUpdate';
+import { INITIAL_SELECTED_HASH, VERIFY_MESSAGE } from '@/app/util/constants';
+import { Tooltip } from 'react-tooltip';
 import { useAccount, useSignMessage } from 'wagmi';
 import Button from '../../common/Button';
-import { Tooltip } from 'react-tooltip';
-import { useHashContext } from '@/app/contexts/HashContext';
-import { INITIAL_SELECTED_HASH, VERIFY_MESSAGE } from '@/app/util/constants';
 
 type ButtonProps = {
   isLoadingHashesData: boolean;
