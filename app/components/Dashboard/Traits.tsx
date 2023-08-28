@@ -1,4 +1,4 @@
-import { TRAITS_TABLE_NAME } from '@/app/util/constants';
+import { TRAITS_TABLE } from '@/app/util/constants';
 import type { ParsedTrait, TraitObject } from '@/app/util/types';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
@@ -36,7 +36,7 @@ function mapTraitsToSections(traits: TraitObject[]): ParsedTrait[] {
 
 export default async function Traits() {
   const supabase = createServerComponentClient({ cookies });
-  const { data: traits } = await supabase.from(TRAITS_TABLE_NAME).select();
+  const { data: traits } = await supabase.from(TRAITS_TABLE).select();
   // TODO: handle potential error
   return (
     <>
