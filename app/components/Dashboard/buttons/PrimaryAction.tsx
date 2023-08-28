@@ -4,9 +4,12 @@ import useHashesData from '@/app/hooks/useHashesData';
 import { useAccount } from 'wagmi';
 import MintButton from './Mint';
 import { UpdateButton } from './Update';
+import { useHashContext } from '@/app/contexts/HashContext';
+import { noHashSelected } from '@/app/util';
 
 export default function PrimaryActionButton() {
   const { hashData, isError, isLoading } = useHashesData();
+  const { selectedHash } = useHashContext();
   const { isConnected } = useAccount();
 
   if (!isConnected) {
@@ -16,9 +19,9 @@ export default function PrimaryActionButton() {
   return (
     <>
       {hashData?.hashes.length ? (
-        <UpdateButton isLoadingHashesData={isLoading} />
+        <UpdateButton noHashSelected={noHashSelected(selectedHash)} isLoadingHashesData={isLoading} />
       ) : (
-        <MintButton isLoadingHashesData={isLoading} />
+        <MintButton noHashSelected={noHashSelected(selectedHash)} isLoadingHashesData={isLoading} />
       )}
     </>
   );

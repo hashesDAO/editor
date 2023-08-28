@@ -1,21 +1,20 @@
 'use client';
 
-import { useHashContext } from '@/app/contexts/HashContext';
 import useMintNewHash from '@/app/hooks/useMintNewHash';
 import { LOADING_TEXT } from '@/app/util/constants';
-import { noHashSelected } from '@/app/util';
 import { Tooltip } from 'react-tooltip';
 import Button from '../../common/Button';
 
 type Props = {
   isLoadingHashesData: boolean;
+  noHashSelected: boolean;
 };
 
-export default function MintButton({ isLoadingHashesData }: Props) {
-  const { selectedHash } = useHashContext();
+const tooltipId = 'mint-tooltip';
+
+export default function MintButton({ isLoadingHashesData, noHashSelected }: Props) {
   const { handleMint } = useMintNewHash();
-  const isDisabled = isLoadingHashesData || noHashSelected(selectedHash);
-  const tooltipId = 'mint-tooltip';
+  const isDisabled = isLoadingHashesData || noHashSelected;
   return (
     <>
       <Button
