@@ -42,7 +42,8 @@ export default function Mint() {
         fn: () => {
           signMessage();
           if (isSuccess && signedData) {
-            // handleUpdate(signedData);
+            console.log('mk inside', signedData);
+            handleUpdate(signedData);
           }
         },
         isDisabled: isDisabledViaSave || isLoadingHashesData || noHashSelected || isSignedLoading,

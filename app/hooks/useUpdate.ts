@@ -4,6 +4,7 @@ import { Trait } from '@/app/reducers/traitsReducer';
 import { INITIAL_SELECTED_HASH, LOADING } from '@/app/util/constants';
 import { useReducer } from 'react';
 import { fetchReducer, initialFetchReducerState } from '../reducers/fetchReducer';
+import { Address } from 'viem';
 
 export default function useUpdate() {
   const [updateData, dispatchUpdateData] = useReducer(fetchReducer, initialFetchReducerState);
@@ -11,7 +12,7 @@ export default function useUpdate() {
   const { selectedHash } = useHashContext();
   const isDisabled = updateData.loading || selectedTraits.length === 0 || selectedHash === INITIAL_SELECTED_HASH;
 
-  async function handleUpdate() {
+  async function handleUpdate(signedMessage: Address) {
     dispatchUpdateData({ type: LOADING });
     await fetch('/api/update', {
       method: 'POST',
@@ -21,7 +22,7 @@ export default function useUpdate() {
       body: JSON.stringify({
         hash: selectedHash,
         image: selectedTraits.map((trait: Trait) => trait.id),
-        signedMessageTxHash: '0x123456789',
+        signedMessage,
       }),
     })
       .then(async (res) => {
