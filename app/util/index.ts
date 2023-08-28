@@ -3,6 +3,7 @@ import { goerli, mainnet } from 'viem/chains';
 import { Chain } from 'wagmi';
 import { hashesContract } from './hashesContract';
 import type { ChainNames, HashType } from './types';
+import { INITIAL_SELECTED_HASH } from './constants';
 
 export const MAINNET_HASHES_ADDRESS = '0xD07e72b00431af84AD438CA995Fd9a7F0207542d';
 
@@ -80,4 +81,8 @@ export function getHashType(tokenId: string | string[], isDeactivated: boolean):
 
 export function isValidAddress(address: string): boolean {
   return typeof address === 'string' && address.length !== 0 && isAddress(address);
+}
+
+export function noHashSelected(hash: string) {
+  return hash === INITIAL_SELECTED_HASH;
 }

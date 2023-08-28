@@ -9,35 +9,11 @@ import { Tooltip } from 'react-tooltip';
 import { useAccount, useSignMessage } from 'wagmi';
 import Button from '../../common/Button';
 
-type ButtonProps = {
+type Props = {
   isLoadingHashesData: boolean;
 };
 
-function noHashSelected(hash: string) {
-  return hash === INITIAL_SELECTED_HASH;
-}
-
-function MintButton({ isLoadingHashesData }: ButtonProps) {
-  const { selectedHash } = useHashContext();
-  const { handleMint } = useMintNewHash();
-  const isDisabled = isLoadingHashesData || noHashSelected(selectedHash);
-  const tooltipId = 'mint-tooltip';
-  return (
-    <>
-      <Button
-        text={isLoadingHashesData ? LOADING_TEXT : 'MINT HASH'}
-        buttonColor={'bg-primaryRed'}
-        onClick={handleMint}
-        disabled={isDisabled}
-        data-tooltip-id={tooltipId}
-        data-tooltip-content={'Generate a new Hash before minting.'}
-      />
-      {isDisabled && <Tooltip id={tooltipId} />}
-    </>
-  );
-}
-
-function UpdateButton({ isLoadingHashesData }: ButtonProps) {
+function UpdateButton({ isLoadingHashesData }: Props) {
   const { selectedHash } = useHashContext();
   const { handleUpdate, isDisabled: isDisabledViaSave } = useUpdate();
   const {
