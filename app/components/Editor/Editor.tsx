@@ -1,5 +1,6 @@
 'use client';
 
+import { useRenderedImageContext, useRenderedImageDispatch } from '@/app/contexts/RenderedImageContext';
 import { useEffect, useRef } from 'react';
 import { Address } from 'viem';
 import { useHashContext } from '../../contexts/HashContext';
@@ -34,10 +35,16 @@ const renderP5 = (hash: Address | string, traits: Trait[]) => (p5: any) => {
   };
 };
 
+function canvasToBase64(canvas: HTMLCanvasElement) {
+  return canvas.toDataURL();
+}
+
 export default function Editor() {
   const p5Ref = useRef(document.createElement('div'));
   const { selectedHash } = useHashContext();
   const selectedTraits = useTraitsContext();
+  const updateRenderedImage = useRenderedImageDispatch();
+  const renderedImage = useRenderedImageContext();
 
   useEffect(() => {
     p5 = require('p5');
@@ -55,6 +62,16 @@ export default function Editor() {
     }
     p5Instance = new p5(renderP5(selectedHash, selectedTraits), p5Ref.current);
   }, [selectedHash, selectedTraits]);
+
+  useEffect(() => {
+    if (p5Ref.current.firstChild) {
+      const base64Image = canvasToBase64(p5Ref.current.firstChild as HTMLCanvasElement);
+      if (base64Image === renderedImage) {
+        return;
+      }
+      updateRenderedImage(base64Image);
+    }
+  }, [updateRenderedImage, renderedImage, p5Ref.current.firstChild]);
 
   return <div ref={p5Ref} className="h-screen" id="canvas-container"></div>;
 }
