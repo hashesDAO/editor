@@ -1,15 +1,15 @@
+import { callReadOnlyFnFromHashesContract } from '@/app/util';
 import { messageToSign } from '@/app/util/constants';
 import { NextResponse } from 'next/server';
-import { verifyMessage } from 'viem';
+import { Address, isAddressEqual, verifyMessage } from 'viem';
 
 export async function POST(req: Request) {
   const body = await req.json();
+  const { hash, tokenId, image, signature, address } = body;
 
-  const { hash, image, signature, address } = body;
-
-  if (!hash || !image || !signature || !address) {
+  if (!hash || !tokenId || !image || !signature || !address) {
     return NextResponse.json(
-      { error: 'request body must contain the following fields: hash, image, signature, address' },
+      { error: 'request body must contain the following fields: hash, tokenId, image, signature, address' },
       { status: 400 },
     );
   }
@@ -22,6 +22,16 @@ export async function POST(req: Request) {
 
   if (!isValidSignature) {
     return NextResponse.json({ error: 'invalid message signature' }, { status: 400 });
+  }
+
+  const tokenIdOwner = await callReadOnlyFnFromHashesContract('homestead', 'ownerOf', [tokenId]);
+
+  if (tokenIdOwner instanceof Error) {
+    return NextResponse.json({ error: tokenIdOwner.message }, { status: 500 });
+  }
+
+  if (!isAddressEqual(tokenIdOwner as Address, address)) {
+    return NextResponse.json({ error: 'address does not own token' }, { status: 400 });
   }
 
   // const res = await fetch('https://data.mongodb-api.com/...', {

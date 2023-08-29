@@ -12,6 +12,8 @@ export default function PrimaryActionButton() {
   const { selectedHash } = useHashContext();
   const { isConnected, address } = useAccount();
 
+  const selectedHashData = hashData?.hashes.find(({ hash_value }) => hash_value === selectedHash);
+
   if (!isConnected) {
     return null;
   }
@@ -19,7 +21,12 @@ export default function PrimaryActionButton() {
   return (
     <>
       {hashData?.hashes.length ? (
-        <UpdateButton noHashSelected={noHashSelected(selectedHash)} isLoadingHashesData={isLoading} address={address} />
+        <UpdateButton
+          noHashSelected={noHashSelected(selectedHash)}
+          isLoadingHashesData={isLoading}
+          address={address!}
+          selectedHashData={selectedHashData}
+        />
       ) : (
         <MintButton noHashSelected={noHashSelected(selectedHash)} isLoadingHashesData={isLoading} />
       )}
