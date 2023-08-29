@@ -1,6 +1,5 @@
 import { useHashContext } from '@/app/contexts/HashContext';
 import { useTraitsContext } from '@/app/contexts/TraitsContext';
-import { Trait } from '@/app/reducers/traitsReducer';
 import { INITIAL_SELECTED_HASH, LOADING } from '@/app/util/constants';
 import { useReducer } from 'react';
 import { Address } from 'viem';
@@ -23,7 +22,7 @@ export default function useUpdate() {
       body: JSON.stringify({
         hash: selectedHashData.hash_value,
         tokenId: selectedHashData.token_id,
-        image: selectedTraits.map((trait: Trait) => trait.id),
+        image: selectedTraits.map((trait) => trait.id),
         signature,
         address,
       }),

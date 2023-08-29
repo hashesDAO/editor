@@ -18,6 +18,9 @@ export async function POST(req: Request) {
     address,
     message: messageToSign,
     signature,
+  }).catch((err) => {
+    console.error(`error verifying signature: ${err}`);
+    return false;
   });
 
   if (!isValidSignature) {
