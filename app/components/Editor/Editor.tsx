@@ -1,12 +1,12 @@
 'use client';
 
+import { useRenderedImageContext, useRenderedImageDispatch } from '@/app/contexts/RenderedImageContext';
 import { useEffect, useRef } from 'react';
 import { Address } from 'viem';
 import { useHashContext } from '../../contexts/HashContext';
 import { useTraitsContext } from '../../contexts/TraitsContext';
 import type { Trait } from '../../reducers/traitsReducer';
 import * as attributeLibrary from '../../util/attributeLibrary';
-import { useRenderedImageContext, useRenderedImageDispatch } from '@/app/contexts/RenderedImageContext';
 
 let p5: any;
 let p5Instance: any;
@@ -36,7 +36,7 @@ const renderP5 = (hash: Address | string, traits: Trait[]) => (p5: any) => {
 };
 
 function canvasToBase64(canvas: HTMLCanvasElement) {
-  return canvas.toDataURL(); // This returns a data URL of the canvas content
+  return canvas.toDataURL();
 }
 
 export default function Editor() {

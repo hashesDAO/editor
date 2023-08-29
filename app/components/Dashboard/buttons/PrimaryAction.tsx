@@ -1,11 +1,11 @@
 'use client';
 
+import { useHashContext } from '@/app/contexts/HashContext';
 import useHashesData from '@/app/hooks/useHashesData';
+import { noHashSelected } from '@/app/util';
 import { useAccount } from 'wagmi';
 import MintButton from './Mint';
 import { UpdateButton } from './Update';
-import { useHashContext } from '@/app/contexts/HashContext';
-import { noHashSelected } from '@/app/util';
 
 export default function PrimaryActionButton() {
   const { hashData, isError, isLoading } = useHashesData();
