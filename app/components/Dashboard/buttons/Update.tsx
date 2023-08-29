@@ -18,7 +18,6 @@ export const verifyMessage = 'Sign message to verify ownership of your selected 
 export function UpdateButton({ isLoadingHashesData, noHashSelected }: Props) {
   const { handleUpdate, isDisabled: isDisabledViaSave } = useUpdate();
   const {
-    data: signedData,
     isError: isSignedError,
     isLoading: isSignedLoading,
     isSuccess,
@@ -27,15 +26,12 @@ export function UpdateButton({ isLoadingHashesData, noHashSelected }: Props) {
     message: verifyMessage,
   });
 
-  console.log('signedData', signedData);
-
   const isDisabled = isDisabledViaSave || isLoadingHashesData || noHashSelected || isSignedLoading;
 
   async function handleClick() {
-    await signMessageAsync();
-    if (isSuccess && signedData) {
-      await handleUpdate(signedData);
-    }
+    //TODO: handle error
+    const signedData = await signMessageAsync();
+    await handleUpdate(signedData!);
   }
 
   return (
