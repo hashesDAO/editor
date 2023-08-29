@@ -5,11 +5,13 @@ import { useReducer } from 'react';
 import { Address } from 'viem';
 import { fetchReducer, initialFetchReducerState } from '../reducers/fetchReducer';
 import { HashesData } from '../util/types';
+import { useNetwork } from 'wagmi';
 
 export default function useUpdate() {
   const [updateData, dispatchUpdateData] = useReducer(fetchReducer, initialFetchReducerState);
   const selectedTraits = useTraitsContext();
   const { selectedHash } = useHashContext();
+  const { chain } = useNetwork();
   const isDisabled = updateData.loading || selectedTraits.length === 0 || selectedHash === INITIAL_SELECTED_HASH;
 
   async function handleUpdate(signature: Address, address: Address, selectedHashData: HashesData) {
@@ -25,6 +27,7 @@ export default function useUpdate() {
         image: selectedTraits.map((trait) => trait.id),
         signature,
         address,
+        chain: chain?.network,
       }),
     })
       .then(async (res) => {

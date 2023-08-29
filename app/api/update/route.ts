@@ -5,11 +5,11 @@ import { Address, isAddressEqual, verifyMessage } from 'viem';
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const { hash, tokenId, image, signature, address } = body;
+  const { hash, tokenId, image, signature, address, chain } = body;
 
-  if (!hash || !tokenId || !image || !signature || !address) {
+  if (!hash || !tokenId || !image || !signature || !address || !chain) {
     return NextResponse.json(
-      { error: 'request body must contain the following fields: hash, tokenId, image, signature, address' },
+      { error: 'request body must contain the following fields: hash, tokenId, image, signature, address, chain' },
       { status: 400 },
     );
   }
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'invalid message signature' }, { status: 400 });
   }
 
-  const tokenIdOwner = await callReadOnlyFnFromHashesContract('homestead', 'ownerOf', [tokenId]);
+  const tokenIdOwner = await callReadOnlyFnFromHashesContract(chain, 'ownerOf', [tokenId]);
 
   if (tokenIdOwner instanceof Error) {
     return NextResponse.json({ error: tokenIdOwner.message }, { status: 500 });

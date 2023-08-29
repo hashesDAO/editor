@@ -39,7 +39,7 @@ export function UpdateButton({ isLoadingHashesData, noHashSelected, address, sel
   async function handleClick() {
     //TODO: handle error
     const signedData = await signMessageAsync();
-    await handleUpdate(signedData, address, selectedHashData);
+    await handleUpdate(signedData, address, selectedHashData!);
   }
 
   return (
