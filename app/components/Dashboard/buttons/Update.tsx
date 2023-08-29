@@ -18,21 +18,13 @@ const tooltipId = 'update-tooltip';
 
 export function UpdateButton({ isLoadingHashesData, noHashSelected, address, selectedHashData }: Props) {
   const { handleUpdate, isDisabled: isDisabledViaSave, updateData } = useUpdate();
-  const {
-    isError: isSignedError,
-    isLoading: isSignedLoading,
-    isSuccess,
-    signMessageAsync,
-  } = useSignMessage({
-    message: messageToSign,
-  });
+  const { isError: isSignedError, isLoading: isSigning, signMessageAsync } = useSignMessage({ message: messageToSign });
 
-  const isDisabled =
-    updateData?.loading || isDisabledViaSave || isLoadingHashesData || noHashSelected || isSignedLoading;
+  const isDisabled = updateData?.loading || isDisabledViaSave || isLoadingHashesData || noHashSelected || isSigning;
 
   const buttonText = isLoadingHashesData
     ? LOADING_TEXT
-    : isSignedLoading || updateData?.loading
+    : isSigning || updateData?.loading
     ? 'UPDATING...'
     : 'UPDATE HASH';
 

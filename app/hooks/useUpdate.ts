@@ -3,9 +3,9 @@ import { useTraitsContext } from '@/app/contexts/TraitsContext';
 import { INITIAL_SELECTED_HASH, LOADING } from '@/app/util/constants';
 import { useReducer } from 'react';
 import { Address } from 'viem';
+import { useNetwork } from 'wagmi';
 import { fetchReducer, initialFetchReducerState } from '../reducers/fetchReducer';
 import { HashesData } from '../util/types';
-import { useNetwork } from 'wagmi';
 
 export default function useUpdate() {
   const [updateData, dispatchUpdateData] = useReducer(fetchReducer, initialFetchReducerState);
