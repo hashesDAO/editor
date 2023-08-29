@@ -71,7 +71,7 @@ export default function Editor() {
       }
       updateRenderedImage(base64Image);
     }
-  }, [renderedImage, p5Ref.current.firstChild]);
+  }, [updateRenderedImage, renderedImage, p5Ref.current.firstChild]);
 
   return <div ref={p5Ref} className="h-screen" id="canvas-container"></div>;
 }
