@@ -16,7 +16,7 @@ const tooltipId = 'update-tooltip';
 export const verifyMessage = 'Sign message to verify ownership of your selected Hash.';
 
 export function UpdateButton({ isLoadingHashesData, noHashSelected }: Props) {
-  const { handleUpdate, isDisabled: isDisabledViaSave } = useUpdate();
+  const { handleUpdate, isDisabled: isDisabledViaSave, updateData } = useUpdate();
   const {
     isError: isSignedError,
     isLoading: isSignedLoading,
@@ -26,7 +26,14 @@ export function UpdateButton({ isLoadingHashesData, noHashSelected }: Props) {
     message: verifyMessage,
   });
 
-  const isDisabled = isDisabledViaSave || isLoadingHashesData || noHashSelected || isSignedLoading;
+  const isDisabled =
+    updateData?.loading || isDisabledViaSave || isLoadingHashesData || noHashSelected || isSignedLoading;
+
+  const buttonText = isLoadingHashesData
+    ? LOADING_TEXT
+    : isSignedLoading || updateData?.loading
+    ? 'UPDATING...'
+    : 'UPDATE HASH';
 
   async function handleClick() {
     //TODO: handle error
@@ -37,7 +44,7 @@ export function UpdateButton({ isLoadingHashesData, noHashSelected }: Props) {
   return (
     <>
       <Button
-        text={isLoadingHashesData ? LOADING_TEXT : 'UPDATE HASH'}
+        text={buttonText}
         buttonColor={'bg-primaryRed'}
         onClick={handleClick}
         disabled={isDisabled}
