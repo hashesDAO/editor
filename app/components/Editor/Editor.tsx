@@ -34,6 +34,10 @@ const renderP5 = (hash: Address | string, traits: Trait[]) => (p5: any) => {
   };
 };
 
+function canvasToBase64(canvas: HTMLCanvasElement) {
+  return canvas.toDataURL(); // This returns a data URL of the canvas content
+}
+
 export default function Editor() {
   const p5Ref = useRef(document.createElement('div'));
   const { selectedHash } = useHashContext();
@@ -51,6 +55,7 @@ export default function Editor() {
       p5Instance.remove();
     }
     if (p5Ref.current.firstChild) {
+      const base64Image = canvasToBase64(p5Ref.current.firstChild as HTMLCanvasElement);
       p5Ref.current.removeChild(p5Ref.current.firstChild);
     }
     p5Instance = new p5(renderP5(selectedHash, selectedTraits), p5Ref.current);
