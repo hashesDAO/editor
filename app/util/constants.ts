@@ -7,3 +7,4 @@ export const SUCCESS = 'SUCCESS';
 export const LOADING_TEXT = 'LOADING...';
 export const USER_TRAITS_TABLE = 'user-traits';
 export const TRAITS_TABLE = 'traits';
+export const messageToSign = 'Sign message to verify ownership of your selected Hash.';

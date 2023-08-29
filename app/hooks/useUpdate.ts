@@ -12,7 +12,7 @@ export default function useUpdate() {
   const { selectedHash } = useHashContext();
   const isDisabled = updateData.loading || selectedTraits.length === 0 || selectedHash === INITIAL_SELECTED_HASH;
 
-  async function handleUpdate(signedMessage: Address) {
+  async function handleUpdate(signature: Address, address: Address) {
     dispatchUpdateData({ type: LOADING });
     await fetch('/api/update', {
       method: 'POST',
@@ -22,7 +22,8 @@ export default function useUpdate() {
       body: JSON.stringify({
         hash: selectedHash,
         image: selectedTraits.map((trait: Trait) => trait.id),
-        signedMessage,
+        signature,
+        address,
       }),
     })
       .then(async (res) => {

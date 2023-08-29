@@ -1,15 +1,27 @@
+import { messageToSign } from '@/app/util/constants';
 import { NextResponse } from 'next/server';
+import { verifyMessage } from 'viem';
 
 export async function POST(req: Request) {
   const body = await req.json();
 
-  const { title, traitIds } = body;
+  const { hash, image, signature, address } = body;
 
-  if (!title || !traitIds) {
+  if (!hash || !image || !signature || !address) {
     return NextResponse.json(
-      { error: 'request body must contain valid "title" and "traitIds" fields' },
+      { error: 'request body must contain the following fields: hash, image, signature, address' },
       { status: 400 },
     );
+  }
+
+  const isValidSignature = await verifyMessage({
+    address,
+    message: messageToSign,
+    signature,
+  });
+
+  if (!isValidSignature) {
+    return NextResponse.json({ error: 'invalid message signature' }, { status: 400 });
   }
 
   // const res = await fetch('https://data.mongodb-api.com/...', {

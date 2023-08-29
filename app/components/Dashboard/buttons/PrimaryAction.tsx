@@ -10,7 +10,7 @@ import { noHashSelected } from '@/app/util';
 export default function PrimaryActionButton() {
   const { hashData, isError, isLoading } = useHashesData();
   const { selectedHash } = useHashContext();
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
 
   if (!isConnected) {
     return null;
@@ -19,7 +19,7 @@ export default function PrimaryActionButton() {
   return (
     <>
       {hashData?.hashes.length ? (
-        <UpdateButton noHashSelected={noHashSelected(selectedHash)} isLoadingHashesData={isLoading} />
+        <UpdateButton noHashSelected={noHashSelected(selectedHash)} isLoadingHashesData={isLoading} address={address} />
       ) : (
         <MintButton noHashSelected={noHashSelected(selectedHash)} isLoadingHashesData={isLoading} />
       )}
