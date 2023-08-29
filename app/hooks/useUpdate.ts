@@ -3,8 +3,8 @@ import { useTraitsContext } from '@/app/contexts/TraitsContext';
 import { Trait } from '@/app/reducers/traitsReducer';
 import { INITIAL_SELECTED_HASH, LOADING } from '@/app/util/constants';
 import { useReducer } from 'react';
-import { fetchReducer, initialFetchReducerState } from '../reducers/fetchReducer';
 import { Address } from 'viem';
+import { fetchReducer, initialFetchReducerState } from '../reducers/fetchReducer';
 
 export default function useUpdate() {
   const [updateData, dispatchUpdateData] = useReducer(fetchReducer, initialFetchReducerState);

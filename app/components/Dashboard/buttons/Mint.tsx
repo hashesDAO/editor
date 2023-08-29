@@ -23,7 +23,7 @@ export default function MintButton({ isLoadingHashesData, noHashSelected }: Prop
         onClick={handleMint}
         disabled={isDisabled}
         data-tooltip-id={tooltipId}
-        data-tooltip-content={'Generate a new Hash before minting.'}
+        data-tooltip-content={'Create a Hash before minting it.'}
       />
       {isDisabled && <Tooltip id={tooltipId} />}
     </>
