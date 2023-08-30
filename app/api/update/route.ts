@@ -41,7 +41,14 @@ export async function POST(req: Request) {
   const res = await fetch(`https://staging.thehashes.xyz/api/token/${tokenId}?chain_id=${chainId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ image }),
+    body: JSON.stringify({
+      image,
+      messageDetails: {
+        message: messageToSign,
+        signature,
+        address,
+      },
+    }),
   });
 
   const data = await res.json();
