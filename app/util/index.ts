@@ -13,6 +13,33 @@ export const HASHES_ADDRESS: { [key: string]: Address } = {
   goerli: '0x2Fe6A4F23ac78c137Ce7D2aD9108a607b624AF5C',
 };
 
+enum ChainId {
+  MAINNET = 1,
+  ROPSTEN = 3,
+  GOERLI = 5,
+  KOVAN = 42,
+  SEPOLIA = 11155111,
+}
+
+export function getChainIdFromNetworkName(chainId: string) {
+  switch (chainId) {
+    case 'mainnet':
+      return ChainId.MAINNET;
+    case 'homestead':
+      return ChainId.MAINNET;
+    case 'ropsten':
+      return ChainId.ROPSTEN;
+    case 'goerli':
+      return ChainId.GOERLI;
+    case 'kovan':
+      return ChainId.KOVAN;
+    case 'sepolia':
+      return ChainId.SEPOLIA;
+    default:
+      return ChainId.MAINNET;
+  }
+}
+
 function getPublicClient({ chain }: { chain: Chain }) {
   return createPublicClient({
     chain,
