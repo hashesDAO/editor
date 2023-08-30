@@ -56,6 +56,14 @@ export function traitsReducer(state: TraitsState, action: Action) {
         cache: [...cache, remainingTraits],
         cacheIndex: cacheIndex + 1,
       };
+    case 'REMOVE_LAST':
+      const lastTraitIndex = traits.length - 1;
+      const remainingTraitsAfterUndo = [...traits.slice(0, lastTraitIndex), ...traits.slice(lastTraitIndex + 1)];
+      return {
+        traits: remainingTraitsAfterUndo,
+        cache: [...cache, remainingTraitsAfterUndo],
+        cacheIndex: cacheIndex + 1,
+      };
     case 'REORDER':
       const { traits: newTraits } = action;
       return {

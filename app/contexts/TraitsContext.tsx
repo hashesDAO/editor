@@ -7,6 +7,7 @@ import { Trait, initialTraitsState, traitsReducer } from '../reducers/traitsRedu
 type DispatchFns = {
   handleAddTrait: (id: string, content: string, name: string) => void;
   handleRemoveTrait: (id: string) => void;
+  handleRemoveLastTrait: () => void;
   handleReorderedTraits: (traits: Trait[]) => void;
   handleUndo: () => void;
   handleRedo: () => void;
@@ -50,6 +51,19 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
     dispatch({
       type: 'REMOVE',
       id,
+      content: '',
+      name: '',
+    });
+  }
+
+  function handleRemoveLastTrait() {
+    if (traitsData.cacheIndex === 0) {
+      return null;
+    }
+
+    dispatch({
+      type: 'REMOVE_LAST',
+      id: '',
       content: '',
       name: '',
     });
@@ -115,7 +129,15 @@ export function TraitsContextProvider({ children }: { children: React.ReactNode 
   return (
     <Context.Provider value={traitsData.traits}>
       <DispatchContext.Provider
-        value={{ handleAddTrait, handleRemoveTrait, handleReorderedTraits, handleUndo, handleRedo, handleShuffle }}
+        value={{
+          handleAddTrait,
+          handleRemoveTrait,
+          handleRemoveLastTrait,
+          handleReorderedTraits,
+          handleUndo,
+          handleRedo,
+          handleShuffle,
+        }}
       >
         {children}
       </DispatchContext.Provider>

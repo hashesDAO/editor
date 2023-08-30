@@ -22,9 +22,9 @@ function Fallback({ error, resetErrorBoundary }: FallbackProps) {
 }
 
 export default function EditorError({ children }: PropsWithChildren) {
-  const { handleUndo } = useTraitsDispatch();
+  const { handleRemoveLastTrait } = useTraitsDispatch();
   return (
-    <ErrorBoundary fallbackRender={Fallback} onReset={handleUndo}>
+    <ErrorBoundary fallbackRender={Fallback} onReset={handleRemoveLastTrait}>
       {children}
     </ErrorBoundary>
   );
