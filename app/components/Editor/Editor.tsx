@@ -36,8 +36,6 @@ const renderP5 = (hash: Address | string, traits: Trait[]) => (p5: any) => {
 };
 
 function canvasToBase64(canvas: HTMLCanvasElement) {
-  // return canvas.toDataURL('image/jpeg', 0.5);
-
   // Create an SVG element
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('width', canvas.width.toString());
@@ -60,10 +58,8 @@ function canvasToBase64(canvas: HTMLCanvasElement) {
   // Convert the SVG string to base64
   const base64Svg = btoa(svgXml);
 
-  // Create the final Data URL
-  const dataUrl = `data:image/svg+xml;base64,${base64Svg}`;
-
-  return dataUrl;
+  // Return the final Data URL
+  return `data:image/svg+xml;base64,${base64Svg}`;
 }
 
 export default function Editor() {
