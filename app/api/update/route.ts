@@ -38,9 +38,12 @@ export async function POST(req: Request) {
   }
 
   const chainId = getChainIdFromNetworkName(chain);
-  const res = await fetch(`https://staging.thehashes.xyz/api/token/${tokenId}?chain_id=${chainId}`, {
+  const res = await fetch(`http://localhost:3001/api/token/${tokenId}?chain_id=${chainId}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Origin: 'http://localhost:3000',
+    },
     body: JSON.stringify({
       image,
       messageDetails: {
@@ -51,10 +54,8 @@ export async function POST(req: Request) {
     }),
   });
 
-  const data = await res.json();
-
   if (res.status !== 200) {
-    return NextResponse.json({ error: data.error }, { status: res.status });
+    return NextResponse.json({ error: 'ok error' }, { status: res.status });
   }
 
   return NextResponse.json({ data: 'hello' }, { status: 201 });
