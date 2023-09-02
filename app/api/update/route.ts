@@ -38,11 +38,11 @@ export async function POST(req: Request) {
   }
 
   const chainId = getChainIdFromNetworkName(chain);
-  const res = await fetch(`http://localhost:3001/api/token/${tokenId}?chain_id=${chainId}`, {
+  const res = await fetch(`https://staging.thehashes.xyz/api/token/${tokenId}?chain_id=${chainId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      Origin: 'http://localhost:3000',
+      Origin: 'https://editor-alpha-six.vercel.app',
     },
     body: JSON.stringify({
       image,
