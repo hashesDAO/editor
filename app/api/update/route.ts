@@ -55,8 +55,11 @@ export async function POST(req: Request) {
   });
 
   if (res.status !== 200) {
-    return NextResponse.json({ error: 'ok error' }, { status: res.status });
+    return NextResponse.json({ error: 'error updating hash metadata' }, { status: res.status });
   }
 
-  return NextResponse.json({ data: 'hello' }, { status: 201 });
+  return NextResponse.json(
+    { url: `https://staging.thehashes.xyz/api/token/${tokenId}?chain_id=${chainId}` },
+    { status: 201 },
+  );
 }
