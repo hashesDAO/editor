@@ -1,5 +1,5 @@
 import { Abi, Address, createPublicClient, createWalletClient, custom, http, isAddress } from 'viem';
-import { goerli, mainnet } from 'viem/chains';
+import { goerli, sepolia, mainnet } from 'viem/chains';
 import { Chain } from 'wagmi';
 import { hashesContract } from './hashesContract';
 import type { ChainNames, HashType } from './types';
@@ -11,6 +11,7 @@ export const HASHES_ADDRESS: { [key: string]: Address } = {
   homestead: MAINNET_HASHES_ADDRESS,
   mainnet: MAINNET_HASHES_ADDRESS,
   goerli: '0x2Fe6A4F23ac78c137Ce7D2aD9108a607b624AF5C',
+  sepolia: '0x61A4cF946855F5985372D3b148267Ead3b931Cb8',
 };
 
 enum ChainId {
@@ -55,9 +56,20 @@ function getWalletClient({ chain }: { chain: Chain }) {
   });
 }
 
+function getChain(chain: ChainNames) {
+  switch (chain) {
+    case 'goerli':
+      return goerli;
+    case 'sepolia':
+      return sepolia;
+    default:
+      return mainnet;
+  }
+}
+
 export async function callReadOnlyFnFromHashesContract(chain: ChainNames, functionName: string, args?: any[]) {
   const client = createPublicClient({
-    chain: chain === 'goerli' ? goerli : mainnet,
+    chain: getChain(chain),
     transport: http(),
   });
 
@@ -81,7 +93,7 @@ export async function callWriteFnFromHashesContract(
   args?: any[],
   value?: bigint,
 ) {
-  const parsedChain = chain === 'goerli' ? goerli : mainnet;
+  const parsedChain = getChain(chain);
   const client = getPublicClient({ chain: parsedChain });
   const walletClient = getWalletClient({ chain: parsedChain });
   const [account] = await walletClient.getAddresses();

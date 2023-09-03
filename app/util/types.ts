@@ -2,7 +2,7 @@ import { Address } from 'viem';
 
 export type TraitType = 'draw' | 'repeat' | 'pre-process' | 'post-process';
 
-export type ChainNames = 'homestead' | 'mainnet' | 'goerli';
+export type ChainNames = 'homestead' | 'mainnet' | 'goerli' | 'sepolia';
 
 export type HashType = 'DAO' | 'DAO Deactivated' | 'Standard';
 

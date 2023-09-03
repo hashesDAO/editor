@@ -3,10 +3,10 @@
 import { connectorsForWallets, getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { useEffect, useState } from 'react';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { goerli, mainnet } from 'wagmi/chains';
+import { goerli, mainnet, sepolia } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 
-const { chains, publicClient, webSocketPublicClient } = configureChains([mainnet, goerli], [publicProvider()]);
+const { chains, publicClient, webSocketPublicClient } = configureChains([mainnet, goerli, sepolia], [publicProvider()]);
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 
