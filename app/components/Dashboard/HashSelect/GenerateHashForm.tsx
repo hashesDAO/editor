@@ -58,6 +58,7 @@ export default function GenerateHashForm({ onSubmit }: Props) {
       <div className="w-2/6">
         <Button
           text={'GENERATE HASH'}
+          disabled={isDisabled}
           type="submit"
           data-tooltip-id={tooltipId}
           data-tooltip-content={
