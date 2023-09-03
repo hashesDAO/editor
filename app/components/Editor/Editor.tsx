@@ -73,5 +73,5 @@ export default function Editor() {
     }
   }, [updateRenderedImage, renderedImage, p5Ref.current.firstChild]);
 
-  return <div ref={p5Ref} className="h-screen" id="canvas-container"></div>;
+  return <div ref={p5Ref} className="pl-16 h-screen bg-white" id="canvas-container"></div>;
 }
