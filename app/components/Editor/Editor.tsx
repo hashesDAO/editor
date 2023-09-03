@@ -36,30 +36,7 @@ const renderP5 = (hash: Address | string, traits: Trait[]) => (p5: any) => {
 };
 
 function canvasToBase64(canvas: HTMLCanvasElement) {
-  // Create an SVG element
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('width', canvas.width.toString());
-  svg.setAttribute('height', canvas.height.toString());
-
-  // Create a foreignObject element to contain the canvas content
-  const foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
-  foreignObject.setAttribute('width', '100%');
-  foreignObject.setAttribute('height', '100%');
-
-  // Append the canvas element to the foreignObject
-  foreignObject.appendChild(canvas);
-
-  // Append the foreignObject to the SVG
-  svg.appendChild(foreignObject);
-
-  // Serialize the SVG to an XML string
-  const svgXml = new XMLSerializer().serializeToString(svg);
-
-  // Convert the SVG string to base64
-  const base64Svg = btoa(svgXml);
-
-  // Return the final Data URL
-  return `data:image/svg+xml;base64,${base64Svg}`;
+  return canvas.toDataURL();
 }
 
 export default function Editor() {
