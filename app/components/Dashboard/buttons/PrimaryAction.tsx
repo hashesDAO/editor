@@ -20,7 +20,7 @@ export default function PrimaryActionButton() {
 
   return (
     <>
-      {hashData?.hashes.length ? (
+      {hashData?.hashes.length && selectedHashData ? (
         <UpdateButton
           noHashSelected={noHashSelected(selectedHash)}
           isLoadingHashesData={isLoading}
